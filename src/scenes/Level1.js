@@ -19,9 +19,10 @@ export default class Level1 extends Phaser.Scene {
         this.map.createDynamicLayer('groundCover', tiles2, 0, 0);
         this.map.createStaticLayer('blockedLayer', tiles, 0,0);
         this.map.createDynamicLayer('blockedLayer', tiles2, 0,0);
+        this.player = this.add.sprite(450, 600, 'playerE');
+        this.physics.world.enable(this.player);
         this.map.createStaticLayer('foregroundLayer', tiles, 0, 0);
         this.map.createDynamicLayer('foregroundLayer', tiles2, 0,0);
-        this.player = this.add.sprite(450, 600, 'playerE');
 
         var cam = this.cameras.main;
         //cam.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
@@ -44,19 +45,27 @@ export default class Level1 extends Phaser.Scene {
        // this.controls = new Phaser.Cameras.Controls.Fixed(controlConfig);
     }
 
-    update(time, delta){
+    update(){
         //this.controls.update(delta);
 
         if(this.cursors.left.isDown){
-            this.player.setVelocityX(-5);
+            this.player.body.setVelocityX(-50);
         }else if(this.cursors.right.isDown){
-            this.player.setVelocityX(5);
+            this.player.body.setVelocityX(50);
+        }
+
+        if(this.cursors.left.isUp && this.cursors.right.isUp){
+            this.player.body.setVelocityX(0);
         }
 
         if(this.cursors.up.isDown){
-            this.player.setVelocityY(-5);
+            this.player.body.setVelocityY(-50);
         }else if(this.cursors.down.isDown){
-            this.player.setVelocityY(-5);
+            this.player.body.setVelocityY(50);
+        }
+
+        if(this.cursors.up.isUp && this.cursors.down.isUp){
+            this.player.body.setVelocityY(0);
         }
 
     }

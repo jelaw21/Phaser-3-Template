@@ -7,6 +7,12 @@ import level1 from './scenes/Level1'
 const config = {
     width: window.innerWidth,
     height: window.innerHeight,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false
+        }
+    },
     scene: [
         Preload, MainMenu, level1
     ]
