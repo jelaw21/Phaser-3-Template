@@ -1,13 +1,14 @@
 import 'phaser'
 import Preload  from './scenes/preload'
 import MainMenu from './scenes/MainMenu'
+import level1 from './scenes/Level1'
 
 
 const config = {
     width: window.innerWidth,
     height: window.innerHeight,
     scene: [
-        Preload, MainMenu
+        Preload, MainMenu, level1
     ]
 };
 
@@ -17,6 +18,4 @@ window.onresize = function () {
 
     game.renderer.resize(window.innerWidth, window.innerHeight);
     game.events.emit('resize');
-    console.log("Event emitted");
-
 };

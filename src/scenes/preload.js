@@ -19,10 +19,7 @@ export default class Preload extends Phaser.Scene{
 
             barCover.clear();
             barCover.fillStyle(0x000000, 1);
-            console.log(barX);
-            console.log(barDisplayWidth);
             barCover.fillRect(barX + (barDisplayWidth * value), barY, barDisplayWidth*(1-value), barDisplayHeight);
-            //barCover.fillRect(30, 200, 800 * value, 60);
         });
 
         this.sys.game.events.on('resize', this.resize, this);
@@ -34,7 +31,7 @@ export default class Preload extends Phaser.Scene{
         this.load.spritesheet('playerN', 'assets/images/BODY_NORTH.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('playerS', 'assets/images/BODY_SOUTH.png', {frameWidth: 64, frameHeight:64});
         this.load.image('gui', 'assets/images/panel_brown.png');
-        this.load.image('ProjectUtumno_full', 'assets/images/ProjectUtumno_full.png');
+        this.load.image('itemTiles', 'assets/images/ProjectUtumno_full.png');
         this.load.image('townTiles1', 'assets/images/town.png');
         this.load.image('backgroundTiles2', 'assets/images/trees_plants.png');
         this.load.image('backgroundTiles1', 'assets/images/trees_plants_rocks.png');
