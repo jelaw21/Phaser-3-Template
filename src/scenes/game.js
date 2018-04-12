@@ -8,7 +8,7 @@ export default class Game extends Phaser.Scene {
     preload() {}
 
     create() {
-        console.log('game started')
+        console.log('game started');
 
         let config = {
             key: 'engineer_walk_down',

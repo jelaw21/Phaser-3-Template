@@ -6,6 +6,8 @@ export default class MainMenu extends Phaser.Scene {
         this.height = window.innerHeight;
     }
     preload (){
+        this.sys.game.events.on('resize', this.resize, this);
+        this.resize();
 
     }
 
@@ -23,10 +25,32 @@ export default class MainMenu extends Phaser.Scene {
             yoyo: true,
             repeat: -1,
 
-        })
+        });
+
+        this.cameras.main.startFollow(title);
+
+        button.on('pointerdown', function(pointer){
+            this.setTexture('buttonPressed');
+
+        } )
+        button.on('pointerout', function(pointer){
+            this.setTexture('button');
+        } )
+        button.on('pointerup', this.callLevel, this);
     }
 
     update(){
 
+    }
+
+    resize(){
+
+        let cam = this.cameras.main;
+        cam.setViewport(0, 0, window.innerWidth, window.innerHeight);
+        cam.zoom = Math.min(window.innerWidth/800, window.innerHeight/600);
+    }
+
+    callLevel(){
+        this.scene.start('game');
     }
 }

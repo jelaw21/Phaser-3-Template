@@ -2,6 +2,7 @@ import 'phaser'
 import Preload  from './scenes/preload'
 import MainMenu from './scenes/MainMenu'
 
+
 const config = {
     width: window.innerWidth,
     height: window.innerHeight,
