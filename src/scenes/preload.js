@@ -6,7 +6,6 @@ export default class Preload extends Phaser.Scene{
 
     preload(){
         this.logo = this.add.image(window.innerWidth/2, window.innerHeight/2, 'logo').setScale(.6);
-        console.log(this.logo.displayWidth);
         this.barLogo = this.add.image(this.logo.x-(this.logo.displayWidth*.4), (this.logo.displayHeight), 'logoBar').setScale(.71).setOrigin(0,0);
 
         var barCover = this.add.graphics();
