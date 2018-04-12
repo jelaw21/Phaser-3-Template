@@ -9,7 +9,7 @@ export default class Boot extends Phaser.Scene {
 
     create() {
         console.log('boot started')
-        this.scene.start('preload')
+        this.scene.start('Preload')
     }
 }
 
