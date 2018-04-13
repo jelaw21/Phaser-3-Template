@@ -19,39 +19,35 @@ export default class Level1 extends Phaser.Scene {
         this.map.createDynamicLayer('groundCover', tiles2, 0, 0);
         this.map.createStaticLayer('blockedLayer', tiles, 0,0);
         this.map.createDynamicLayer('blockedLayer', tiles2, 0,0);
-        this.player = this.add.sprite(450, 600, 'playerE');
-        this.physics.world.enable(this.player);
+        this.player = this.physics.add.sprite(450, 600, 'playerE')
+        this.player.setCollideWorldBounds(true);
         this.map.createStaticLayer('foregroundLayer', tiles, 0, 0);
         this.map.createDynamicLayer('foregroundLayer', tiles2, 0,0);
 
+        this.player.setScrollFactor(1.3);
+
+
         var cam = this.cameras.main;
-        //cam.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        cam.setBounds(0, 0, this.map.widthInPixels/2, this.map.heightInPixels/2);
         cam.zoom = 2;
         cam.startFollow(this.player);
+        cam.scrollX = 2;
 
 
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        /*var controlConfig = {
-            camera: this.cameras.main,
-            left: cursors.left,
-            right: cursors.right,
-            up: cursors.up,
-            down: cursors.down,
-            speed: 0.5
-        }*/
 
-       // this.controls = new Phaser.Cameras.Controls.Fixed(controlConfig);
-    }
+
+       }
 
     update(){
-        //this.controls.update(delta);
+
 
         if(this.cursors.left.isDown){
-            this.player.body.setVelocityX(-50);
+            this.player.body.setVelocityX(-100);
         }else if(this.cursors.right.isDown){
-            this.player.body.setVelocityX(50);
+            this.player.body.setVelocityX(100);
         }
 
         if(this.cursors.left.isUp && this.cursors.right.isUp){
@@ -59,9 +55,9 @@ export default class Level1 extends Phaser.Scene {
         }
 
         if(this.cursors.up.isDown){
-            this.player.body.setVelocityY(-50);
+            this.player.body.setVelocityY(-100);
         }else if(this.cursors.down.isDown){
-            this.player.body.setVelocityY(50);
+            this.player.body.setVelocityY(100);
         }
 
         if(this.cursors.up.isUp && this.cursors.down.isUp){
