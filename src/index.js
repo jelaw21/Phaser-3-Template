@@ -5,8 +5,8 @@ import level1 from './scenes/Level1'
 
 
 const config = {
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 1024,
+    height: 768,
     physics: {
         default: 'arcade',
         arcade: {
