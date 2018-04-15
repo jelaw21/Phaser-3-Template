@@ -2,24 +2,22 @@ export default class MainMenu extends Phaser.Scene {
 
     constructor(config){
         super({key: 'MainMenu'});
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
     }
     preload (){
         this.sys.game.events.on('resize', this.resize, this);
-        this.resize();
+        //this.resize();
 
     }
 
     create (){
 
-        var title = this.add.image(this.width/2, (this.height/2)-125, 'title').setAngle(-20);
-        var button = this.add.image(this.width/2, this.height/2 + 100, 'button').setInteractive();
-        var startText = this.add.text(0,0,'START', {fontSize: '24px', fontFamily: 'UnifrakturCook', fill: '#000'});
-        Phaser.Display.Align.In.Center(startText, button);
+        this.title = this.add.image(window.innerWidth/2, (window.innerHeight/2)-100, 'title').setAngle(-20).setScale(.7);
+        this.button = this.add.image(window.innerWidth/2, window.innerHeight/2+50, 'button').setInteractive();
+        this.startText = this.add.text(0,0,'START', {fontSize: '24px', fontFamily: 'UnifrakturCook', fill: '#000'});
+        Phaser.Display.Align.In.Center(this.startText, this.button);
 
         this.tweens.add({
-            targets: title,
+            targets: this.title,
             angle: 20,
             duration: 5000,
             yoyo: true,
@@ -27,16 +25,16 @@ export default class MainMenu extends Phaser.Scene {
 
         });
 
-        this.cameras.main.startFollow(title);
 
-        button.on('pointerdown', function(pointer){
+
+        this.button.on('pointerdown', function(pointer){
             this.setTexture('buttonPressed');
 
         } )
-        button.on('pointerout', function(pointer){
+        this.button.on('pointerout', function(pointer){
             this.setTexture('button');
         } )
-        button.on('pointerup', this.callLevel, this);
+        this.button.on('pointerup', this.callLevel, this);
     }
 
     update(){
@@ -44,6 +42,10 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     resize(){
+
+        this.title.setPosition(window.innerWidth/2, (window.innerHeight/2)-100);
+        this.button.setPosition(window.innerWidth/2, window.innerHeight/2+50);
+        Phaser.Display.Align.In.Center(this.startText, this.button);
 
         let cam = this.cameras.main;
         cam.setViewport(0, 0, window.innerWidth, window.innerHeight);

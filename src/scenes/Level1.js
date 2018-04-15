@@ -8,7 +8,7 @@ export default class Level1 extends Phaser.Scene {
     create(){
         //CREATE THE MAP
         this.map = this.make.tilemap({key: 'forest'});
-       this.tiles = this.map.addTilesetImage('backgroundTiles1', 'backgroundTiles1');
+        this.tiles = this.map.addTilesetImage('backgroundTiles1', 'backgroundTiles1');
         var tiles2 = this.map.addTilesetImage('backgroundTiles2', 'backgroundTiles2');
         var tiles3 = this.map.addTilesetImage('ProjectUtumno_full', 'itemTiles');
         var tiles4 = this.map.addTilesetImage('townTiles1', 'townTiles1');
@@ -29,15 +29,12 @@ export default class Level1 extends Phaser.Scene {
 
         //PLAYER OPTIONS - NOT SURE HOW I NEED TO DO THIS PART
         this.player.setCollideWorldBounds(true);
-        //this.player.setScrollFactor(1.3);
         this.player.body.setSize(16,16);
-        this.player.body.setOffset(24, 46);
+        this.player.body.setOffset(24, 47);
 
         //TRYING TO RESIZE MAP TO FIT WINDOW, I DON'T THINK ITS WORKING.
-        //this.layer1.setScale(2);
-        //this.map.setScale(2);
-        console.log(this.layer1);
-        //this.layer1.setSize(this.sys.game.config.width, this.sys.game.config.height);
+        this.physics.world.setBounds(0, 24, this.map.widthInPixels-10, this.map.heightInPixels-34);
+
 
         //CAMERA CRAP THAT I'M NOT SURE HOW IT WORKS
         var cam = this.cameras.main;
@@ -49,13 +46,6 @@ export default class Level1 extends Phaser.Scene {
 
         //COLLISIONS
         this.blocked.setCollisionBetween(0, 800);
-        //this.blocked2.setCollisionBetween(0, 256);
-        //this.physics.add.colli
-        //this.makeGroups(this.blocked);
-        var tiles = this.blocked.getTilesWithin(0, 0, 40, 20);
-        console.log(tiles);
-        var collisionGroup = this.physics.add.staticGroup(tiles);
-        console.log(collisionGroup);
         this.physics.add.collider(this.player, this.blocked);
 
 
@@ -91,73 +81,57 @@ export default class Level1 extends Phaser.Scene {
             repeat: -1
         });
 
-        //var graphicsMap = this.add.graphics();
+       // var graphicsMap = this.add.graphics();
         //this.blocked.renderDebug(graphicsMap);
-        //this.player.body.drawDebug(graphicsMap);
+       // this.player.body.drawDebug(graphicsMap);
        }
 
     update(){
-        //var graphicsMap = this.add.graphics();
+        //bump
+
+
+       // var graphicsMap = this.add.graphics();
         //this.player.body.drawDebug(graphicsMap);
 
         if((this.cursors.up.isDown || this.cursors.down.isDown) && this.cursors.left.isDown){
-            this.playAnim(this.player, 'left');
-            this.resumeAnim(this.animLeft);
+
+            //this.playAnim(this.player, 'left');
+            //this.resumeAnim(this.animLeft);
             if(this.cursors.up.isDown)
                 this.player.body.setVelocity(-100, -100);
             else
                 this.player.body.setVelocity(-100, 100);
-        }if((this.cursors.up.isDown || this.cursors.down.isDown) && this.cursors.right.isDown){
-            this.playAnim(this.player, 'right');
-            this.resumeAnim(this.animRight);
+        }else if((this.cursors.up.isDown || this.cursors.down.isDown) && this.cursors.right.isDown){
+            //this.playAnim(this.player, 'right');
+            //this.resumeAnim(this.animRight);
             if(this.cursors.up.isDown)
                 this.player.body.setVelocity(100, -100);
+
             else
                 this.player.body.setVelocity(100, 100);
         }else if(this.cursors.right.isDown){
-            this.player.body.setVelocityX(100);
+            this.player.body.setVelocity(100, 0);
             this.playAnim(this.player, 'right');
-            this.resumeAnim(this.animRight);
-        }else  if(this.cursors.left.isDown){
-            this.player.body.setVelocityX(-100);
-            this.playAnim(this.player, 'left');
-            this.resumeAnim(this.animLeft)
+            //this.resumeAnim(this.animRight);
+        }else if(this.cursors.left.isDown){
+            this.player.body.setVelocity(-100, 0);
+            //this.playAnim(this.player, 'left');
+            //this.resumeAnim(this.animLeft)
         }else if(this.cursors.up.isDown){
-            this.player.body.setVelocityY(-100);
-            this.playAnim(this.player, 'up');
-            this.resumeAnim(this.animUp)
+           this.player.body.setVelocity(0, -100);
+            //this.playAnim(this.player, 'up');
+            //this.resumeAnim(this.animUp)
         }else if(this.cursors.down.isDown){
-            this.player.body.setVelocityY(100);
-            this.playAnim(this.player, 'down');
-            this.resumeAnim(this.animDown)
-        }
-        if(this.cursors.left.isUp && this.cursors.right.isUp){
-            this.player.body.setVelocityX(0);
-            this.animRight.pause(this.animDown.frames);
-            this.animLeft.pause();
-        }
-        if(this.cursors.up.isUp && this.cursors.down.isUp){
-            this.player.body.setVelocityY(0);
-            this.animUp.pause();
-            this.animDown.pause();
+            this.player.body.setVelocity(0, 100);
+            //this.playAnim(this.player, 'down');
+            //this.resumeAnim(this.animDown)
+        }else{
+            this.player.body.setVelocity(0,0);
         }
     }
 
     playAnim(sprite, key){
         sprite.anims.play(key, true);
     }
-    resumeAnim(direction){
-        direction.resume(0);
-    }
-    /*makeGroups(layer){
-        {
-            layer.forEachTile(function(tile){
-                var collisionGroup = this.tiles.getTileCollisionGroup(tile.index);
-                console.log(collisionGroup);
-            })
-        }
-    }*/
-
-
 
 }

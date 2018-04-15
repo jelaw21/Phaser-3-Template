@@ -5,8 +5,8 @@ export default class Preload extends Phaser.Scene{
     }
 
     preload(){
-        this.logo = this.add.image(window.innerWidth/2, window.innerHeight/2, 'logo').setScale(.6);
-        this.barLogo = this.add.image(this.logo.x-(this.logo.displayWidth*.4), (this.logo.displayHeight), 'logoBar').setScale(.71).setOrigin(0,0);
+        this.logo = this.add.image(window.innerWidth/2, window.innerHeight/2-100, 'logo').setScale(.3);
+        this.barLogo = this.add.image(this.logo.x-(this.logo.displayWidth*.4), (this.logo.displayHeight)+75, 'logoBar').setScale(.356).setOrigin(0,0);
 
         var barCover = this.add.graphics();
         var barX = this.barLogo.x;
@@ -18,7 +18,7 @@ export default class Preload extends Phaser.Scene{
 
             barCover.clear();
             barCover.fillStyle(0x000000, 1);
-            barCover.fillRect(barX + (barDisplayWidth * value), barY, barDisplayWidth*(1-value), barDisplayHeight);
+            barCover.fillRect((barX + barDisplayWidth)*value, barY, barDisplayWidth*(1-value), barDisplayHeight);
         });
 
         this.sys.game.events.on('resize', this.resize, this);
@@ -42,23 +42,24 @@ export default class Preload extends Phaser.Scene{
     }
 
     create(){
-        this.time.delayedCall(3000, this.callMenu, [], this);
+        this.time.delayedCall(1000, this.callMenu, [], this);
 
 
     }
 
     resize(){
-        this.logo.setPosition(window.innerWidth/2, window.innerHeight/2-150);
+        this.logo.setPosition(window.innerWidth/2, window.innerHeight/2-100);
         this.barLogo.setPosition(this.logo.x-(this.logo.displayWidth*.4), (this.logo.displayHeight)+75);
         let cam = this.cameras.main;
 
+
         cam.setViewport(0, 0, window.innerWidth, window.innerHeight);
 
-        cam.zoom = Math.min(window.innerWidth/1799, window.innerHeight/800)
+        cam.zoom = Math.min(window.innerWidth/800, window.innerHeight/600)
     }
 
     callMenu(){
-        this.scene.start('MainMenu');
+        this.scene.start('level1');
     };
 
 }
