@@ -20,6 +20,7 @@ export default class MessagePopUp extends Phaser.GameObjects.Sprite{
             }
         }
         var textBox = this.scene.make.text(config);
+        
         var closeButton = this.scene.add.sprite(this.x, this.y, 'coin').setInteractive().setOrigin(0);
 
         Phaser.Display.Align.In.Center(textBox, this.messageBox);
