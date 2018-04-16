@@ -36,6 +36,7 @@ export default class Level1 extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
         this.player.body.setSize(16,16);
         this.player.body.setOffset(24, 47);
+        this.player.inventory = {'gold': 0};
 
         //TRYING TO RESIZE MAP TO FIT WINDOW, I DON'T THINK ITS WORKING.
         this.physics.world.setBounds(0, 24, this.map.widthInPixels-10, this.map.heightInPixels-34);
@@ -94,6 +95,10 @@ export default class Level1 extends Phaser.Scene {
             frameRate: 10
         });
 
+        //LISTENERS
+        this.events.once('signMessage', this.signMessage, this);
+        this.events.once('gateMessage', this.gateMessage, this)
+
         //var graphicsMap = this.add.graphics();
         //this.map.renderDebug(graphicsMap);
         //this.coins.drawDebug(graphicsMap);
@@ -140,15 +145,31 @@ export default class Level1 extends Phaser.Scene {
     }
     collectCoins(player, coin){
         coin.destroy();
+        this.player.inventory.gold = this.player.inventory.gold + 1;
+        console.log(this.player.inventory.gold);
     }
-    hitSign(player, sign){
+    hitSign(){
         //bump
-        var message = new MessagePopUp(this, player.x, player.y, 'gui');
-        this.add.existing(message);
-        message.createText('Hello, find your way to town.');
+        this.events.emit('signMessage');
+
         //this.add.image(player.x, player.y, 'gui');
     }
     hitGate(player, gate){
+        if(this.player.inventory.gold >= 8){
+            gate.destroy();
+        }else{
+            this.events.emit('gateMessage');
+        }
+    }
 
+    signMessage(){
+        var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui');
+        this.add.existing(message);
+        message.createText('Hello, find your way to town.');
+    }
+    gateMessage(){
+        var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui').setOrigin(0);
+        this.add.existing(message);
+        message.createText('You need to find all 8 coins to pass.');
     }
 }
