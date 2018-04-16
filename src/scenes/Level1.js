@@ -11,14 +11,11 @@ export default class Level1 extends Phaser.Scene {
         this.map = this.make.tilemap({key: 'forest'});
         this.tiles = this.map.addTilesetImage('backgroundTiles1', 'backgroundTiles1');
         this.tiles2 = this.map.addTilesetImage('backgroundTiles2', 'backgroundTiles2');
-        //var tiles3 = this.map.addTilesetImage('ProjectUtumno_full', 'itemTiles');
-        //var tiles4 = this.map.addTilesetImage('townTiles1', 'townTiles1');
         this.map.createDynamicLayer('grassLayer', this.tiles, 0, 0);
-        //this.map.createDynamicLayer('grassLayer', this.tiles2, 0,0);
         this.map.createStaticLayer('groundCover', this.tiles, 0, 0);
-        //this.map.createDynamicLayer('groundCover', this.tiles2, 0, 0);
+        this.map.createDynamicLayer('groundCover2', this.tiles2, 0, 0);
         this.blocked = this.map.createDynamicLayer('blockedLayer', this.tiles);
-        this.blocked2 = this.map.createStaticLayer('blockedLayer', this.tiles2);
+        this.blocked2 = this.map.createStaticLayer('blockedLayer2', this.tiles2);
         this.objects = this.map.createStaticLayer('objectLayer', this.tiles);
 
         //OBJECT LAYER
@@ -31,7 +28,7 @@ export default class Level1 extends Phaser.Scene {
 
         //PART OF MAP PLAYER WALKS BEHIND
         this.map.createStaticLayer('foregroundLayer', this.tiles, 0, 0);
-        //this.map.createDynamicLayer('foregroundLayer', this.tiles2, 0,0);
+        this.map.createDynamicLayer('foregroundLayer2', this.tiles2, 0,0);
 
         //PLAYER OPTIONS - NOT SURE HOW I NEED TO DO THIS PART
         this.player.setCollideWorldBounds(true);
@@ -57,7 +54,6 @@ export default class Level1 extends Phaser.Scene {
 
         this.coins = (this.map.createFromObjects('objectLayer', 3370, { key: 'coin' }));
         this.newGroup = this.physics.add.group().addMultiple(this.coins, false);
-        //this.sign = (this.map.createFromObjects('objectLayer', 2988, {key: 'sign'}));
         this.signGroup = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 2988, {key: 'sign'}), true);
 
 
