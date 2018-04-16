@@ -23,7 +23,7 @@ export default class Level1 extends Phaser.Scene {
 
         //OBJECT LAYER
 
-        var sign = this.map.createFromObjects('objectLayer', 2988, { key: 'sign' });
+        //var sign = this.map.createFromObjects('objectLayer', 2988, { key: 'sign' });
 
 
         //HAD TO CREATE THE PLAYER TO PUT FOREGROUND ON TOP
@@ -53,16 +53,19 @@ export default class Level1 extends Phaser.Scene {
         //COLLISIONS
 
         this.blocked.setCollisionBetween(0, 800);
-        this.coins = this.physics.add.group(this.map.createFromObjects('objectLayer', 3370, { key: 'coin' }));
+        //this.coins = this.physics.add.staticGroup(this.map.createFromObjects('objectLayer', 3370, { key: 'coin' }));
+
+        this.coins = (this.map.createFromObjects('objectLayer', 3370, { key: 'coin' }));
+        this.newGroup = this.physics.add.group().addMultiple(this.coins, false);
+        //this.sign = (this.map.createFromObjects('objectLayer', 2988, {key: 'sign'}));
+        this.signGroup = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 2988, {key: 'sign'}), true);
+
+
         this.physics.add.collider(this.player, this.blocked);
-        this.coins = this.physics.add.group(this.map.createFromObjects('objectLayer', 3370, { key: 'coin' }));
-        this.physics.add.collider(this.player, this.coins.getChildren());
+        this.physics.add.overlap(this.player, this.coins, this.collectCoins, null, this);
+        this.physics.add.collider(this.player, this.signGroup, this.hitSign, null, this);
 
-
-
-        console.log(this.coins);
-
-        console.log(this.coins.getChildren().entries());
+        console.log(this.sign);
 
 
         //GETTING KEYBOARD ENTRIES
@@ -115,6 +118,8 @@ export default class Level1 extends Phaser.Scene {
         //this.player.body.drawDebug(graphicsMap);
 
 
+
+
         if((this.cursors.up.isDown || this.cursors.down.isDown) && this.cursors.left.isDown){
             this.playAnim(this.player, 'left');
             if(this.cursors.up.isDown)
@@ -148,5 +153,15 @@ export default class Level1 extends Phaser.Scene {
     playAnim(sprite, key){
         sprite.anims.play(key, true);
     }
-
+    makePhysics(){
+        this.coins.children.iterate(function(child){
+            this.physics.world.enableBody(child);
+        });
+    }
+    collectCoins(player, coin){
+        coin.destroy();
+    }
+    hitSign(player, sign){
+        console.log("hit sign");
+    }
 }
