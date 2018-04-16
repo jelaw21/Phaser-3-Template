@@ -143,10 +143,9 @@ export default class Level1 extends Phaser.Scene {
     }
     hitSign(player, sign){
         //bump
-
         var message = new MessagePopUp(this, player.x, player.y, 'gui');
         this.add.existing(message);
-        message.createText('Hello');
+        message.createText('Hello, find your way to town.');
         //this.add.image(player.x, player.y, 'gui');
     }
     hitGate(player, gate){
