@@ -1,3 +1,5 @@
+import MessagePopUp from '../objects/MessagePopUp'
+
 export default class Level1 extends Phaser.Scene {
 
     constructor(config) {
@@ -16,9 +18,9 @@ export default class Level1 extends Phaser.Scene {
         this.map.createDynamicLayer('groundCover2', this.tiles2, 0, 0);
         this.blocked = this.map.createDynamicLayer('blockedLayer', this.tiles);
         this.blocked2 = this.map.createStaticLayer('blockedLayer2', this.tiles2);
-        this.objects = this.map.createStaticLayer('objectLayer', this.tiles);
 
         //OBJECT LAYER  PLEAES UPDATE
+        //TODO: Set Bounding Box on Coins Smaller
         this.coins = this.physics.add.group().addMultiple((this.map.createFromObjects('objectLayer', 3370, { key: 'coin' })), true);
         this.sign = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 2988, {key: 'sign'}), true);
         this.gate = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 7058, {key: 'gate'}));
@@ -59,34 +61,34 @@ export default class Level1 extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         //ANIMATIONS
-        this.animRight = this.anims.create({
+        this.anims.create({
             key:'right',
             frames: this.anims.generateFrameNumbers('playerE'),
             frameRate: 10,
             repeat: -1
         });
 
-        this.animLeft = this.anims.create({
+        this.anims.create({
             key:'left',
             frames: this.anims.generateFrameNumbers('playerW'),
             frameRate: 10,
             repeat: -1
         });
 
-        this.animUp = this.anims.create({
+        this.anims.create({
             key:'up',
             frames: this.anims.generateFrameNumbers('playerN'),
             frameRate: 10,
             repeat: -1
         });
 
-        this.animDown = this.anims.create({
+        this.anims.create({
             key:'down',
             frames: this.anims.generateFrameNumbers('playerS'),
             frameRate: 10,
             repeat: -1
         });
-        this.standStill = this.anims.create({
+        this.anims.create({
             key:'stopped',
             frames: [{key: 'playerS', frame: 0}],
             frameRate: 10
@@ -103,10 +105,6 @@ export default class Level1 extends Phaser.Scene {
 
         // var graphicsMap = this.add.graphics();
         //this.player.body.drawDebug(graphicsMap);
-
-
-
-
         if((this.cursors.up.isDown || this.cursors.down.isDown) && this.cursors.left.isDown){
             this.playAnim(this.player, 'left');
             if(this.cursors.up.isDown)
@@ -140,17 +138,16 @@ export default class Level1 extends Phaser.Scene {
     playAnim(sprite, key){
         sprite.anims.play(key, true);
     }
-    makePhysics(){
-        this.coins.children.iterate(function(child){
-            this.physics.world.enableBody(child);
-        });
-    }
     collectCoins(player, coin){
         coin.destroy();
     }
     hitSign(player, sign){
+        //bump
 
-
+        var message = new MessagePopUp(this, player.x, player.y, 'gui');
+        this.add.existing(message);
+        message.createText('Hello');
+        //this.add.image(player.x, player.y, 'gui');
     }
     hitGate(player, gate){
 
