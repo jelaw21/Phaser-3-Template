@@ -19,6 +19,11 @@ export default class Level1 extends Phaser.Scene {
         //this.map.createDynamicLayer('groundCover', this.tiles2, 0, 0);
         this.blocked = this.map.createDynamicLayer('blockedLayer', this.tiles);
         this.blocked2 = this.map.createStaticLayer('blockedLayer', this.tiles2);
+        this.objects = this.map.createStaticLayer('objectLayer', this.tiles);
+
+        //OBJECT LAYER
+
+        var sign = this.map.createFromObjects('objectLayer', 2988, { key: 'sign' });
 
 
         //HAD TO CREATE THE PLAYER TO PUT FOREGROUND ON TOP
@@ -39,15 +44,25 @@ export default class Level1 extends Phaser.Scene {
 
         //CAMERA CRAP THAT I'M NOT SURE HOW IT WORKS
         var cam = this.cameras.main;
-        cam.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         cam.zoom = 1.5;
+        cam.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         cam.startFollow(this.player);
         cam.scrollX = 2;
 
 
         //COLLISIONS
+
         this.blocked.setCollisionBetween(0, 800);
+        this.coins = this.physics.add.group(this.map.createFromObjects('objectLayer', 3370, { key: 'coin' }));
         this.physics.add.collider(this.player, this.blocked);
+        this.coins = this.physics.add.group(this.map.createFromObjects('objectLayer', 3370, { key: 'coin' }));
+        this.physics.add.collider(this.player, this.coins.getChildren());
+
+
+
+        console.log(this.coins);
+
+        console.log(this.coins.getChildren().entries());
 
 
         //GETTING KEYBOARD ENTRIES
@@ -87,15 +102,18 @@ export default class Level1 extends Phaser.Scene {
             frameRate: 10
         });
 
-       // var graphicsMap = this.add.graphics();
-        //this.blocked.renderDebug(graphicsMap);
-       // this.player.body.drawDebug(graphicsMap);
+        //var graphicsMap = this.add.graphics();
+        //this.map.renderDebug(graphicsMap);
+        //this.coins.drawDebug(graphicsMap);
+        //this.player.body.drawDebug(graphicsMap);
        }
 
     update(){
+        //bump
 
         // var graphicsMap = this.add.graphics();
         //this.player.body.drawDebug(graphicsMap);
+
 
         if((this.cursors.up.isDown || this.cursors.down.isDown) && this.cursors.left.isDown){
             this.playAnim(this.player, 'left');
