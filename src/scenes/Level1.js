@@ -18,10 +18,10 @@ export default class Level1 extends Phaser.Scene {
         this.blocked2 = this.map.createStaticLayer('blockedLayer2', this.tiles2);
         this.objects = this.map.createStaticLayer('objectLayer', this.tiles);
 
-        //OBJECT LAYER
-
-        //var sign = this.map.createFromObjects('objectLayer', 2988, { key: 'sign' });
-
+        //OBJECT LAYER  PLEAES UPDATE
+        this.coins = this.physics.add.group().addMultiple((this.map.createFromObjects('objectLayer', 3370, { key: 'coin' })), true);
+        this.sign = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 2988, {key: 'sign'}), true);
+        this.gate = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 7058, {key: 'gate'}));
 
         //HAD TO CREATE THE PLAYER TO PUT FOREGROUND ON TOP
         this.player = this.physics.add.sprite(450, 600, 'playerE');
@@ -50,19 +50,10 @@ export default class Level1 extends Phaser.Scene {
         //COLLISIONS
 
         this.blocked.setCollisionBetween(0, 800);
-        //this.coins = this.physics.add.staticGroup(this.map.createFromObjects('objectLayer', 3370, { key: 'coin' }));
-
-        this.coins = (this.map.createFromObjects('objectLayer', 3370, { key: 'coin' }));
-        this.newGroup = this.physics.add.group().addMultiple(this.coins, false);
-        this.signGroup = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 2988, {key: 'sign'}), true);
-
-
         this.physics.add.collider(this.player, this.blocked);
         this.physics.add.overlap(this.player, this.coins, this.collectCoins, null, this);
-        this.physics.add.collider(this.player, this.signGroup, this.hitSign, null, this);
-
-        console.log(this.sign);
-
+        this.physics.add.collider(this.player, this.sign, this.hitSign, null, this);
+        this.physics.add.collider(this.player, this.gate, this.hitGate, null, this);
 
         //GETTING KEYBOARD ENTRIES
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -159,6 +150,9 @@ export default class Level1 extends Phaser.Scene {
     }
     hitSign(player, sign){
 
-        
+
+    }
+    hitGate(player, gate){
+
     }
 }
