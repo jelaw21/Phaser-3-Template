@@ -158,6 +158,7 @@ export default class Level1 extends Phaser.Scene {
         coin.destroy();
     }
     hitSign(player, sign){
-        console.log("hit sign");
+
+        
     }
 }
