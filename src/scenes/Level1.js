@@ -1,4 +1,5 @@
 import MessagePopUp from '../objects/MessagePopUp'
+import Player from '../objects/player'
 
 export default class Level1 extends Phaser.Scene {
 

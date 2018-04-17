@@ -23,11 +23,12 @@ export default class MessagePopUp extends Phaser.GameObjects.Sprite{
             }
         }
         this.textBox = this.scene.make.text(config);
-
-        this.closeButton = this.scene.add.sprite(this.x, this.y, 'coin').setInteractive().setOrigin(0);
+        this.exitBackground = this.scene.add.sprite(this.x, this.y, 'exitBackground').setScale(.8);
 
         Phaser.Display.Align.In.Center(this.textBox, this.messageBox);
-        Phaser.Display.Align.In.TopRight(this.closeButton, this.messageBox);
+        Phaser.Display.Align.In.TopRight(this.exitBackground, this.messageBox);
+        this.closeButton = this.scene.add.sprite(this.exitBackground.x, this.exitBackground.y, 'exitButton').setInteractive();
+        Phaser.Display.Align.In.Center(this.closeButton, this.exitBackground);
 
         this.closeButton.on('pointerdown', this.closeMessageBox, this);
 
@@ -36,6 +37,7 @@ export default class MessagePopUp extends Phaser.GameObjects.Sprite{
         console.log("clicked")
         this.destroy();
         this.textBox.destroy();
-        this.closeButton.destroy();//this.scene.sys.displayList.remove(this);
+        this.closeButton.destroy();
+        this.exitBackground.destroy();
     }
 }

@@ -10,11 +10,11 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            debug: false
         }
     },
     scene: [
-        townMap, Preload,level1, MainMenu
+        Preload,level1, MainMenu, townMap
     ]
 };
 
