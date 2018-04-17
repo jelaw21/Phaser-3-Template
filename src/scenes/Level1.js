@@ -14,14 +14,16 @@ export default class Level1 extends Phaser.Scene {
         this.tiles = this.map.addTilesetImage('backgroundTiles1', 'backgroundTiles1');
         this.tiles2 = this.map.addTilesetImage('backgroundTiles2', 'backgroundTiles2');
         this.map.createDynamicLayer('grassLayer', this.tiles, 0, 0);
-        this.map.createStaticLayer('groundCover', this.tiles, 0, 0);
+        this.map.createDynamicLayer('groundCover', this.tiles, 0, 0);
         this.map.createDynamicLayer('groundCover2', this.tiles2, 0, 0);
         this.blocked = this.map.createDynamicLayer('blockedLayer', this.tiles);
-        this.blocked2 = this.map.createStaticLayer('blockedLayer2', this.tiles2);
+        this.blocked2 = this.map.createDynamicLayer('blockedLayer2', this.tiles2);
 
-        //OBJECT LAYER  PLEAES UPDATE
-        //TODO: Set Bounding Box on Coins Smaller
+        //OBJECT LAYER  PLEASE UPDATE
         this.coins = this.physics.add.group().addMultiple((this.map.createFromObjects('objectLayer', 3370, { key: 'coin' })), true);
+        this.coins.children.iterate(function(child){
+            child.body.setSize(8,8);
+        });
         this.sign = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 2988, {key: 'sign'}), true);
         this.gate = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 7058, {key: 'gate'}));
 
@@ -29,7 +31,7 @@ export default class Level1 extends Phaser.Scene {
         this.player = this.physics.add.sprite(450, 600, 'playerE');
 
         //PART OF MAP PLAYER WALKS BEHIND
-        this.map.createStaticLayer('foregroundLayer', this.tiles, 0, 0);
+        this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
         this.map.createDynamicLayer('foregroundLayer2', this.tiles2, 0,0);
 
         //PLAYER OPTIONS - NOT SURE HOW I NEED TO DO THIS PART

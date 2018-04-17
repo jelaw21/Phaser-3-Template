@@ -2,7 +2,7 @@ import 'phaser'
 import Preload  from './scenes/preload'
 import MainMenu from './scenes/MainMenu'
 import level1 from './scenes/Level1'
-
+import townMap from './scenes/Town'
 
 const config = {
     width: window.innerWidth,
@@ -10,11 +10,11 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false
+            debug: true
         }
     },
     scene: [
-        Preload,level1, MainMenu
+        townMap, Preload,level1, MainMenu
     ]
 };
 
