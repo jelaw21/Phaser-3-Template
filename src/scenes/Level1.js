@@ -29,17 +29,19 @@ export default class Level1 extends Phaser.Scene {
         this.gate = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 7058, {key: 'gate'}));
 
         //HAD TO CREATE THE PLAYER TO PUT FOREGROUND ON TOP
-        this.player = this.physics.add.sprite(450, 600, 'playerE');
-
+        //this.player = this.physics.add.sprite(450, 600, 'playerE');
+        this.player = new Player(this, 450, 600, 'playerE', 0);
+        this.add.existing(this.player);
+        this.player.init();
         //PART OF MAP PLAYER WALKS BEHIND
         this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
         this.map.createDynamicLayer('foregroundLayer2', this.tiles2, 0,0);
 
         //PLAYER OPTIONS - NOT SURE HOW I NEED TO DO THIS PART
-        this.player.setCollideWorldBounds(true);
+        /*this.player.setCollideWorldBounds(true);
         this.player.body.setSize(16,16);
         this.player.body.setOffset(24, 47);
-        this.player.inventory = {'gold': 0};
+        this.player.inventory = {'gold': 0};*/
 
         //TRYING TO RESIZE MAP TO FIT WINDOW, I DON'T THINK ITS WORKING.
         this.physics.world.setBounds(0, 24, this.map.widthInPixels-10, this.map.heightInPixels-34);
@@ -79,7 +81,7 @@ export default class Level1 extends Phaser.Scene {
             repeat: -1
         });
 
-        this.anims.create({
+        var animation = this.anims.create({
             key:'up',
             frames: this.anims.generateFrameNumbers('playerN'),
             frameRate: 10,
@@ -110,10 +112,9 @@ export default class Level1 extends Phaser.Scene {
 
     update(){
         //bump
+        this.player.move(this.cursors);
 
-        // var graphicsMap = this.add.graphics();
-        //this.player.body.drawDebug(graphicsMap);
-        if((this.cursors.up.isDown || this.cursors.down.isDown) && this.cursors.left.isDown){
+        /*if((this.cursors.up.isDown || this.cursors.down.isDown) && this.cursors.left.isDown){
             this.playAnim(this.player, 'left');
             if(this.cursors.up.isDown)
                 this.player.body.setVelocity(-100, -100);
@@ -140,16 +141,12 @@ export default class Level1 extends Phaser.Scene {
         }else{
             this.player.body.setVelocity(0,0);
             this.playAnim(this.player, 'stopped');
-        }
+        }*/
     }
 
-    playAnim(sprite, key){
-        sprite.anims.play(key, true);
-    }
     collectCoins(player, coin){
         coin.destroy();
         this.player.inventory.gold = this.player.inventory.gold + 1;
-        console.log(this.player.inventory.gold);
     }
     hitSign(){
         //bump
@@ -158,8 +155,9 @@ export default class Level1 extends Phaser.Scene {
         //this.add.image(player.x, player.y, 'gui');
     }
     hitGate(player, gate){
-        if(this.player.inventory.gold >= 8){
+        if(this.player.inventory.gold >= 0){
             gate.destroy();
+            this.scene.start('townMap', {player: this.player});
         }else{
             this.events.emit('gateMessage');
         }
