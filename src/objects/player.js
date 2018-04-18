@@ -2,8 +2,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
-        this.scene = scene;
-        this.scene.physics.add.existing(this);
+        this.inventory = {'gold': 0};
 
         /*this.body = new Phaser.Physics.body;
         this.setCollideWorldBounds(true);
@@ -13,10 +12,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
 
     init(){
+        this.scene.physics.add.existing(this);
         //this.setCollideWorldBounds(true);
         this.body.setSize(16,16);
         this.body.setOffset(24, 47);
-        this.inventory = {'gold': 0};
+
     }
 
     move(cursors){

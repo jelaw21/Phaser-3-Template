@@ -1,3 +1,4 @@
+import Player from '../objects/player'
 export default class Town extends Phaser.Scene {
 
     constructor(config) {
@@ -6,15 +7,12 @@ export default class Town extends Phaser.Scene {
     }
 
     init(data){
-        this.player = data.player;
-        this.player.x = 400;
-        this.player.y = 600;
-        console.log(this.player);
-        console.log("town created");
-        console.log(this.player.inventory.gold);
+        this.player = new Player(this, 600, 600, 'playerE', 0);
+        this.player.inventory = data.inventory;
     }
 
     create(){
+
         this.map = this.make.tilemap({key: 'town'});
         this.tiles = this.map.addTilesetImage('backgroundTiles1', 'backgroundTiles1');
         this.tiles2 = this.map.addTilesetImage('backgroundTiles2', 'backgroundTiles2');
@@ -24,9 +22,11 @@ export default class Town extends Phaser.Scene {
         this.map.createDynamicLayer('groundCover2', this.tiles2, 0,0);
         this.map.createDynamicLayer('houseBase', this.tiles3,0,0);
         this.map.createDynamicLayer('houseDecor', this.tiles3,0,0);
-        this.map.createDynamicLayer('blockedLayer', this.tiles2,0,0);
-        this.map.createDynamicLayer('blockedLayer2', this.tiles3,0,0);
+        this.blocked = this.map.createDynamicLayer('blockedLayer', this.tiles2,0,0);
+        this.blocked2 = this.map.createDynamicLayer('blockedLayer2', this.tiles3,0,0);
         this.add.existing(this.player);
+        this.player.init();
+        console.log(this.player);
         this.map.createDynamicLayer('houseRoof', this.tiles3, 0, 0);
         this.map.createDynamicLayer('houseRoof2', this.tiles2, 0, 0);
 
@@ -37,6 +37,11 @@ export default class Town extends Phaser.Scene {
         cam.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         cam.startFollow(this.player);
         cam.scrollX = 2;
+
+        this.blocked.setCollisionBetween(0, 800);
+        this.blocked2.setCollisionBetween(0, 800);
+        this.physics.add.collider(this.player, this.blocked);
+        this.physics.add.collider(this.player, this.blocked2);
 
     }
     update(){

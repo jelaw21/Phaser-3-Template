@@ -37,11 +37,6 @@ export default class Level1 extends Phaser.Scene {
         this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
         this.map.createDynamicLayer('foregroundLayer2', this.tiles2, 0,0);
 
-        //PLAYER OPTIONS - NOT SURE HOW I NEED TO DO THIS PART
-        /*this.player.setCollideWorldBounds(true);
-        this.player.body.setSize(16,16);
-        this.player.body.setOffset(24, 47);
-        this.player.inventory = {'gold': 0};*/
 
         //TRYING TO RESIZE MAP TO FIT WINDOW, I DON'T THINK ITS WORKING.
         this.physics.world.setBounds(0, 24, this.map.widthInPixels-10, this.map.heightInPixels-34);
@@ -53,7 +48,7 @@ export default class Level1 extends Phaser.Scene {
         cam.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         cam.startFollow(this.player);
         cam.scrollX = 2;
-
+                  
 
         //COLLISIONS
 
@@ -102,7 +97,9 @@ export default class Level1 extends Phaser.Scene {
 
         //LISTENERS
         this.events.once('signMessage', this.signMessage, this);
-        this.events.once('gateMessage', this.gateMessage, this)
+        this.events.once('gateMessage', this.gateMessage, this);
+
+
 
         //var graphicsMap = this.add.graphics();
         //this.map.renderDebug(graphicsMap);
@@ -113,35 +110,6 @@ export default class Level1 extends Phaser.Scene {
     update(){
         //bump
         this.player.move(this.cursors);
-
-        /*if((this.cursors.up.isDown || this.cursors.down.isDown) && this.cursors.left.isDown){
-            this.playAnim(this.player, 'left');
-            if(this.cursors.up.isDown)
-                this.player.body.setVelocity(-100, -100);
-            else
-                this.player.body.setVelocity(-100, 100);
-        }else if((this.cursors.up.isDown || this.cursors.down.isDown) && this.cursors.right.isDown){
-            this.playAnim(this.player, 'right');
-            if(this.cursors.up.isDown)
-                this.player.body.setVelocity(100, -100);
-            else
-                this.player.body.setVelocity(100, 100);
-        }else if(this.cursors.right.isDown){
-            this.player.body.setVelocity(100, 0);
-            this.playAnim(this.player, 'right');
-        }else if(this.cursors.left.isDown){
-            this.player.body.setVelocity(-100, 0);
-            this.playAnim(this.player, 'left');
-        }else if(this.cursors.up.isDown){
-           this.player.body.setVelocity(0, -100);
-            this.playAnim(this.player, 'up');
-        }else if(this.cursors.down.isDown){
-            this.player.body.setVelocity(0, 100);
-            this.playAnim(this.player, 'down');
-        }else{
-            this.player.body.setVelocity(0,0);
-            this.playAnim(this.player, 'stopped');
-        }*/
     }
 
     collectCoins(player, coin){
@@ -157,7 +125,8 @@ export default class Level1 extends Phaser.Scene {
     hitGate(player, gate){
         if(this.player.inventory.gold >= 0){
             gate.destroy();
-            this.scene.start('townMap', {player: this.player});
+            this.cameras.main.fade(1000);
+            this.scene.start('townMap', {inventory: this.player.inventory});
         }else{
             this.events.emit('gateMessage');
         }
