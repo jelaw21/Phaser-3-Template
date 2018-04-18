@@ -1,5 +1,6 @@
 import MessagePopUp from '../objects/MessagePopUp'
 import Player from '../objects/player'
+import getItem from '../objects/Items.js'
 
 export default class Level1 extends Phaser.Scene {
 
@@ -48,7 +49,7 @@ export default class Level1 extends Phaser.Scene {
         cam.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         cam.startFollow(this.player);
         cam.scrollX = 2;
-                  
+
 
         //COLLISIONS
 
@@ -98,6 +99,8 @@ export default class Level1 extends Phaser.Scene {
         //LISTENERS
         this.events.once('signMessage', this.signMessage, this);
         this.events.once('gateMessage', this.gateMessage, this);
+
+        console.log(getItem('leather_armor'));
 
 
 
