@@ -8,9 +8,10 @@ let items = {
     'leather_armor': {
         'type': 'ARMOR',
         'name': 'LEATHER ARMOR',
-        'image': 'TORSO_leather_armor',
+        'image': 'leatherA',
+        'effect': 10,
+        'quantity': 0,
         'equipped': false
-
     }
 };
 

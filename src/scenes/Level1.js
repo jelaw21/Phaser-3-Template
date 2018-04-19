@@ -100,7 +100,10 @@ export default class Level1 extends Phaser.Scene {
         this.events.once('signMessage', this.signMessage, this);
         this.events.once('gateMessage', this.gateMessage, this);
 
-        console.log(getItem('leather_armor'));
+        this.player.addToInventory(getItem('leather_armor'));
+        this.player.equipItem(getItem('leather_armor'));
+        //this.player.inventory.
+        console.log(this.player.inventory);
 
 
 
