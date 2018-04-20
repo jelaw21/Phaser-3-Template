@@ -102,8 +102,8 @@ export default class Level1 extends Phaser.Scene {
 
         this.player.addToInventory(getItem('leather_armor'));
         this.player.equipItem(getItem('leather_armor'));
-        //this.player.inventory.
         console.log(this.player.inventory);
+        console.log(this.player.container);
 
 
 

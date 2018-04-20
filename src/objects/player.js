@@ -3,37 +3,41 @@ export default class Player extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
         this.inventory = [{'gold': 0}];
-        this.container = this.scene.add.container(x-this.displayWidth/2, y-this.displayHeight/2);
-        this.scene.physics.world.enable(this.container);
-        this.container.body.setSize(32,64);
+        this.container = this.scene.add.container(x-16, y-17);
+        //this.scene.physics.world.enable(this.container);
+        //this.container.body.setSize(32,48);
     }
-
-    //bump
-    //bump
 
     init(){
         this.scene.physics.add.existing(this);
         //this.setCollideWorldBounds(true);
         this.body.setSize(16,16);
         this.body.setOffset(24, 47);
+        this.buildEquipped();
     }
 
     move(cursors){
-
-        if((cursors.up.isDown || cursors.down.isDown) && cursors.left.isDown){
+        this.equipUpdate()
+        if((cursors.up.isDown || cursors.down.isDown) && cursors.left.isDown) {
             this.anims.play('left', true);
-            if(cursors.up.isDown)
+            if (cursors.up.isDown) {
                 this.body.setVelocity(-100, -100);
-            else
+            }else{
                 this.body.setVelocity(-100, 100);
+            }
+
         }else if((cursors.up.isDown || cursors.down.isDown) && cursors.right.isDown){
             this.anims.play('right', true);
-            if(cursors.up.isDown)
+            if(cursors.up.isDown){
                 this.body.setVelocity(100, -100);
-            else
+            }
+
+            else{
                 this.body.setVelocity(100, 100);
+            }
+
         }else if(cursors.right.isDown){
-            this.container.body.setVelocity(100, 0);
+            this.body.setVelocity(100, 0);
             this.anims.play('right', true);
         }else if(cursors.left.isDown){
             this.body.setVelocity(-100, 0);
@@ -48,6 +52,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
             this.body.setVelocity(0,0);
             this.anims.play('stopped', true);
         }
+    }
+
+    equipUpdate(){
+        this.container.setPosition(this.x - 16, this.y - 17);
     }
     addToInventory(itemToAdd){
 
@@ -71,12 +79,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
     buildEquipped(){
         for(let i = 0; i < this.inventory.length; i++){
             if(this.inventory[i].equipped === true){
-               let item = this.scene.add.sprite(this.x, this.y, this.inventory[i].image)
-                this.container.add(item);
+               this.item = this.scene.add.sprite(this.x, this.y, this.inventory[i].image);
+               this.container.add(this.item);
             }
         }
         console.log(this.container);
-
     }
 
 }
