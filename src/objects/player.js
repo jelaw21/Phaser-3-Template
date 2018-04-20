@@ -4,20 +4,19 @@ export default class Player extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
         this.inventory = [{'gold': 0}];
         this.container = this.scene.add.container(x-16, y-17);
-        //this.scene.physics.world.enable(this.container);
-        //this.container.body.setSize(32,48);
-    }
+        this.scene.physics.world.enable(this.container);
+        this.container.body.setSize(32,48);
+        }
 
     init(){
         this.scene.physics.add.existing(this);
-        //this.setCollideWorldBounds(true);
         this.body.setSize(16,16);
         this.body.setOffset(24, 47);
-        this.buildEquipped();
     }
 
     move(cursors){
-        this.equipUpdate()
+        this.equipUpdate();
+
         if((cursors.up.isDown || cursors.down.isDown) && cursors.left.isDown) {
             this.anims.play('left', true);
             if (cursors.up.isDown) {
@@ -56,6 +55,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     equipUpdate(){
         this.container.setPosition(this.x - 16, this.y - 17);
+        this.scene.add.text(this.container.x, this.container.y + 20, "Clothing" + this.item.x + " , " + this.item.y);
+        this.scene.add.text(this.container.x, this.container.y + 40, "Container " + this.container.list.length);
+        this.scene.add.text(this.container.x, this.container.y, "HERE IT IS" + this.container.x + " , " + this.container.y);
     }
     addToInventory(itemToAdd){
 
@@ -77,13 +79,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
 
     buildEquipped(){
+        //bump
         for(let i = 0; i < this.inventory.length; i++){
             if(this.inventory[i].equipped === true){
-               this.item = this.scene.add.sprite(this.x, this.y, this.inventory[i].image);
+               this.item = this.scene.add.sprite(0, 0, this.inventory[i].image);
                this.container.add(this.item);
             }
         }
-        console.log(this.container);
+        console.log(this.container)
+
     }
 
 }

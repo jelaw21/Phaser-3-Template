@@ -29,6 +29,12 @@ export default class Level1 extends Phaser.Scene {
         this.sign = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 2988, {key: 'sign'}), true);
         this.gate = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 7058, {key: 'gate'}));
 
+        //CAMERA CRAP THAT I'M NOT SURE HOW IT WORKS
+        var cam = this.cameras.main;
+        cam.zoom = 1.5;
+        cam.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        //cam.scrollX = 2;
+
         //HAD TO CREATE THE PLAYER TO PUT FOREGROUND ON TOP
         //this.player = this.physics.add.sprite(450, 600, 'playerE');
         this.player = new Player(this, 450, 600, 'playerE', 0);
@@ -37,18 +43,13 @@ export default class Level1 extends Phaser.Scene {
         //PART OF MAP PLAYER WALKS BEHIND
         this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
         this.map.createDynamicLayer('foregroundLayer2', this.tiles2, 0,0);
-
+        cam.startFollow(this.player);
 
         //TRYING TO RESIZE MAP TO FIT WINDOW, I DON'T THINK ITS WORKING.
         this.physics.world.setBounds(0, 24, this.map.widthInPixels-10, this.map.heightInPixels-34);
 
 
-        //CAMERA CRAP THAT I'M NOT SURE HOW IT WORKS
-        var cam = this.cameras.main;
-        cam.zoom = 1.5;
-        cam.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-        cam.startFollow(this.player);
-        cam.scrollX = 2;
+
 
 
         //COLLISIONS
@@ -102,9 +103,6 @@ export default class Level1 extends Phaser.Scene {
 
         this.player.addToInventory(getItem('leather_armor'));
         this.player.equipItem(getItem('leather_armor'));
-        console.log(this.player.inventory);
-        console.log(this.player.container);
-
 
 
         //var graphicsMap = this.add.graphics();
