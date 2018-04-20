@@ -48,12 +48,7 @@ export default class Level1 extends Phaser.Scene {
         //TRYING TO RESIZE MAP TO FIT WINDOW, I DON'T THINK ITS WORKING.
         this.physics.world.setBounds(0, 24, this.map.widthInPixels-10, this.map.heightInPixels-34);
 
-
-
-
-
         //COLLISIONS
-
         this.blocked.setCollisionBetween(0, 800);
         this.physics.add.collider(this.player, this.blocked);
         this.physics.add.overlap(this.player, this.coins, this.collectCoins, null, this);
@@ -109,6 +104,8 @@ export default class Level1 extends Phaser.Scene {
         //this.map.renderDebug(graphicsMap);
         //this.coins.drawDebug(graphicsMap);
         //this.player.body.drawDebug(graphicsMap);
+
+        console.log(this);
        }
 
     update(){
