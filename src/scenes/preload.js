@@ -29,7 +29,10 @@ export default class Preload extends Phaser.Scene{
         this.load.spritesheet('playerW', 'assets/images/BODY_WEST.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('playerN', 'assets/images/BODY_NORTH.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('playerS', 'assets/images/BODY_SOUTH.png', {frameWidth: 64, frameHeight:64});
-        this.load.spritesheet('leatherA', 'assets/images/TORSO_leather_armor_torso.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('LeatherB', 'assets/images/TORSO_leather_armor_torso.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('LeatherD', 'assets/images/TORSO_leather_armor_bracers.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('LeatherA', 'assets/images/TORSO_leather_armor_shirt_white.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('LeatherC', 'assets/images/TORSO_leather_armor_shoulders.png', {frameWidth: 64, frameHeight: 64});
         this.load.image('gui', 'assets/images/panel_brown.png');
         this.load.image('itemTiles', 'assets/images/ProjectUtumno_full.png');
         this.load.image('townTiles1', 'assets/images/town.png');
@@ -45,6 +48,8 @@ export default class Preload extends Phaser.Scene{
         this.load.image('coin', 'assets/images/coin.png');
         this.load.image('sign', 'assets/images/sign.png');
         this.load.image('gate', 'assets/images/gate.png');
+
+
     }
 
     create(){

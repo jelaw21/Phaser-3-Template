@@ -5,6 +5,167 @@ export default class MainMenu extends Phaser.Scene {
     }
     preload (){
         this.sys.game.events.on('resize', this.resize, this);
+        //LOAD ANIMATIONS
+        this.anims.create({
+            key:'right',
+            frames: this.anims.generateFrameNumbers('playerE'),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'left',
+            frames: this.anims.generateFrameNumbers('playerW'),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'up',
+            frames: this.anims.generateFrameNumbers('playerN'),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'down',
+            frames: this.anims.generateFrameNumbers('playerS'),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key:'stopped',
+            frames: [{key: 'playerS', frame: 0}],
+            frameRate: 10
+        });
+        this.anims.create({
+            key:'rightLeatherB',
+            frames: this.anims.generateFrameNumbers('LeatherB', {start: 27, end: 35}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'leftLeatherB',
+            frames: this.anims.generateFrameNumbers('LeatherB', {start: 9, end: 17}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'upLeatherB',
+            frames: this.anims.generateFrameNumbers('LeatherB', {start: 0, end: 8}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'downLeatherB',
+            frames: this.anims.generateFrameNumbers('LeatherB', {start: 18, end: 26}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key:'stopLeatherB',
+            frames: [{key: 'LeatherB', frame: 18}],
+            frameRate: 10
+        });
+        this.anims.create({
+            key:'rightLeatherA',
+            frames: this.anims.generateFrameNumbers('LeatherA', {start: 27, end: 35}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'leftLeatherA',
+            frames: this.anims.generateFrameNumbers('LeatherA', {start: 9, end: 17}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'upLeatherA',
+            frames: this.anims.generateFrameNumbers('LeatherA', {start: 0, end: 8}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'downLeatherA',
+            frames: this.anims.generateFrameNumbers('LeatherA', {start: 18, end: 26}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key:'stopLeatherA',
+            frames: [{key: 'LeatherA', frame: 18}],
+            frameRate: 10
+        });
+        this.anims.create({
+            key:'rightLeatherC',
+            frames: this.anims.generateFrameNumbers('LeatherC', {start: 27, end: 35}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'leftLeatherC',
+            frames: this.anims.generateFrameNumbers('LeatherC', {start: 9, end: 17}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'upLeatherC',
+            frames: this.anims.generateFrameNumbers('LeatherC', {start: 0, end: 8}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'downLeatherC',
+            frames: this.anims.generateFrameNumbers('LeatherC', {start: 18, end: 26}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key:'stopLeatherC',
+            frames: [{key: 'LeatherC', frame: 18}],
+            frameRate: 10
+        });
+        this.anims.create({
+            key:'rightLeatherD',
+            frames: this.anims.generateFrameNumbers('LeatherD', {start: 27, end: 35}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'leftLeatherD',
+            frames: this.anims.generateFrameNumbers('LeatherD', {start: 9, end: 17}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'upLeatherD',
+            frames: this.anims.generateFrameNumbers('LeatherD', {start: 0, end: 8}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'downLeatherD',
+            frames: this.anims.generateFrameNumbers('LeatherD', {start: 18, end: 26}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key:'stopLeatherD',
+            frames: [{key: 'LeatherD', frame: 18}],
+            frameRate: 10
+        });
         //this.resize();
 
     }
@@ -24,8 +185,6 @@ export default class MainMenu extends Phaser.Scene {
             repeat: -1,
 
         });
-
-
 
         this.button.on('pointerdown', function(pointer){
             this.setTexture('buttonPressed');

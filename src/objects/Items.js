@@ -8,10 +8,19 @@ let items = {
     'leather_armor': {
         'type': 'ARMOR',
         'name': 'LEATHER ARMOR',
-        'image': 'leatherA',
+        'image': ['LeatherA','LeatherB', 'LeatherC', 'LeatherD'],
         'effect': 10,
         'quantity': 0,
         'equipped': false
+    },
+    'gold': {
+        'type': 'gold',
+        'name': 'GOLD',
+        'image': 'coin',
+        'effect': 0,
+        'quantity': 0,
+        'equipped': false
     }
+
 };
 

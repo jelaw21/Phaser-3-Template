@@ -58,39 +58,7 @@ export default class Level1 extends Phaser.Scene {
         //GETTING KEYBOARD ENTRIES
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        //ANIMATIONS
-        this.anims.create({
-            key:'right',
-            frames: this.anims.generateFrameNumbers('playerE'),
-            frameRate: 10,
-            repeat: -1
-        });
 
-        this.anims.create({
-            key:'left',
-            frames: this.anims.generateFrameNumbers('playerW'),
-            frameRate: 10,
-            repeat: -1
-        });
-
-        var animation = this.anims.create({
-            key:'up',
-            frames: this.anims.generateFrameNumbers('playerN'),
-            frameRate: 10,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key:'down',
-            frames: this.anims.generateFrameNumbers('playerS'),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key:'stopped',
-            frames: [{key: 'playerS', frame: 0}],
-            frameRate: 10
-        });
 
         //LISTENERS
         this.events.once('signMessage', this.signMessage, this);
@@ -104,8 +72,6 @@ export default class Level1 extends Phaser.Scene {
         //this.map.renderDebug(graphicsMap);
         //this.coins.drawDebug(graphicsMap);
         //this.player.body.drawDebug(graphicsMap);
-
-        console.log(this);
        }
 
     update(){
@@ -115,16 +81,17 @@ export default class Level1 extends Phaser.Scene {
 
     collectCoins(player, coin){
         coin.destroy();
-        this.player.inventory.gold = this.player.inventory.gold + 1;
+        this.player.addGold(1);
+        console.log(this.player.inventory);
     }
-    hitSign(){
+    hitSign() {
         //bump
         this.events.emit('signMessage');
-
-        //this.add.image(player.x, player.y, 'gui');
     }
+
     hitGate(player, gate){
-        if(this.player.inventory.gold >= 0){
+        console.log(this.player.getGold());
+        if(this.player.getGold() >= 0){
             gate.destroy();
             this.cameras.main.fade(1000);
             this.scene.start('townMap', {inventory: this.player.inventory});
