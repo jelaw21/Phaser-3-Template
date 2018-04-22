@@ -4,10 +4,13 @@ export default function getItem(item){
     return items[item];
 }
 
+//SLOTS: TORSO, LEGS, HEAD
+
 let items = {
     'leather_armor': {
         'type': 'ARMOR',
         'name': 'LEATHER ARMOR',
+        'slot': 'TORSO',
         'image': ['LeatherA','LeatherB', 'LeatherC', 'LeatherD'],
         'effect': 10,
         'quantity': 0,
@@ -21,13 +24,32 @@ let items = {
         'quantity': 0,
         'equipped': false
     },
-    'common':{
+    'common_chest':{
         'type': 'ARMOR',
-        'name': 'COMMON CLOTHES',
-        'image': ['LeatherA','CommonA', 'CommonB', 'CommonC'],
+        'slot': 'TORSO',
+        'name': 'WHITE SHIRT',
+        'image': ['LeatherA'],
         'effect': 10,
         'quantity': 0,
-        'equipped': true
+        'equipped': false
+    },
+    'common_legs':{
+        'type': 'ARMOR',
+        'slot': 'LEGS',
+        'name': 'WORN PANTS',
+        'image': ['CommonA', 'CommonC'],
+        'effect': 10,
+        'quantity': 0,
+        'equipped': false
+    },
+    'common_head':{
+        'type': 'ARMOR',
+        'name': 'HAIR',
+        'slot': 'HEAD',
+        'image': ['CommonB'],
+        'effect': 10,
+        'quantity': 0,
+        'equipped': false
     }
 
 };

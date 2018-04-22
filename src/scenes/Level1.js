@@ -19,7 +19,7 @@ export default class Level1 extends Phaser.Scene {
         this.map.createDynamicLayer('groundCover', this.tiles, 0, 0);
         this.map.createDynamicLayer('groundCover2', this.tiles2, 0, 0);
         this.blocked = this.map.createDynamicLayer('blockedLayer', this.tiles);
-        this.blocked2 = this.map.createDynamicLayer('blockedLayer2', this.tiles2);
+        this.map.createDynamicLayer('blockedLayer2', this.tiles2);
 
         //OBJECT LAYER  PLEASE UPDATE
         this.coins = this.physics.add.group().addMultiple((this.map.createFromObjects('objectLayer', 3370, { key: 'coin' })), true);
@@ -28,7 +28,7 @@ export default class Level1 extends Phaser.Scene {
         });
         this.sign = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 2988, {key: 'sign'}), true);
         this.gate = this.physics.add.staticGroup().addMultiple(this.map.createFromObjects('objectLayer', 7058, {key: 'gate'}));
-
+        this.blockedObjects = [this.blocked, this.sign, this.gate];
         //CAMERA CRAP THAT I'M NOT SURE HOW IT WORKS
         var cam = this.cameras.main;
         cam.zoom = 1.5;
@@ -40,6 +40,8 @@ export default class Level1 extends Phaser.Scene {
         this.player = new Player(this, 450, 600, 'playerE', 0);
         this.add.existing(this.player);
         this.player.init();
+        this.player.initialEquipment(this.blockedObjects);
+        //this.player.setCollideWorldBounds(true);
         //PART OF MAP PLAYER WALKS BEHIND
         var layer = this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
         layer.setDepth(1);
@@ -49,6 +51,8 @@ export default class Level1 extends Phaser.Scene {
 
         //TRYING TO RESIZE MAP TO FIT WINDOW, I DON'T THINK ITS WORKING.
         this.physics.world.setBounds(0, 24, this.map.widthInPixels-10, this.map.heightInPixels-34);
+
+
 
         //COLLISIONS
         this.blocked.setCollisionBetween(0, 800);
@@ -64,14 +68,11 @@ export default class Level1 extends Phaser.Scene {
         this.events.once('signMessage', this.signMessage, this);
         this.events.once('gateMessage', this.gateMessage, this);
 
-
-
-        for(let i = 0; i < this.player.equipment.length; i++){
+        /*for(let i = 0; i < this.player.equipment.length; i++){
             this.physics.add.collider(this.player.equipment[i], this.blocked);
             this.physics.add.collider(this.player.equipment[i], this.sign);
             this.physics.add.collider(this.player.equipment[i], this.gate);
-
-        }
+        }*/
 
         //var graphicsMap = this.add.graphics();
         //this.map.renderDebug(graphicsMap);
@@ -80,17 +81,17 @@ export default class Level1 extends Phaser.Scene {
        }
 
     update(){
-        //bump
+
         this.player.move(this.cursors);
     }
 
     collectCoins(player, coin){
         coin.destroy();
         this.player.addGold(1);
-        if(this.player.getGold() >= 5){
+        if(this.player.getGold() === 5){
             this.scene.pause();
             this.player.addToInventory(getItem('leather_armor'));
-            this.player.equipItem(getItem('leather_armor'));
+            this.player.equipItem(getItem('leather_armor'), this.blockedObjects);
             this.scene.resume();
         }
     }
@@ -100,7 +101,7 @@ export default class Level1 extends Phaser.Scene {
     }
 
     hitGate(player, gate){
-        if(this.player.getGold() >= 8){
+        if(this.player.getGold() >= 0){
             gate.destroy();
             this.cameras.main.fade(3000);
             this.scene.start('townMap', {inventory: this.player.inventory});

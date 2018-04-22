@@ -7,7 +7,7 @@ export default class Town extends Phaser.Scene {
     }
 
     init(data){
-        this.player = new Player(this, 600, 600, 'playerE', 0);
+        this.player = new Player(this, 625, 600, 'playerE', 0);
         this.player.inventory = data.inventory;
     }
 
@@ -24,11 +24,15 @@ export default class Town extends Phaser.Scene {
         this.map.createDynamicLayer('houseDecor', this.tiles3,0,0);
         this.blocked = this.map.createDynamicLayer('blockedLayer', this.tiles2,0,0);
         this.blocked2 = this.map.createDynamicLayer('blockedLayer2', this.tiles3,0,0);
+        this.blockedObjects = [this.blocked, this.blocked2];
         this.add.existing(this.player);
         this.player.init();
-        console.log(this.player);
-        this.map.createDynamicLayer('houseRoof', this.tiles3, 0, 0);
-        this.map.createDynamicLayer('houseRoof2', this.tiles2, 0, 0);
+        //bump
+        this.map.createDynamicLayer('houseRoof', this.tiles3, 0, 0).setDepth(1);
+        this.map.createDynamicLayer('houseRoof2', this.tiles2, 0, 0).setDepth(1);
+
+
+        this.physics.world.setBounds(0, 24, this.map.widthInPixels-10, this.map.heightInPixels-34);
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -42,6 +46,7 @@ export default class Town extends Phaser.Scene {
         this.blocked2.setCollisionBetween(0, 800);
         this.physics.add.collider(this.player, this.blocked);
         this.physics.add.collider(this.player, this.blocked2);
+        this.player.buildEquipped(this.player, this.blockedObjects);
 
     }
     update(){

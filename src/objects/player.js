@@ -6,18 +6,33 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.inventory = [getItem('gold')];
         this.equipment = [];
 
+
         }
 
     init(){
         this.scene.physics.add.existing(this);
         this.body.setSize(16,16);
         this.body.setOffset(24, 47);
+        this.body.collideWorldBounds = true;
+
+        //bump
+
         //this.container = this.scene.add.container(this.x-16, this.y-17);
         //this.container.setScrollFactor(0);
         //this.scene.physics.world.enable(this.container);
-       // this.container.body.setSize(32,48);
-        this.addToInventory(getItem('common'));
-        this.equipItem(getItem('common'));
+        //this.container.body.setSize(32,48);
+
+        this.addToInventory(getItem('common_chest'));
+        this.addToInventory(getItem('common_legs'));
+        this.addToInventory(getItem('common_head'));
+
+
+    }
+
+    initialEquipment(layers){
+        this.equipItem(getItem('common_chest'), layers);
+        this.equipItem(getItem('common_legs'), layers);
+        this.equipItem(getItem('common_head'), layers);
     }
 
     move(cursors){
@@ -27,17 +42,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
         if((cursors.up.isDown || cursors.down.isDown) && cursors.left.isDown) {
             this.anims.play('left', true);
             this.playLeftAnims();
-
             if (cursors.up.isDown) {
                 velX = -100;
                 velY = -100;
-
             }else{
                 velX = -100;
                 velY = 100;
-
             }
-
         }else if((cursors.up.isDown || cursors.down.isDown) && cursors.right.isDown){
             this.anims.play('right', true);
             this.playRightAnims()
@@ -45,12 +56,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
                 velX = 100;
                 velY = -100;
             }
-
             else{
                 velX = 100;
                 velY = 100;
             }
-
         }else if(cursors.right.isDown){
             velX = 100;
             velY = 0;
@@ -69,12 +78,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }else if(cursors.down.isDown){
             velX = 0;
             velY = 100;
-            this.playDownAnims()
+            this.playDownAnims();
             this.anims.play('down', true);
         }else{
             velX = 0;
             velY = 0;
-            this.playStopAnims()
+            this.playStopAnims();
             this.anims.play('stopped', true);
         }
         this.body.setVelocity(velX, velY);
@@ -97,39 +106,49 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }
     }
 
-    equipItem(itemToEquip){
+    equipItem(itemToEquip, layers){
         for(let i = 0; i < this.inventory.length; i++){
-            if(!(this.inventory[i].name === itemToEquip.name)){
+
+            if(this.inventory[i].slot === itemToEquip.slot){
                 this.inventory[i].equipped = false
             }
             if(this.inventory[i].name === itemToEquip.name){
                 this.inventory[i].equipped = true;
             }
         }
-        this.buildEquipped(this);
-
-        //this.addEquipmentCollision();
-
+        this.buildEquipped(this, layers);
     }
 
-    buildEquipped(player){
+    addEquipmentCollision(scene, layers){
+        for(let i = 0; i < this.equipment.length; i++){
+            for(let j = 0; j< layers.length; j++){
+                scene.physics.add.collider(this.equipment[i],layers[j]);
+            }
+
+        }
+    }
+    //bump
+
+    buildEquipped(player, layers){
         //bump
         for(let m = 0; m < this.equipment.length; m++){
            this.equipment[m].destroy();
         }
         this.equipment = [];
-        console.log(this.inventory);
 
         for(let i = 0; i < this.inventory.length; i++){
             if(this.inventory[i].equipped === true){
                 for(let j = 0; j < this.inventory[i].image.length; j++){
-                   this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, player.inventory[i].image[j]));
-                   //this.scene.physics.add.group(this.equipment[i]);
-                   this.equipment[j].body.setSize(16,16);
-                   this.equipment[j].body.setOffset(24, 47);
+                   this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.inventory[i].image[j]));
                }
             }
         }
+        for(let i = 0; i < this.equipment.length; i++){
+            this.equipment[i].body.setSize(16,16);
+            this.equipment[i].body.setOffset(24, 47);
+            this.equipment[i].body.collideWorldBounds = true;
+        }
+        this.addEquipmentCollision(this.scene, layers);
     }
 
     addGold(amount){
@@ -138,7 +157,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     getGold(){
         return this.inventory[0].quantity;
     }
-    //pass in the inventory item that's currently equipped
+
     playRightAnims(){
         for(let i = 0; i < this.equipment.length; i++){
             this.equipment[i].anims.play('right' + this.equipment[i].texture.key, true);
