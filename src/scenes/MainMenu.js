@@ -166,6 +166,102 @@ export default class MainMenu extends Phaser.Scene {
             frames: [{key: 'LeatherD', frame: 18}],
             frameRate: 10
         });
+        this.anims.create({
+            key:'rightCommonA',
+            frames: this.anims.generateFrameNumbers('CommonA', {start: 27, end: 35}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'leftCommonA',
+            frames: this.anims.generateFrameNumbers('CommonA', {start: 9, end: 17}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'upCommonA',
+            frames: this.anims.generateFrameNumbers('CommonA', {start: 0, end: 8}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'downCommonA',
+            frames: this.anims.generateFrameNumbers('CommonA', {start: 18, end: 26}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key:'stopCommonA',
+            frames: [{key: 'CommonA', frame: 18}],
+            frameRate: 10
+        });
+        this.anims.create({
+            key:'rightCommonB',
+            frames: this.anims.generateFrameNumbers('CommonB', {start: 27, end: 35}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'leftCommonB',
+            frames: this.anims.generateFrameNumbers('CommonB', {start: 9, end: 17}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'upCommonB',
+            frames: this.anims.generateFrameNumbers('CommonB', {start: 0, end: 8}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'downCommonB',
+            frames: this.anims.generateFrameNumbers('CommonB', {start: 18, end: 26}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key:'stopCommonB',
+            frames: [{key: 'CommonB', frame: 18}],
+            frameRate: 10
+        });
+        this.anims.create({
+            key:'rightCommonC',
+            frames: this.anims.generateFrameNumbers('CommonC', {start: 27, end: 35}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'leftCommonC',
+            frames: this.anims.generateFrameNumbers('CommonC', {start: 9, end: 17}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'upCommonC',
+            frames: this.anims.generateFrameNumbers('CommonC', {start: 0, end: 8}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'downCommonC',
+            frames: this.anims.generateFrameNumbers('CommonC', {start: 18, end: 26}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key:'stopCommonC',
+            frames: [{key: 'CommonC', frame: 18}],
+            frameRate: 10
+        });
         //this.resize();
 
     }

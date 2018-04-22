@@ -41,7 +41,8 @@ export default class Level1 extends Phaser.Scene {
         this.add.existing(this.player);
         this.player.init();
         //PART OF MAP PLAYER WALKS BEHIND
-        this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
+        var layer = this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
+        console.log(layer.depth)
         this.map.createDynamicLayer('foregroundLayer2', this.tiles2, 0,0);
         cam.startFollow(this.player);
 
@@ -58,14 +59,19 @@ export default class Level1 extends Phaser.Scene {
         //GETTING KEYBOARD ENTRIES
         this.cursors = this.input.keyboard.createCursorKeys();
 
-
-
         //LISTENERS
         this.events.once('signMessage', this.signMessage, this);
         this.events.once('gateMessage', this.gateMessage, this);
 
-        this.player.addToInventory(getItem('leather_armor'));
-        this.player.equipItem(getItem('leather_armor'));
+        //this.player.addToInventory(getItem('leather_armor'));
+        //this.player.equipItem(getItem('leather_armor'));
+        for(let i = 0; i < this.player.equipment.length; i++){
+            this.physics.add.collider(this.player.equipment[i], this.blocked);
+            this.physics.add.collider(this.player.equipment[i], this.sign);
+            this.physics.add.collider(this.player.equipment[i], this.gate);
+
+        }
+
 
 
         //var graphicsMap = this.add.graphics();

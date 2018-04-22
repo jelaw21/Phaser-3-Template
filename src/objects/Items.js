@@ -20,6 +20,14 @@ let items = {
         'effect': 0,
         'quantity': 0,
         'equipped': false
+    },
+    'common':{
+        'type': 'ARMOR',
+        'name': 'COMMON CLOTHES',
+        'image': ['LeatherA','CommonA', 'CommonB', 'CommonC'],
+        'effect': 10,
+        'quantity': 0,
+        'equipped': true
     }
 
 };
