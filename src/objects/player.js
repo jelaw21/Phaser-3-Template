@@ -29,12 +29,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
             this.playLeftAnims();
 
             if (cursors.up.isDown) {
-                //this.body.setVelocity(-100, -100);
                 velX = -100;
                 velY = -100;
 
             }else{
-                //this.body.setVelocity(-100, 100);
                 velX = -100;
                 velY = 100;
 
@@ -44,43 +42,36 @@ export default class Player extends Phaser.GameObjects.Sprite {
             this.anims.play('right', true);
             this.playRightAnims()
             if(cursors.up.isDown){
-                //this.body.setVelocity(100, -100);
                 velX = 100;
                 velY = -100;
             }
 
             else{
-               // this.body.setVelocity(100, 100);
                 velX = 100;
                 velY = 100;
             }
 
         }else if(cursors.right.isDown){
-            //this.body.setVelocity(100, 0);
             velX = 100;
             velY = 0;
             this.anims.play('right', true);
             this.playRightAnims();
         }else if(cursors.left.isDown){
-            //this.body.setVelocity(-100, 0);
             velX = -100;
             velY = 0;
             this.anims.play('left', true);
             this.playLeftAnims();
         }else if(cursors.up.isDown){
-            //this.body.setVelocity(0, -100);
             velX = 0;
             velY = -100;
             this.anims.play('up', true);
             this.playUpAnims()
         }else if(cursors.down.isDown){
-            //this.body.setVelocity(0, 100);
             velX = 0;
             velY = 100;
             this.playDownAnims()
             this.anims.play('down', true);
         }else{
-           // this.body.setVelocity(0,0);
             velX = 0;
             velY = 0;
             this.playStopAnims()
@@ -88,7 +79,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }
         this.body.setVelocity(velX, velY);
         this.equipUpdate(velX, velY);
-
     }
 
     equipUpdate(x, y){
@@ -138,11 +128,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
                    this.equipment[j].body.setSize(16,16);
                    this.equipment[j].body.setOffset(24, 47);
                }
-               //this.item.setScrollFactor(0);
-               //this.container.add(this.item);
             }
         }
-        //console.log(this.container)
     }
 
     addGold(amount){
