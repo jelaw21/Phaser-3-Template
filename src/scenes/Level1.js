@@ -42,8 +42,9 @@ export default class Level1 extends Phaser.Scene {
         this.player.init();
         //PART OF MAP PLAYER WALKS BEHIND
         var layer = this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
-        console.log(layer.depth)
-        this.map.createDynamicLayer('foregroundLayer2', this.tiles2, 0,0);
+        layer.setDepth(1);
+        var layer2 = this.map.createDynamicLayer('foregroundLayer2', this.tiles2, 0,0);
+        layer2.setDepth(1);
         cam.startFollow(this.player);
 
         //TRYING TO RESIZE MAP TO FIT WINDOW, I DON'T THINK ITS WORKING.
@@ -63,16 +64,14 @@ export default class Level1 extends Phaser.Scene {
         this.events.once('signMessage', this.signMessage, this);
         this.events.once('gateMessage', this.gateMessage, this);
 
-        //this.player.addToInventory(getItem('leather_armor'));
-        //this.player.equipItem(getItem('leather_armor'));
+
+
         for(let i = 0; i < this.player.equipment.length; i++){
             this.physics.add.collider(this.player.equipment[i], this.blocked);
             this.physics.add.collider(this.player.equipment[i], this.sign);
             this.physics.add.collider(this.player.equipment[i], this.gate);
 
         }
-
-
 
         //var graphicsMap = this.add.graphics();
         //this.map.renderDebug(graphicsMap);
@@ -88,7 +87,12 @@ export default class Level1 extends Phaser.Scene {
     collectCoins(player, coin){
         coin.destroy();
         this.player.addGold(1);
-        console.log(this.player.inventory);
+        if(this.player.getGold() >= 5){
+            this.scene.pause();
+            this.player.addToInventory(getItem('leather_armor'));
+            this.player.equipItem(getItem('leather_armor'));
+            this.scene.resume();
+        }
     }
     hitSign() {
         //bump
@@ -96,10 +100,9 @@ export default class Level1 extends Phaser.Scene {
     }
 
     hitGate(player, gate){
-        console.log(this.player.getGold());
-        if(this.player.getGold() >= 0){
+        if(this.player.getGold() >= 8){
             gate.destroy();
-            this.cameras.main.fade(1000);
+            this.cameras.main.fade(3000);
             this.scene.start('townMap', {inventory: this.player.inventory});
         }else{
             this.events.emit('gateMessage');

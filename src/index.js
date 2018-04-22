@@ -10,7 +10,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            debug: false
         }
     },
     scene: [
@@ -21,7 +21,6 @@ const config = {
 let game = new Phaser.Game(config);
 
 window.onresize = function () {
-
     game.renderer.resize(window.innerWidth, window.innerHeight);
     game.events.emit('resize');
 };

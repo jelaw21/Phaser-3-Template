@@ -17,8 +17,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         //this.scene.physics.world.enable(this.container);
        // this.container.body.setSize(32,48);
         this.addToInventory(getItem('common'));
-        console.log(this.inventory);
-        this.equipItem('common');
+        this.equipItem(getItem('common'));
     }
 
     move(cursors){
@@ -104,11 +103,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
                 this.inventory[i].quantity++;
             }else
                 this.inventory.push(itemToAdd);
+                break;
         }
     }
 
     equipItem(itemToEquip){
         for(let i = 0; i < this.inventory.length; i++){
+            if(!(this.inventory[i].name === itemToEquip.name)){
+                this.inventory[i].equipped = false
+            }
             if(this.inventory[i].name === itemToEquip.name){
                 this.inventory[i].equipped = true;
             }
@@ -121,7 +124,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     buildEquipped(player){
         //bump
-        this.equipment= [];
+        for(let m = 0; m < this.equipment.length; m++){
+           this.equipment[m].destroy();
+        }
+        this.equipment = [];
+        console.log(this.inventory);
+
         for(let i = 0; i < this.inventory.length; i++){
             if(this.inventory[i].equipped === true){
                 for(let j = 0; j < this.inventory[i].image.length; j++){
