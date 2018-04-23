@@ -5,8 +5,9 @@ import level1 from './scenes/Level1'
 import townMap from './scenes/Town'
 
 const config = {
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 800,
+    height: 600,
+    parent:'phaser-app',
     physics: {
         default: 'arcade',
         arcade: {

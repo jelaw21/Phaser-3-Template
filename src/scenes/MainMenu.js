@@ -267,9 +267,10 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     create (){
-
-        this.title = this.add.image(window.innerWidth/2, (window.innerHeight/2)-100, 'title').setAngle(-20).setScale(.7);
-        this.button = this.add.image(window.innerWidth/2, window.innerHeight/2+50, 'button').setInteractive();
+        this.cWidth = this.sys.game.config.width;
+        this.cHeight = this.sys.game.config.height;
+        this.title = this.add.image(this.cWidth/2, (this.cHeight/2)-100, 'title').setAngle(-20).setScale(.7);
+        this.button = this.add.image(this.cWidth/2, this.cHeight/2+50, 'button').setInteractive();
         this.startText = this.add.text(0,0,'START', {fontSize: '24px', fontFamily: 'UnifrakturCook', fill: '#000'});
         Phaser.Display.Align.In.Center(this.startText, this.button);
 
@@ -296,7 +297,7 @@ export default class MainMenu extends Phaser.Scene {
 
     }
 
-    resize(){
+    /*resize(){
 
         this.title.setPosition(window.innerWidth/2, (window.innerHeight/2)-100);
         this.button.setPosition(window.innerWidth/2, window.innerHeight/2+50);
@@ -305,7 +306,7 @@ export default class MainMenu extends Phaser.Scene {
         let cam = this.cameras.main;
         cam.setViewport(0, 0, window.innerWidth, window.innerHeight);
         cam.zoom = Math.min(window.innerWidth/800, window.innerHeight/600);
-    }
+    }*/
 
     callLevel(){
         this.scene.start('level1');

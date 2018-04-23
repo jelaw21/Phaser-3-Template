@@ -1,4 +1,6 @@
 import getItem from '../objects/Items.js'
+import Inventory from '../objects/Inventory.js'
+
 export default class Player extends Phaser.GameObjects.Sprite {
 
     constructor(scene, x, y, texture, frame) {
@@ -36,7 +38,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
 
     move(cursors){
-         let velX = 0;
+        let velX = 0;
         let velY = 0;
 
         if((cursors.up.isDown || cursors.down.isDown) && cursors.left.isDown) {
@@ -88,6 +90,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }
         this.body.setVelocity(velX, velY);
         this.equipUpdate(velX, velY);
+        if(cursors.I.isDown){
+            console.log("Inventory Called");
+            Phaser.Scene.call(this, {key:'inventory', active: true});
+        }
     }
 
     equipUpdate(x, y){

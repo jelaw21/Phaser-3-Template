@@ -5,7 +5,9 @@ export default class Preload extends Phaser.Scene{
     }
 
     preload(){
-        this.logo = this.add.image(window.innerWidth/2, window.innerHeight/2-100, 'logo').setScale(.3);
+        this.cWidth = this.sys.game.config.width;
+        this.cHeight = this.sys.game.config.height;
+        this.logo = this.add.image(this.cWidth/2, this.cHeight/2-100, 'logo').setScale(.3);
         this.barLogo = this.add.image(this.logo.x-(this.logo.displayWidth*.4), (this.logo.displayHeight)+75, 'logoBar').setScale(.356).setOrigin(0,0);
 
         var barCover = this.add.graphics();
@@ -23,7 +25,7 @@ export default class Preload extends Phaser.Scene{
 
         this.sys.game.events.on('resize', this.resize, this);
 
-        this.resize();
+        //this.resize();
 
         this.load.spritesheet('playerE', 'assets/images/BODY_EAST.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('playerW', 'assets/images/BODY_WEST.png', {frameWidth: 64, frameHeight:64});
@@ -62,14 +64,8 @@ export default class Preload extends Phaser.Scene{
     }
 
     resize(){
-        this.logo.setPosition(window.innerWidth/2, window.innerHeight/2-100);
+        this.logo.setPosition(this.cWidth/2, this.cHeight/2-100);
         this.barLogo.setPosition(this.logo.x-(this.logo.displayWidth*.4), (this.logo.displayHeight)+75);
-        let cam = this.cameras.main;
-
-
-        cam.setViewport(0, 0, window.innerWidth, window.innerHeight);
-
-        cam.zoom = Math.min(window.innerWidth/800, window.innerHeight/600)
     }
 
     callMenu(){

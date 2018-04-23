@@ -32,7 +32,7 @@ export default class Level1 extends Phaser.Scene {
         //CAMERA CRAP THAT I'M NOT SURE HOW IT WORKS
         var cam = this.cameras.main;
         cam.zoom = 1.5;
-        cam.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        cam.setBounds(0, 0, this.map.widthInPixels-155, this.map.heightInPixels);
         //cam.scrollX = 2;
 
         //HAD TO CREATE THE PLAYER TO PUT FOREGROUND ON TOP
