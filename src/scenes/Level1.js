@@ -91,7 +91,7 @@ export default class Level1 extends Phaser.Scene {
         if(this.player.getGold() === 5){
             this.scene.pause();
             this.player.addToInventory(getItem('leather_armor'));
-            this.player.equipItem(getItem('leather_armor'), this.blockedObjects);
+            //this.player.equipItem(getItem('leather_armor'), this.blockedObjects);
             this.scene.resume();
         }
     }

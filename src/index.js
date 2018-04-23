@@ -3,6 +3,7 @@ import Preload  from './scenes/preload'
 import MainMenu from './scenes/MainMenu'
 import level1 from './scenes/Level1'
 import townMap from './scenes/Town'
+import inventory from './scenes/Inventory'
 
 const config = {
     width: 800,
@@ -15,13 +16,13 @@ const config = {
         }
     },
     scene: [
-        Preload,level1, MainMenu, townMap
+        Preload,level1, MainMenu, townMap, inventory
     ]
 };
 
 let game = new Phaser.Game(config);
 
-window.onresize = function () {
+/*window.onresize = function () {
     game.renderer.resize(window.innerWidth, window.innerHeight);
     game.events.emit('resize');
-};
+};*/

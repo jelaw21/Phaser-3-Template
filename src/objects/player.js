@@ -1,5 +1,4 @@
 import getItem from '../objects/Items.js'
-import Inventory from '../objects/Inventory.js'
 
 export default class Player extends Phaser.GameObjects.Sprite {
 
@@ -16,6 +15,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.body.setSize(16,16);
         this.body.setOffset(24, 47);
         this.body.collideWorldBounds = true;
+        this.invKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
 
         //bump
 
@@ -90,9 +90,18 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }
         this.body.setVelocity(velX, velY);
         this.equipUpdate(velX, velY);
-        if(cursors.I.isDown){
-            console.log("Inventory Called");
-            Phaser.Scene.call(this, {key:'inventory', active: true});
+        if(this.invKey.isDown){
+            if(this.scene.scene.isActive('inventory')){
+                console.log('scene running, shutting down');
+                this.scene.scene.stop('inventory');
+
+            }else{
+                this.scene.scene.launch('inventory', {player: this});
+                this.scene.scene.pause(this.scene);
+            }
+
+
+
         }
     }
 

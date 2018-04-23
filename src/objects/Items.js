@@ -13,13 +13,13 @@ let items = {
         'slot': 'TORSO',
         'image': ['LeatherA','LeatherB', 'LeatherC', 'LeatherD'],
         'effect': 10,
-        'quantity': 0,
+        'quantity': 1,
         'equipped': false
     },
     'gold': {
         'type': 'gold',
         'name': 'GOLD',
-        'image': 'coin',
+        'image': ['coin'],
         'effect': 0,
         'quantity': 0,
         'equipped': false
@@ -28,18 +28,18 @@ let items = {
         'type': 'ARMOR',
         'slot': 'TORSO',
         'name': 'WHITE SHIRT',
-        'image': ['LeatherA'],
+        'image': ['LeatherC'],
         'effect': 10,
-        'quantity': 0,
+        'quantity': 1,
         'equipped': false
     },
     'common_legs':{
         'type': 'ARMOR',
         'slot': 'LEGS',
         'name': 'WORN PANTS',
-        'image': ['CommonA', 'CommonC'],
+        'image': ['CommonC', 'CommonA'],
         'effect': 10,
-        'quantity': 0,
+        'quantity': 1,
         'equipped': false
     },
     'common_head':{
@@ -51,6 +51,5 @@ let items = {
         'quantity': 0,
         'equipped': false
     }
-
 };
 

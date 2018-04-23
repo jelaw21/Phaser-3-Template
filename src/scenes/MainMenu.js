@@ -4,7 +4,7 @@ export default class MainMenu extends Phaser.Scene {
         super({key: 'MainMenu'});
     }
     preload (){
-        this.sys.game.events.on('resize', this.resize, this);
+        //this.sys.game.events.on('resize', this.resize, this);
         //LOAD ANIMATIONS
         this.anims.create({
             key:'right',
