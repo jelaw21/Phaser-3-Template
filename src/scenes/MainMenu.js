@@ -285,7 +285,6 @@ export default class MainMenu extends Phaser.Scene {
             duration: 5000,
             yoyo: true,
             repeat: -1,
-
         });
 
         this.button.on('pointerdown', function(pointer){
