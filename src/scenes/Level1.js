@@ -105,10 +105,6 @@ export default class Level1 extends Phaser.Scene {
             var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui');
             this.add.existing(message);
             message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
-            this.scene.launch('dialog', {player: this.player, content: getConversation('prologue')});
-            this.scene.pause(this);
-
-
         }
     }
     hitSign() {

@@ -33,6 +33,7 @@ export default class Dialog extends Phaser.Scene {
         this.charImage = this.add.image(0, 0, ' ').setOrigin(0);
         this.nameText = this.add.text(this.sys.game.config.width*(1/5)+20, this.sys.game.config.height*(2/5)+50, ' ', style);
         this.speechText = this.add.text(this.sys.game.config.width*(1/5)+20, this.sys.game.config.height*(2/5)+70, ' ', style);
+        this.add.text(this.sys.game.config.width*(1/5)+220, this.sys.game.config.height*(4/5), 'click to continue ...', style);
 
         this.updateConversation();
 
