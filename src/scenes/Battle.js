@@ -51,17 +51,20 @@ export default class Battle extends Phaser.Scene {
         let circleTarget = graphics.strokeCircle(100, 100, 20);
 
 
-        this.round1 = this.tweens.add({
+        this.tweens.add({
             targets: circle,
             scaleX: 0,
             scaleY: 0,
             duration: 1000,
-            onComplete: this.doNext
+            onComplete: this.doNext,
+            onCompleteParams: [ ]
         })
     }
 
     doNext(tween, targets){
         console.log(this);
-       this.scene.round1.play();
+        console.log("tween updated");
+        tween.updateTo('duration', 2000);
+        tween.restart();
     }
 }
