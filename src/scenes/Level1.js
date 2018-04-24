@@ -42,7 +42,10 @@ export default class Level1 extends Phaser.Scene {
         this.add.existing(this.player);
         this.player.init();
         this.player.initialEquipment(this.blockedObjects);
-        //this.player.setCollideWorldBounds(true);
+
+
+
+
         //PART OF MAP PLAYER WALKS BEHIND
         var layer = this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
         layer.setDepth(1);
@@ -79,6 +82,10 @@ export default class Level1 extends Phaser.Scene {
         //this.map.renderDebug(graphicsMap);
         //this.coins.drawDebug(graphicsMap);
         //this.player.body.drawDebug(graphicsMap);
+
+        this.scene.launch('dialog', {player: this.player, content: getConversation('act1scene1')});
+        this.scene.pause(this);
+
        }
 
     update(){
@@ -89,10 +96,6 @@ export default class Level1 extends Phaser.Scene {
     collectCoins(player, coin){
         coin.destroy();
         this.player.addGold(1);
-        if(this.player.getGold() === 3){
-            this.scene.launch('dialog', {player: this.player, content: getConversation('act1scene1')});
-            this.scene.pause(this);
-        }
         if(this.player.getGold() === 5){
 
             this.player.addToInventory(getItem('leather_armor'));
@@ -102,6 +105,9 @@ export default class Level1 extends Phaser.Scene {
             var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui');
             this.add.existing(message);
             message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
+            this.scene.launch('dialog', {player: this.player, content: getConversation('prologue')});
+            this.scene.pause(this);
+
 
         }
     }
@@ -123,7 +129,7 @@ export default class Level1 extends Phaser.Scene {
     signMessage(){
         var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui');
         this.add.existing(message);
-        message.createText('Hello, find your way to town.');
+        message.createText('Collect Gold pieces. Hit \'I\' for Inventory');
     }
     gateMessage(){
         var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui').setOrigin(0);

@@ -1,4 +1,4 @@
-export default class Inventory extends Phaser.Scene {
+export default class Dialog extends Phaser.Scene {
 
     constructor(config) {
         super({key: 'dialog'});
@@ -11,12 +11,13 @@ export default class Inventory extends Phaser.Scene {
         this.player = data.player;
         this.lastScene = this.scene.get(data.player.scene);
         this.content = data.content;
+        console.log("RUNNING CONVERSATION");
     }
 
     create(){
         var graphics = this.add.graphics();
         let style = {
-            font: '24px Arial',
+            font: '20px Arial',
                 fill: 'white',
                 wordWrap:{
                 width: this.sys.game.config.width*(3/5)-20,
@@ -30,7 +31,7 @@ export default class Inventory extends Phaser.Scene {
         graphics.fillRect(this.sys.game.config.width*(1/5), this.sys.game.config.height*(2/5)+40, this.sys.game.config.width*(3/5), this.sys.game.config.height*(2/5));
 
         this.charImage = this.add.image(0, 0, ' ').setOrigin(0);
-        this.nameText = this.add.text(this.sys.game.config.width*(1/5)+20, this.sys.game.config.height*(2/5)+50, ' ');
+        this.nameText = this.add.text(this.sys.game.config.width*(1/5)+20, this.sys.game.config.height*(2/5)+50, ' ', style);
         this.speechText = this.add.text(this.sys.game.config.width*(1/5)+20, this.sys.game.config.height*(2/5)+70, ' ', style);
 
         this.updateConversation();
@@ -41,12 +42,17 @@ export default class Inventory extends Phaser.Scene {
 
         //this.nextLine();
     }
+    update(){
+
+    }
     updateConversation(){
 
         let posX = 0;
         let posY = 0;
         if(this.index >= this.content.length){
-            if(this.lastScene.key = 'Preload'){
+            this.index = 0;
+            if(this.lastScene.scene.key === 'Preload'){
+                this.scene.stop('dialog');
                 this.scene.start('MainMenu');
             }else{
                 this.scene.stop('dialog');

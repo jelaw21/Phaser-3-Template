@@ -48,19 +48,19 @@ let acts = {
         character: ' ',
         dialog: 'When the darkness was defeated, the magi hid the stone away. As he sealed the tomb, a prophecy was given to him.',
         position: 'left'
-    },{
-        character: ' ',
-        dialog: 'THE STONE WILL BE FOUND AND A DARKNESS WILL RISE. A THIEF WILL DEFEAT IT AND A CHAMPION WILL FALL.',
-        position: 'left'
     }],
     'act1scene1':[{
-        character: 'arianna',
-        dialog: 'Good Morning, I hope you slept well',
+        character: 'lukas',
+        dialog: 'Dude, you ok?',
         position: 'left',
     },{
         character: 'lukas',
-        dialog: 'Yeah, that was quite a hit you took last night',
-        position: 'right',
+        dialog: 'Yeah, that was quite a hit you took from those goons',
+        position: 'left',
+    },{
+        character: 'lukas',
+        dialog: 'But c\'mon, Arianna\'s sick. My house is just through these woods. Hurry up!',
+        position: 'left',
     }
     ]
 };
