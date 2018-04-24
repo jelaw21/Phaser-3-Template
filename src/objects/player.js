@@ -17,24 +17,17 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.body.collideWorldBounds = true;
         this.invKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
 
-        //bump
-
         //this.container = this.scene.add.container(this.x-16, this.y-17);
         //this.container.setScrollFactor(0);
         //this.scene.physics.world.enable(this.container);
         //this.container.body.setSize(32,48);
-
-        this.addToInventory(getItem('common_chest'));
-        this.addToInventory(getItem('common_legs'));
-        this.addToInventory(getItem('common_head'));
-
-
     }
 
     initialEquipment(layers){
+        this.addToInventory(getItem('common_chest'));
+        this.addToInventory(getItem('common_legs'));
         this.equipItem(getItem('common_chest'), layers);
         this.equipItem(getItem('common_legs'), layers);
-        this.equipItem(getItem('common_head'), layers);
     }
 
     move(cursors){
@@ -91,17 +84,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.body.setVelocity(velX, velY);
         this.equipUpdate(velX, velY);
         if(this.invKey.isDown){
-            if(this.scene.scene.isActive('inventory')){
-                console.log('scene running, shutting down');
-                this.scene.scene.stop('inventory');
-
-            }else{
-                this.scene.scene.launch('inventory', {player: this});
-                this.scene.scene.pause(this.scene);
-            }
-
-
-
+            this.scene.scene.launch('inventory', {player: this});
+            this.scene.scene.pause(this.scene);
         }
     }
 
@@ -149,12 +133,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
         for(let m = 0; m < this.equipment.length; m++){
            this.equipment[m].destroy();
         }
-        this.equipment = [];
+        this.equipment = [player.scene.physics.add.sprite(player.x, player.y, 'CommonB', 18)];
+        //this.equipment = [];
 
         for(let i = 0; i < this.inventory.length; i++){
             if(this.inventory[i].equipped === true){
                 for(let j = 0; j < this.inventory[i].image.length; j++){
-                   this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.inventory[i].image[j]));
+                   this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.inventory[i].image[j], 18));
                }
             }
         }

@@ -11,9 +11,9 @@ let items = {
         'type': 'ARMOR',
         'name': 'LEATHER ARMOR',
         'slot': 'TORSO',
-        'image': ['LeatherA','LeatherB', 'LeatherC', 'LeatherD'],
-        'effect': 10,
+        'image': ['LeatherB'],
         'quantity': 1,
+        'icon': 'armorLeatherIcon',
         'equipped': false
     },
     'gold': {
@@ -26,20 +26,22 @@ let items = {
     },
     'common_chest':{
         'type': 'ARMOR',
-        'slot': 'TORSO',
+        'slot': 'SHIRT',
         'name': 'WHITE SHIRT',
-        'image': ['LeatherC'],
+        'image': ['LeatherA'],
         'effect': 10,
         'quantity': 1,
+        'icon': 'shirtIcon',
         'equipped': false
     },
     'common_legs':{
         'type': 'ARMOR',
         'slot': 'LEGS',
         'name': 'WORN PANTS',
-        'image': ['CommonC', 'CommonA'],
+        'image': ['CommonC'],
         'effect': 10,
         'quantity': 1,
+        'icon': 'pantsIcon',
         'equipped': false
     },
     'common_head':{
@@ -49,6 +51,36 @@ let items = {
         'image': ['CommonB'],
         'effect': 10,
         'quantity': 0,
+        'equipped': false
+    },
+    'common_shoes':{
+        'type': 'ARMOR',
+        'name': 'SHOES',
+        'slot': 'FEET',
+        'image': ['CommonA'],
+        'effect': 10,
+        'quantity': 1,
+        'icon': 'shoesIcon',
+        'equipped': false
+    },
+    'leather_bracers':{
+        'type': 'ARMOR',
+        'name': 'LEATHER BRACERS',
+        'slot': 'WRIST',
+        'image': ['LeatherD'],
+        'effect': 10,
+        'quantity': 1,
+        'icon': 'bracersLeatherIcon',
+        'equipped': false
+    },
+    'leather_shoulders':{
+        'type': 'ARMOR',
+        'name': 'LEATHER SHOULDERS',
+        'slot': 'SHOULDERS',
+        'image': ['LeatherC'],
+        'effect': 10,
+        'quantity': 1,
+        'icon': 'shouldersLeatherIcon',
         'equipped': false
     }
 };

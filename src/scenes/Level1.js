@@ -89,10 +89,15 @@ export default class Level1 extends Phaser.Scene {
         coin.destroy();
         this.player.addGold(1);
         if(this.player.getGold() === 5){
-            this.scene.pause();
+
             this.player.addToInventory(getItem('leather_armor'));
-            //this.player.equipItem(getItem('leather_armor'), this.blockedObjects);
-            this.scene.resume();
+            this.player.addToInventory(getItem('common_shoes'));
+            this.player.addToInventory(getItem('leather_bracers'));
+            this.player.addToInventory(getItem('leather_shoulders'));
+            var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui');
+            this.add.existing(message);
+            message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
+
         }
     }
     hitSign() {

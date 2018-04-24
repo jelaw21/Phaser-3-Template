@@ -53,6 +53,12 @@ export default class Preload extends Phaser.Scene{
         this.load.image('coin', 'assets/images/coin.png');
         this.load.image('sign', 'assets/images/sign.png');
         this.load.image('gate', 'assets/images/gate.png');
+        this.load.image('armorLeatherIcon', 'assets/images/leatherArmorIcon.png');
+        this.load.image('bracersLeatherIcon', 'assets/images/leatherBracersIcon.png');
+        this.load.image('shouldersLeatherIcon', 'assets/images/leatherShouldersIcon.png');
+        this.load.image('pantsIcon', 'assets/images/pantsIcon.png');
+        this.load.image('shirtIcon', 'assets/images/shirtIcon.png');
+        this.load.image('shoesIcon', 'assets/images/shoesIcon.png');
 
 
     }

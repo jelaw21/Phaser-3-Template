@@ -8,13 +8,12 @@ export default class MessagePopUp extends Phaser.GameObjects.Sprite{
 
 
     createText(text){
-        console.log("created")
         var config = {
             x: this.x,
             y: this.y,
             text: text,
             style:{
-                font: 'bold 12px Arial',
+                font: '12px Arial',
                 fill: 'white',
                 wordWrap:{
                     width: this.displayWidth,
@@ -32,9 +31,10 @@ export default class MessagePopUp extends Phaser.GameObjects.Sprite{
 
         this.closeButton.on('pointerdown', this.closeMessageBox, this);
 
+        this.scene.time.delayedCall(4000, this.closeMessageBox, [], this);
+
     }
     closeMessageBox(){
-        console.log("clicked")
         this.destroy();
         this.textBox.destroy();
         this.closeButton.destroy();
