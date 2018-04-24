@@ -1,6 +1,7 @@
 import MessagePopUp from '../objects/MessagePopUp'
 import Player from '../objects/player'
 import getItem from '../objects/Items.js'
+import getConversation from '../objects/Conversations.js'
 
 export default class Level1 extends Phaser.Scene {
 
@@ -88,6 +89,10 @@ export default class Level1 extends Phaser.Scene {
     collectCoins(player, coin){
         coin.destroy();
         this.player.addGold(1);
+        if(this.player.getGold() === 3){
+            this.scene.launch('dialog', {player: this.player, content: getConversation('act1scene1')});
+            this.scene.pause(this);
+        }
         if(this.player.getGold() === 5){
 
             this.player.addToInventory(getItem('leather_armor'));

@@ -4,6 +4,7 @@ import MainMenu from './scenes/MainMenu'
 import level1 from './scenes/Level1'
 import townMap from './scenes/Town'
 import inventory from './scenes/Inventory'
+import dialog from './scenes/Dialog'
 
 const config = {
     width: 800,
@@ -16,7 +17,7 @@ const config = {
         }
     },
     scene: [
-        Preload,level1, MainMenu, townMap, inventory
+        Preload,level1, MainMenu, townMap, inventory, dialog
     ]
 };
 
