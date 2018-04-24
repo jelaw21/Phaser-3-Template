@@ -1,3 +1,6 @@
+import Player from "../objects/player";
+import getConversation from "../objects/Conversations";
+
 export default class Preload extends Phaser.Scene{
 
     constructor(config){
@@ -20,7 +23,7 @@ export default class Preload extends Phaser.Scene{
 
             barCover.clear();
             barCover.fillStyle(0x000000, 1);
-            barCover.fillRect((barX + barDisplayWidth)*value, barY, barDisplayWidth*(1-value), barDisplayHeight);
+            barCover.fillRect((barX + barDisplayWidth*value), barY, barDisplayWidth, barDisplayHeight);
         });
 
         this.sys.game.events.on('resize', this.resize, this);
@@ -66,6 +69,7 @@ export default class Preload extends Phaser.Scene{
     }
 
     create(){
+
         this.time.delayedCall(1000, this.callMenu, [], this);
 
 
@@ -77,6 +81,8 @@ export default class Preload extends Phaser.Scene{
     }
 
     callMenu(){
+        this.player = new Player(this, 0, 0, ' ', 0);
+        //this.scene.start('dialog', {player: this.player, content: getConversation('prologue')});
         this.scene.start('MainMenu');
     };
 

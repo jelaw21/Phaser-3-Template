@@ -1,3 +1,6 @@
+import getConversation from "../objects/Conversations";
+import Player from '../objects/player';
+
 export default class MainMenu extends Phaser.Scene {
 
     constructor(config){
@@ -267,6 +270,8 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     create (){
+
+
         this.cWidth = this.sys.game.config.width;
         this.cHeight = this.sys.game.config.height;
         this.title = this.add.image(this.cWidth/2, (this.cHeight/2)-100, 'title').setAngle(-20).setScale(.7);

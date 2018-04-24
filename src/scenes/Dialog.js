@@ -15,15 +15,23 @@ export default class Inventory extends Phaser.Scene {
 
     create(){
         var graphics = this.add.graphics();
+        let style = {
+            font: '24px Arial',
+                fill: 'white',
+                wordWrap:{
+                width: this.sys.game.config.width*(3/5)-20,
+                    useAdvancedWrap: true
+            }
+        };
 
         //this.add.image(550, -10, 'lukas').setOrigin(0).setSize(300,300);
-
-        graphics.fillStyle(0x114499, .7);
+        //0x114499
+        graphics.fillStyle(0x000000, .7);
         graphics.fillRect(this.sys.game.config.width*(1/5), this.sys.game.config.height*(2/5)+40, this.sys.game.config.width*(3/5), this.sys.game.config.height*(2/5));
 
         this.charImage = this.add.image(0, 0, ' ').setOrigin(0);
         this.nameText = this.add.text(this.sys.game.config.width*(1/5)+20, this.sys.game.config.height*(2/5)+50, ' ');
-        this.speechText = this.add.text(this.sys.game.config.width*(1/5)+20, this.sys.game.config.height*(2/5)+70, ' ');
+        this.speechText = this.add.text(this.sys.game.config.width*(1/5)+20, this.sys.game.config.height*(2/5)+70, ' ', style);
 
         this.updateConversation();
 
@@ -38,8 +46,13 @@ export default class Inventory extends Phaser.Scene {
         let posX = 0;
         let posY = 0;
         if(this.index >= this.content.length){
-            this.scene.stop('dialog');
-            this.scene.resume(this.player.scene);
+            if(this.lastScene.key = 'Preload'){
+                this.scene.start('MainMenu');
+            }else{
+                this.scene.stop('dialog');
+                this.scene.resume(this.player.scene);
+            }
+
         }else{
             this.charImage.setTexture(this.content[this.index].character);
             if(this.content[this.index].position === 'left'){
