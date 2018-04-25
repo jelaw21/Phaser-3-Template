@@ -7,7 +7,7 @@ export default class Battle extends Phaser.Scene {
 
     }
     update(){
-        
+
     }
 
     create(){
