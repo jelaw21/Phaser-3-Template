@@ -19,7 +19,7 @@ let abilities = {
         'name': "KICK",
         'numAtk': 3,
         'durations': [2000, 1000, 500],
-        'damage': [3, 6, 9, 12],
+        'damage': [3, 4, 5, 9],
         'playerExp': 50,
         'wepExp': 0,
         'active': false

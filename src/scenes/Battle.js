@@ -1,26 +1,27 @@
 import Player from '../objects/player'
-import enemies from '../objects/Enemies'
+import getEnemy from '../objects/Enemies'
 export default class Battle extends Phaser.Scene {
 
     constructor(config) {
         super({key: 'battle'});
 
     }
+    update(){
+        
+    }
 
     create(){
         this.player = new Player(this, 0,0, ' ', 0);
         this.player.addAbilities();
         this.abilities = this.player.abilities;
-        this.countHits = 0;
 
         this.buttonGroup = [];
         this.attackGroup = [];
         this.textGroup = [];
         this.enemyGroup = [];
+        this.enemies = [];
 
-        this.enemyGroup.push(enemies['goblin']);
-        console.log(this.enemyGroup);
-
+        this.enemyGroup.push(getEnemy('goblin'));
 
         let graphics = this.add.graphics();
         graphics.fillStyle(0x708090, .7);
@@ -60,15 +61,18 @@ export default class Battle extends Phaser.Scene {
         let retreatText = this.add.text(0 , 0, 'RUN AWAY');*/
 
         //TODO: IMPORT ENEMIES PER MAP
+        for(let i = 0; i < this.enemyGroup.length; i++){
+            let enemy = this.add.sprite(400, 150, this.enemyGroup[i].image).setScale(2);
+            this.enemies.push(enemy);
+        }
 
-        this.enemy = this.add.sprite(400, 150, 'playerS').setScale(2);
         this.add.text(200 ,325, 'HIT \'A\' WHEN CIRCLES ARE ON EACH OTHER TO ATTACK');
         this.status = this.add.text(0, 0, '           ');
-        this.circle = this.add.image(100, 100,'attackCircle');
-        Phaser.Display.Align.In.Center(this.circle, this.enemy);
-        this.circleTarget = this.add.image(100, 100,'attackCircle').setScale(1);
-        Phaser.Display.Align.In.Center(this.circleTarget, this.enemy);
-        Phaser.Display.Align.To.TopCenter(this.status, this.enemy);
+        this.circle = this.add.image(100, 100,'attackCircle').setVisible(false);
+        Phaser.Display.Align.In.Center(this.circle, this.enemies[0]);
+        this.circleTarget = this.add.image(100, 100,'attackCircle').setScale(1).setVisible(false);
+        Phaser.Display.Align.In.Center(this.circleTarget, this.enemies[0]);
+        Phaser.Display.Align.To.TopCenter(this.status, this.enemies[0]);
 
 
 
@@ -83,56 +87,47 @@ export default class Battle extends Phaser.Scene {
 
     setupAttack(pointer, gameobject){
         gameobject.setTexture('buttonPressed');
+        this.circleTarget.setVisible(true);
+        this.circle.setVisible(true);
         //let attacks = [];
-        let currentAtk;
+        this.currentAtk;
 
         for(let i = 0; i < this.abilities.length; i++){
             if(gameobject.name === this.abilities[i].name){
-                currentAtk = this.abilities[i]
+                this.currentAtk = this.abilities[i]
             }
         }
-        console.log(currentAtk);
-        for(let i = currentAtk.numAtk-1; i >= 0; i--){
-            if(i === currentAtk.numAtk-1){
-                console.log("adding last tween");
+        for(let i = this.currentAtk.numAtk-1; i >= 0; i--){
+            if(i === this.currentAtk.numAtk-1){
                 this.attackGroup[i] =
                     this.tweens.add({
                         targets: this.circle,
                         scaleX: 0,
                         scaleY: 0,
-                        duration: currentAtk.durations[i],
+                        duration: this.currentAtk.durations[i],
                         paused: true,
-                        onComplete: this.activate,
+                        onComplete: this.waitAFew,
                         onCompleteParams: [gameobject, this.sys]
                 })
             }else{
-                console.log("adding first tween");
-                console.log(this.attackGroup[i+1]);
                 this.attackGroup[i] =this.tweens.add({
                     targets: this.circle,
                     scaleX: 0,
                     scaleY: 0,
-                    duration: currentAtk.durations[i],
+                    duration: this.currentAtk.durations[i],
                     paused: true,
                     onComplete: this.playAttack,
                     onCompleteParams: [this.attackGroup[i+1], this.circle]
                 })
             }
         }
-        /*this.combo1 = this.tweens.add({
-            targets: this.circle,
-            scaleX: 0,
-            scaleY: 0,
-            duration: this.setup1[0],
-            paused: true,
-            onComplete: this.playAttack,
-            onCompleteParams: [this.combo2, this.circle]
-        });*/
         this.playAttack1(gameobject);
     }
 
     playAttack1(button){
-        this.countHits = 0;
+        this.clearText();
+        Phaser.Display.Align.To.TopCenter(this.status, this.enemies[0]);
+        this.playerDamage = 0;
         button.setTexture('button');
         this.circle.setScale(6);
         this.attackGroup[0].restart();
@@ -146,29 +141,66 @@ export default class Battle extends Phaser.Scene {
         circle.setScale(6);
         next.restart();
     }
-    activate(tween, target, button, scene){
+    activate(scene){
         scene.scene.buttonGroup.forEach(function(element){
             scene.scene.sys.input.enable(element);
         });
+        scene.scene.circleTarget.setVisible(false);
+        scene.scene.circle.setVisible(false);
+    }
+    waitAFew(tween,target,button,scene){
+        scene.scene.time.delayedCall(1000, scene.scene.enemiesTurn, [tween,target,button,scene], this)
     }
 
     enemiesTurn(tween, target, button, scene){
-
+        for(let i = 0; i < scene.scene.enemyGroup.length; i++){
+            let curEnemy = scene.scene.enemyGroup[i];
+            let ability = curEnemy.abilities[Phaser.Math.Between(0,curEnemy.abilities.length-1)];
+            let damage = 0;
+            for(let j = 0; j < ability.numAtk; j++){
+                let hit = Phaser.Math.Between(0, 100);
+                if(hit < curEnemy.chance){
+                    scene.scene.cameras.main.shake(100);
+                    damage += ability.damage[j];
+                }
+            }
+            if(damage > 0){
+                scene.scene.status.setText(curEnemy.name + " used " + ability.name + " and did " + damage + " pts of damage." )
+                scene.scene.status.setPosition(200, 75);
+                scene.scene.player.takeDamage(damage);
+            }else{
+                scene.scene.status.setText(curEnemy.name + " used " + ability.name + " and missed." );
+                scene.scene.status.setPosition(200, 75);
+            }
+        }
+        scene.scene.activate(scene);
     }
 
     registerHit(){
+
         if(Math.abs(this.circle.scaleX - this.circleTarget.scaleX)< .2){
             //console.log('HIT');
             this.status.setText("GREAT HIT");
             this.time.delayedCall(750, this.clearText, [], this);
-            this.countHits++;
+            for(let i = 0; i < this.attackGroup.length; i++){
+                if(this.attackGroup[i].isPlaying()){
+
+                    this.playerDamage = this.playerDamage + this.currentAtk.damage[i];
+                    this.status.setText(this.playerDamage);
+                }
+            }
+            this.enemyGroup[0].health -= this.playerDamage;
+            this.playerDamage = 0;
         }
-        if(this.countHits >= 2){
+        console.log(this.player.health);
+        console.log(this.enemyGroup[0].health);
+        /*if(this.countHits >= 2){
             this.status.setText("YOU DEFEATED HIM!!!!");
-            this.enemy.anims.play('deadMale', true);
-            this.time.delayedCall(2000, this.endBattle, [], this);
-        }
+            this.enemies[0].anims.play('deadMale', true);
+            this.time.delayedCall(500, this.endBattle, [], this);
+        }*/
     }
+
 
     clearText(){
         this.status.setText(' ');

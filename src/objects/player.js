@@ -9,7 +9,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.equipment = [];
         this.abilities = [getAbility('punch'), getAbility('kick')];
         this.experience = 51;
-
+        this.health = 200;
         }
 
     init(){
@@ -166,10 +166,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
             }else
                 this.abilities[i].active = false;
         }
-        console.log(this.abilities);
     }
 
+    takeDamage(damage){
+        this.health = this.health - damage;
+    }
 
+    addHealth(regen){
+        this.health = this.health + regen;
+    }
 
     addGold(amount){
         this.inventory[0].quantity += amount;
