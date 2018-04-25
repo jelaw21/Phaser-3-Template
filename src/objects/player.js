@@ -1,4 +1,5 @@
 import getItem from '../objects/Items.js'
+import getAbility from '../objects/Abilities.js'
 
 export default class Player extends Phaser.GameObjects.Sprite {
 
@@ -6,7 +7,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
         this.inventory = [getItem('gold')];
         this.equipment = [];
-
+        this.abilities = [getAbility('punch')];
 
         }
 
@@ -138,9 +139,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         for(let i = 0; i < this.inventory.length; i++){
             if(this.inventory[i].equipped === true){
-                for(let j = 0; j < this.inventory[i].image.length; j++){
-                   this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.inventory[i].image[j], 18));
-               }
+                if(this.inventory[i].type === 'ARMOR'){
+                    for(let j = 0; j < this.inventory[i].image.length; j++){
+                        this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.inventory[i].image[j], 18));
+                    }
+                }else if(this.inventory[i].type === 'WEAPON'){
+                    this.abilities.push(this.inventory[i].abilities)
+                }
             }
         }
         for(let i = 0; i < this.equipment.length; i++){
