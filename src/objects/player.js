@@ -7,7 +7,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
         this.inventory = [getItem('gold')];
         this.equipment = [];
-        this.abilities = [getAbility('punch')];
+        this.abilities = [getAbility('punch'), getAbility('kick')];
+        this.experience = 51;
 
         }
 
@@ -89,7 +90,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
             this.scene.scene.pause(this.scene);
         }
     }
-
     equipUpdate(x, y){
         this.equipment.forEach(function(element){
             element.body.setVelocity(x, y);
@@ -148,6 +148,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
                 }
             }
         }
+
+
+
         for(let i = 0; i < this.equipment.length; i++){
             this.equipment[i].body.setSize(16,16);
             this.equipment[i].body.setOffset(24, 47);
@@ -155,6 +158,18 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }
         this.addEquipmentCollision(this.scene, layers);
     }
+
+    addAbilities(){
+        for(let i = 0 ; i < this.abilities.length; i ++){
+            if(this.experience >= this.abilities[i].playerExp ){
+                this.abilities[i].active = true;
+            }else
+                this.abilities[i].active = false;
+        }
+        console.log(this.abilities);
+    }
+
+
 
     addGold(amount){
         this.inventory[0].quantity += amount;
