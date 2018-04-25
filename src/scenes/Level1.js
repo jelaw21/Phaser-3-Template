@@ -43,9 +43,6 @@ export default class Level1 extends Phaser.Scene {
         this.player.init();
         this.player.initialEquipment(this.blockedObjects);
 
-
-
-
         //PART OF MAP PLAYER WALKS BEHIND
         var layer = this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
         layer.setDepth(1);
@@ -106,6 +103,21 @@ export default class Level1 extends Phaser.Scene {
             this.add.existing(message);
             message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
         }
+        if(this.player.getGold() === 7){
+            /*this.player.addToInventory(getItem('leather_armor'));
+            this.player.addToInventory(getItem('common_shoes'));
+            this.player.addToInventory(getItem('leather_bracers'));
+            this.player.addToInventory(getItem('leather_shoulders'));*/
+            //var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui');
+            //this.add.existing(message);
+            //message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
+            this.cameras.main.shake(500);
+            this.time.delayedCall(500, this.startBattle, [], this);
+        }
+    }
+    startBattle(){
+        this.scene.launch('battle');
+        this.scene.pause(this);
     }
     hitSign() {
         //bump
@@ -113,7 +125,7 @@ export default class Level1 extends Phaser.Scene {
     }
 
     hitGate(player, gate){
-        if(this.player.getGold() >= 0){
+        if(this.player.getGold() >= 8){
             gate.destroy();
             this.cameras.main.fade(3000);
             this.scene.start('townMap', {inventory: this.player.inventory});

@@ -265,6 +265,11 @@ export default class MainMenu extends Phaser.Scene {
             frames: [{key: 'CommonC', frame: 18}],
             frameRate: 10
         });
+        this.anims.create({
+            key:'deadMale',
+            frames: this.anims.generateFrameNumbers('deadMale'),
+            frameRate: 5
+        });
         //this.resize();
 
     }

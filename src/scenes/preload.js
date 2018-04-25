@@ -34,6 +34,7 @@ export default class Preload extends Phaser.Scene{
         this.load.spritesheet('playerW', 'assets/images/BODY_WEST.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('playerN', 'assets/images/BODY_NORTH.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('playerS', 'assets/images/BODY_SOUTH.png', {frameWidth: 64, frameHeight:64});
+        this.load.spritesheet('deadMale', 'assets/images/BODY_male.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('LeatherB', 'assets/images/TORSO_leather_armor_torso.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('LeatherD', 'assets/images/TORSO_leather_armor_bracers.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('LeatherA', 'assets/images/TORSO_leather_armor_shirt_white.png', {frameWidth: 64, frameHeight: 64});
@@ -64,6 +65,7 @@ export default class Preload extends Phaser.Scene{
         this.load.image('shoesIcon', 'assets/images/shoesIcon.png');
         this.load.image('arianna', 'assets/images/womanCharacter.png');
         this.load.image('lukas', 'assets/images/maleCharacter.png');
+        this.load.image('attackCircle','assets/images/attackCircle.png');
 
 
     }
@@ -83,7 +85,7 @@ export default class Preload extends Phaser.Scene{
     callMenu(){
         this.player = new Player(this, 0, 0, ' ', 0);
         //this.scene.start('dialog', {player: this.player, content: getConversation('prologue')});
-        this.scene.start('battle');
+        this.scene.start('prologue');
     };
 
 }
