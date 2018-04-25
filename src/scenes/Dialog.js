@@ -9,9 +9,8 @@ export default class Dialog extends Phaser.Scene {
 
     init(data) {
         this.player = data.player;
-        this.lastScene = this.scene.get(data.player.scene);
+        this.lastScene = data.scene;
         this.content = data.content;
-        console.log("RUNNING CONVERSATION");
     }
 
     create(){
@@ -78,7 +77,6 @@ export default class Dialog extends Phaser.Scene {
             this.nameText.setText(this.content[this.index].character.toUpperCase());
             this.speechText.setText('\"'+ this.content[this.index].dialog + '\"');
             this.index++;
-
         }
     }
     /*updateLine(){

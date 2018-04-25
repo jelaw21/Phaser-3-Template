@@ -84,8 +84,8 @@ export default class Preload extends Phaser.Scene{
 
     callMenu(){
         this.player = new Player(this, 0, 0, ' ', 0);
-        //this.scene.start('dialog', {player: this.player, content: getConversation('prologue')});
-        this.scene.start('prologue');
+        this.scene.start('dialog', {player: this.player, content: getConversation('prologue'), scene: this});
+        //this.scene.start('MainMenu');
     };
 
 }

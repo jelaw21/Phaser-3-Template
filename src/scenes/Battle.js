@@ -72,7 +72,6 @@ export default class Battle extends Phaser.Scene {
     }
 
     setupAttack(pointer, gameobject){
-        console.log(gameobject);
         this.combo3 = this.tweens.add({
             targets: this.circle,
             scaleX: 0,
@@ -134,7 +133,6 @@ export default class Battle extends Phaser.Scene {
             this.status.setText("YOU DEFEATED HIM!!!!");
             this.enemy.anims.play('deadMale', true);
             this.time.delayedCall(2000, this.endBattle, [], this);
-
         }
     }
 

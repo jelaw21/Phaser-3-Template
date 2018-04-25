@@ -48,7 +48,8 @@ let acts = {
         character: ' ',
         dialog: 'When the darkness was defeated, the magi hid the stone away. As he sealed the tomb, a prophecy was given to him.',
         position: 'left'
-    }],
+    }
+    ],
     'act1scene1':[{
         character: 'lukas',
         dialog: 'Dude, you ok?',

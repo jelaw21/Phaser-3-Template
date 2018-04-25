@@ -80,7 +80,7 @@ export default class Level1 extends Phaser.Scene {
         //this.coins.drawDebug(graphicsMap);
         //this.player.body.drawDebug(graphicsMap);
 
-        this.scene.launch('dialog', {player: this.player, content: getConversation('act1scene1')});
+        this.scene.launch('dialog', {player: this.player, content: getConversation('act1scene1'), scene:this});
         this.scene.pause(this);
 
        }
