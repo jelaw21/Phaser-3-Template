@@ -3,7 +3,7 @@ import Enemy from '../objects/enemy'
 import getEnemy from '../objects/Enemies'
 export default class Battle extends Phaser.Scene {
 
-    constructor(config) {
+    constructor() {
         super({key: 'battle'});
 
     }
@@ -14,6 +14,7 @@ export default class Battle extends Phaser.Scene {
 
         this.player = data.player;
         this.goons = data.goons;
+        this.lastLevel = data.player.scene;
         this.player = new Player(this, 0, 0, ' ', 0);
         this.player.addAbilities();
         this.abilities = this.player.abilities;
@@ -255,36 +256,40 @@ export default class Battle extends Phaser.Scene {
             }
         }
         //RECONCILE ENEMY'S HEALTH
-        if(this.playerDamage > 0){
-            let enemy = this.enemyGroup[this.currentEnemy.getData('ID')];
-            enemy.setHealth(enemy.getHealth() - this.playerDamage);
-            this.enemiesHealth[this.currentEnemy.getData('ID')].setText(enemy.health);
-            if(enemy.health <= 0 && this.currentEnemy.getData('alive')){
-                this.currentEnemy.anims.play('deadGoblin', true);
-                this.currentEnemy.setData('alive', false);
-                this.enemiesHealth[this.currentEnemy.getData('ID')].setText('DEAD');
-                this.status.setText(' ');
-                this.deathCount++;
-                if(this.currentEnemy.getData('ID')+1 >= this.enemies.length){
-                    this.currentEnemy = this.enemies[0]
-                }else{
-                    this.currentEnemy = this.enemies[this.currentEnemy.getData('ID')+1];
-                    Phaser.Display.Align.To.TopCenter(this.status, this.currentEnemy);
-                    Phaser.Display.Align.In.Center(this.circle, this.currentEnemy);
-                    Phaser.Display.Align.In.Center(this.circleTarget, this.currentEnemy);
-                }
-            }
-        }
-        if (this.deathCount === this.enemyGroup.length) {
+
+        /*if (this.deathCount === this.enemyGroup.length) {
             this.circleTarget.setVisible(false);
             this.circle.setVisible(false);
             this.time.delayedCall(1500, this.endBattle, [], this);
-        }
+        }*/
         this.input.keyboard.off('keydown_A');
     }
 
     //ENEMIES ATTACK
     waitAFew(tween,target,button,scene){
+        if(scene.playerDamage > 0){
+            let enemy = scene.enemyGroup[scene.currentEnemy.getData('ID')];
+            enemy.setHealth(enemy.getHealth() - scene.playerDamage);
+            scene.enemiesHealth[scene.currentEnemy.getData('ID')].setText(enemy.health);
+            if(enemy.health <= 0 && scene.currentEnemy.getData('alive')){
+                scene.currentEnemy.anims.play('deadGoblin', true);
+                scene.currentEnemy.setData('alive', false);
+                scene.enemiesHealth[scene.currentEnemy.getData('ID')].setText('DEAD');
+                scene.status.setText(' ');
+                scene.deathCount++;
+                if(scene.currentEnemy.getData('ID')+1 >= scene.enemies.length){
+                    scene.currentEnemy = scene.enemies[0];
+                    Phaser.Display.Align.To.TopCenter(scene.status, scene.currentEnemy);
+                    Phaser.Display.Align.In.Center(scene.circle, scene.currentEnemy);
+                    Phaser.Display.Align.In.Center(scene.circleTarget, scene.currentEnemy);
+                }else{
+                    scene.currentEnemy = scene.enemies[scene.currentEnemy.getData('ID')+1];
+                    Phaser.Display.Align.To.TopCenter(scene.status, scene.currentEnemy);
+                    Phaser.Display.Align.In.Center(scene.circle, scene.currentEnemy);
+                    Phaser.Display.Align.In.Center(scene.circleTarget, scene.currentEnemy);
+                }
+            }
+        }
         if(scene.deathCount === scene.enemyGroup.length){
             scene.circleTarget.setVisible(false);
             scene.circle.setVisible(false);
@@ -313,6 +318,10 @@ export default class Battle extends Phaser.Scene {
                 //RECONCILE PLAYER HEALTH
                 this.player.takeDamage(damage);
                 this.playerHealth.setText(this.player.health);
+                if(this.player.health < 0){
+                    this.scene.start('gameOver');
+                    this.scene.stop('battle');
+                }
             }else{
                 this.status.setText(curEnemy.name + " used " + ability.name + " and missed." );
                 Phaser.Display.Align.To.TopCenter(this.status, this.enemies[this.enemyCount]);
@@ -322,6 +331,7 @@ export default class Battle extends Phaser.Scene {
         this.enemyCount++;
 
         if(this.enemyCount < this.enemyGroup.length){
+
             this.time.delayedCall(1000, this.enemiesTurn, [], this);
         }else{
             this.activate(this);
@@ -351,7 +361,7 @@ export default class Battle extends Phaser.Scene {
 
     endBattle(){
         this.scene.stop('battle');
-        this.scene.resume('level1');
+        this.scene.start('battleWin', {scene: this.lastLevel, goons: this.enemyGroup});
     }
 
 

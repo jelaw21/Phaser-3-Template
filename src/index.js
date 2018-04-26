@@ -6,6 +6,8 @@ import townMap from './scenes/Town'
 import inventory from './scenes/Inventory'
 import dialog from './scenes/Dialog'
 import battle from './scenes/Battle'
+import gameOver from './scenes/GameOver'
+import battleWin from './scenes/BattleWin'
 
 const config = {
     width: 800,
@@ -18,7 +20,7 @@ const config = {
         }
     },
     scene: [
-        Preload, level1, MainMenu, townMap, inventory, dialog, battle
+        Preload, level1, MainMenu, townMap, inventory, dialog, battle, gameOver, battleWin
     ]
 };
 
