@@ -103,7 +103,7 @@ export default class Level1 extends Phaser.Scene {
             this.add.existing(message);
             message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
         }
-        if(this.player.getGold() === 7){
+        if(this.player.getGold() === 2 || this.player.getGold() === 7){
             /*this.player.addToInventory(getItem('leather_armor'));
             this.player.addToInventory(getItem('common_shoes'));
             this.player.addToInventory(getItem('leather_bracers'));
@@ -111,7 +111,7 @@ export default class Level1 extends Phaser.Scene {
             //var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui');
             //this.add.existing(message);
             //message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
-            this.cameras.main.shake(500);
+            this.cameras.main.shake(250);
             this.time.delayedCall(500, this.startBattle, [], this);
         }
     }

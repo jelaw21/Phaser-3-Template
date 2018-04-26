@@ -266,8 +266,14 @@ export default class MainMenu extends Phaser.Scene {
             frameRate: 10
         });
         this.anims.create({
-            key:'deadMale',
-            frames: this.anims.generateFrameNumbers('deadMale'),
+            key:'goblinAttack',
+            frames: this.anims.generateFrameNumbers('goblin', {start: 0, end: 6}),
+            frameRate: 5,
+            repeat: -1
+        });
+        this.anims.create({
+            key:'deadGoblin',
+            frames: this.anims.generateFrameNumbers('goblin', {start: 44, end: 48}),
             frameRate: 5
         });
         //this.resize();

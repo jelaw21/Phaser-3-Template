@@ -35,6 +35,7 @@ export default class Preload extends Phaser.Scene{
         this.load.spritesheet('playerN', 'assets/images/BODY_NORTH.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('playerS', 'assets/images/BODY_SOUTH.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('deadMale', 'assets/images/BODY_male.png', {frameWidth: 64, frameHeight:64});
+        this.load.spritesheet('goblin', 'assets/images/goblin.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('LeatherB', 'assets/images/TORSO_leather_armor_torso.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('LeatherD', 'assets/images/TORSO_leather_armor_bracers.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('LeatherA', 'assets/images/TORSO_leather_armor_shirt_white.png', {frameWidth: 64, frameHeight: 64});
