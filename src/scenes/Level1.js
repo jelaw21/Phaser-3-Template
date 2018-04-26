@@ -103,20 +103,19 @@ export default class Level1 extends Phaser.Scene {
             this.add.existing(message);
             message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
         }
-        if(this.player.getGold() === 2 || this.player.getGold() === 7){
-            /*this.player.addToInventory(getItem('leather_armor'));
-            this.player.addToInventory(getItem('common_shoes'));
-            this.player.addToInventory(getItem('leather_bracers'));
-            this.player.addToInventory(getItem('leather_shoulders'));*/
-            //var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui');
-            //this.add.existing(message);
-            //message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
+        if(this.player.getGold() === 2){
             this.cameras.main.shake(250);
-            this.time.delayedCall(500, this.startBattle, [], this);
+            let goons = ['goblin']
+            this.time.delayedCall(500, this.startBattle, [goons], this);
+        }
+        if(this.player.getGold() === 7){
+            this.cameras.main.shake(250);
+            let goons = ['goblin','goblin', 'goblin'];
+            this.time.delayedCall(500, this.startBattle, [goons], this);
         }
     }
-    startBattle(){
-        this.scene.launch('battle');
+    startBattle(goons){
+        this.scene.launch('battle', {player: this.player, goons: goons});
         this.scene.pause(this);
     }
     hitSign() {

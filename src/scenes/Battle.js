@@ -6,12 +6,15 @@ export default class Battle extends Phaser.Scene {
         super({key: 'battle'});
 
     }
-    update(){
+    init(data){
+
+        this.player = data.player;
+        this.goons = data.goons;
 
     }
 
     create(){
-        this.player = new Player(this, 0,0, ' ', 0);
+        //this.player = new Player(this, 0,0, ' ', 0);
         this.player.addAbilities();
         this.abilities = this.player.abilities;
 
@@ -23,7 +26,9 @@ export default class Battle extends Phaser.Scene {
         this.enemyX = 0;
         this.enemyY = 0;
 
-        this.enemyGroup.push(getEnemy('goblin'), getEnemy('goblin'), getEnemy('goblin'));
+        for(let i = 0; i < this.goons.length; i++){
+            this.enemyGroup.push(getEnemy(this.goons[i]));
+        }
 
         let graphics = this.add.graphics();
         graphics.fillStyle(0x708090, .7);
@@ -62,7 +67,6 @@ export default class Battle extends Phaser.Scene {
         let itemText = this.add.text(0 , 0, 'ITEM');
         let retreatText = this.add.text(0 , 0, 'RUN AWAY');*/
 
-        //TODO: IMPORT ENEMIES PER MAP
         for(let i = 0; i < this.enemyGroup.length; i++){
             if(i === 0 && this.enemyGroup.length === 2){
                 this.enemyX = -100;
@@ -145,7 +149,6 @@ export default class Battle extends Phaser.Scene {
     }
 
     setupAttack(pointer, gameobject){
-        console.log('SEtup Attack');
         gameobject.setTexture('buttonPressed');
         this.circleTarget.setVisible(true);
         this.circle.setVisible(true);
@@ -185,7 +188,6 @@ export default class Battle extends Phaser.Scene {
     }
 
     playAttack1(button){
-        console.log('playAttack1')
         this.input.keyboard.on('keydown_A', this.registerHit, this);
         this.clearText();
         //Phaser.Display.Align.To.TopCenter(this.status, this.enemies[0]);
@@ -199,13 +201,11 @@ export default class Battle extends Phaser.Scene {
     }
 
     playAttack(tween, targets, next, circle, scene){
-        console.log('playAttack');
         scene.scene.input.keyboard.on('keydown_A', scene.scene.registerHit, scene.scene);
         circle.setScale(6);
         next.restart();
     }
     activate(scene){
-        console.log("activate");
         this.buttonGroup.forEach(function(element){
             scene.sys.input.enable(element);
         });
@@ -214,15 +214,10 @@ export default class Battle extends Phaser.Scene {
         this.startRound();
     }
     waitAFew(tween,target,button,scene){
-        console.log("waitAFew");
-        console.log("Player Health: " + scene.player.health);
-        console.log("Enemy 1 Health: " + scene.enemyGroup[0].health);
-        console.log("Enemy 1 Health: " + scene.enemyGroup[1].health);
-        console.log("Enemy 1 Health: " + scene.enemyGroup[2].health);
         let deathCount = 0;
         for(let i = 0; i < scene.enemyGroup.length; i++){
             if((scene.enemyGroup[i].health) <= 0) {
-                scene.status.setText("YOU DEFEATED HIM!!!!");
+                scene.status.setText("YOU WON!!");
                 Phaser.Display.Align.To.TopCenter(scene.status, scene.currentEnemy);
                 scene.circleTarget.setVisible(false);
                 scene.circle.setVisible(false);
@@ -238,7 +233,6 @@ export default class Battle extends Phaser.Scene {
     }
 
     enemiesTurn(){
-        console.log("EnemiesTurn")
         for(let i = 0; i < this.enemyGroup.length; i++){
             let curEnemy = this.enemyGroup[i];
              let ability = curEnemy.abilities[Phaser.Math.Between(0,curEnemy.abilities.length-1)];

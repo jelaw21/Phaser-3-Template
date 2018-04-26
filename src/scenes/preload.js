@@ -67,6 +67,7 @@ export default class Preload extends Phaser.Scene{
         this.load.image('arianna', 'assets/images/womanCharacter.png');
         this.load.image('lukas', 'assets/images/maleCharacter.png');
         this.load.image('attackCircle','assets/images/attackCircle.png');
+        this.load.image('arrow','assets/images/arrowSilver.png');
 
 
     }

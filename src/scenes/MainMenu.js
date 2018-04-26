@@ -324,6 +324,6 @@ export default class MainMenu extends Phaser.Scene {
     }*/
 
     callLevel(){
-        this.scene.start('battle');
+        this.scene.start('level1');
     }
 }
