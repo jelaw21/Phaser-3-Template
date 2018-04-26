@@ -69,11 +69,6 @@ export default class Level1 extends Phaser.Scene {
         this.events.once('signMessage', this.signMessage, this);
         this.events.once('gateMessage', this.gateMessage, this);
 
-        /*for(let i = 0; i < this.player.equipment.length; i++){
-            this.physics.add.collider(this.player.equipment[i], this.blocked);
-            this.physics.add.collider(this.player.equipment[i], this.sign);
-            this.physics.add.collider(this.player.equipment[i], this.gate);
-        }*/
 
         //var graphicsMap = this.add.graphics();
         //this.map.renderDebug(graphicsMap);
@@ -94,7 +89,6 @@ export default class Level1 extends Phaser.Scene {
         coin.destroy();
         this.player.addGold(1);
         if(this.player.getGold() === 5){
-
             this.player.addToInventory(getItem('leather_armor'));
             this.player.addToInventory(getItem('common_shoes'));
             this.player.addToInventory(getItem('leather_bracers'));
@@ -105,7 +99,7 @@ export default class Level1 extends Phaser.Scene {
         }
         if(this.player.getGold() === 2){
             this.cameras.main.shake(250);
-            let goons = ['goblin']
+            let goons = ['goblin'];
             this.time.delayedCall(500, this.startBattle, [goons], this);
         }
         if(this.player.getGold() === 7){
@@ -119,7 +113,6 @@ export default class Level1 extends Phaser.Scene {
         this.scene.pause(this);
     }
     hitSign() {
-        //bump
         this.events.emit('signMessage');
     }
 
