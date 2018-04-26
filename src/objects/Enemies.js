@@ -13,6 +13,7 @@ let enemies = {
         'health': 50,
         'abilities': [getAbility('punch'), getAbility('kick')],
         'exp': 20,
-        'chance': 50
+        'chance': 50,
+        'gold': 10
     }
 };

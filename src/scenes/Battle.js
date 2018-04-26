@@ -14,7 +14,7 @@ export default class Battle extends Phaser.Scene {
 
         this.player = data.player;
         this.goons = data.goons;
-        this.lastLevel = data.player.scene;
+        this.lastLevel = this.scene.get('level1');
         this.player = new Player(this, 0, 0, ' ', 0);
         this.player.addAbilities();
         this.abilities = this.player.abilities;

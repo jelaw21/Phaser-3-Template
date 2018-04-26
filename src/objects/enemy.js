@@ -10,14 +10,17 @@ export default class Enemy {
         this.abilities = config.abilities;
         this.exp = config.exp;
         this.chance = config.chance;
+        this.gold = config.gold;
     }
+    getGold(){return this.gold;}
+
 
     getName() {
         return this.name;
     }
 
     setName(value) {
-        this._name = value;
+        this.name = value;
     }
 
     getImage() {
@@ -25,7 +28,7 @@ export default class Enemy {
     }
 
     setImage(value) {
-        this._image = value;
+        this.image = value;
     }
 
     getHealth() {
