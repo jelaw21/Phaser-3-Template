@@ -14,8 +14,9 @@ export default class Battle extends Phaser.Scene {
 
         this.player = data.player;
         this.goons = data.goons;
-        this.lastLevel = this.scene.get('level1');
-        this.player = new Player(this, 0, 0, ' ', 0);
+        this.lastLevel = data.player.scene;
+        //this.lastLevel = this.scene.get('level1');
+        //this.player = new Player(this, 0, 0, ' ', 0);
         this.player.addAbilities();
         this.abilities = this.player.abilities;
 
@@ -361,7 +362,7 @@ export default class Battle extends Phaser.Scene {
 
     endBattle(){
         this.scene.stop('battle');
-        this.scene.start('battleWin', {scene: this.lastLevel, goons: this.enemyGroup});
+        this.scene.launch('battleWin', {scene: this.lastLevel, goons: this.enemyGroup});
     }
 
 

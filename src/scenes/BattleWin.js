@@ -26,7 +26,9 @@ export default class BattleWin extends Phaser.Scene {
         //calculate Combat Exp
         //lookup new abilities
         //assign values to player
-        
+        let graphics = this.add.graphics();
+        graphics.fillStyle(0x2f4f4f, .7);
+        graphics.fillRect(this.sys.game.config.width*(2/5), 50, 300, 500);
 
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(1/5), "GOLD EARNED: ");
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(1/5)+20, gold);
@@ -34,6 +36,7 @@ export default class BattleWin extends Phaser.Scene {
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(2/5)+20, exp);
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5), "ABILITY EARNED: ");
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5)+20, "KICK");
+        this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(4/5), "click to continue...");
         //bump
         //this.dead = this.add.sprite(this.sys.game.config.width/2, this.sys.game.config.height*(2/5), 'deadMale');
         //this.dead.anims.play('deadMale', true);

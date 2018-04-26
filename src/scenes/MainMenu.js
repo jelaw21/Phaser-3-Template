@@ -58,6 +58,6 @@ export default class MainMenu extends Phaser.Scene {
     }*/
 
     callLevel(){
-        this.scene.start('battle', {goons: ['goblin', 'goblin']});
+        this.scene.start('level1');
     }
 }
