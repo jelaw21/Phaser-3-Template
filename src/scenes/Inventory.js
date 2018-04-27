@@ -7,7 +7,8 @@ export default class Inventory extends Phaser.Scene {
 
     init(data){
         this.player = data.player;
-        this.lastScene = this.scene.get(data.player.scene);
+        this.lastScene = this.scene.get(data.scene);
+        this.sprite = data.sprite;
     }
 
     create() {
@@ -44,9 +45,10 @@ export default class Inventory extends Phaser.Scene {
             if(this.player.inventory[i].name === invItem.name){
                 if(this.player.inventory[i].equipped === true){
                     this.player.inventory[i].equipped = false;
-                    this.player.buildEquipped(this.player, this.lastScene.blockedObjects);
+                    this.sprite.buildEquipped(this.sprite, this.lastScene.blockedObjects);
                 }else{
-                    this.player.equipItem(this.player.inventory[i], this.lastScene.blockedObjects);
+                    this.player.equipItem(this.player.inventory[i]);
+                    this.sprite.buildEquipped(this.sprite, this.lastScene.blockedObjects);
                     this.player.inventory[i].equipped = true;
                 }
                 }
@@ -55,7 +57,7 @@ export default class Inventory extends Phaser.Scene {
 
     closeInventory(){
         this.scene.stop('inventory');
-        this.scene.resume(this.player.scene);
+        this.scene.resume(this.lastScene);
     }
 
     //this.add.text(20,i*20,element.name + ":  " + element.quantity,{fontSize: '24px', fontFamily: 'UnifrakturCook', fill: '#ffffff'})

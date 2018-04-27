@@ -1,4 +1,4 @@
-import Player from '../objects/player'
+import Player from '../objects/playerSprite'
 import Enemy from '../objects/enemy'
 import getEnemy from '../objects/Enemies'
 export default class Battle extends Phaser.Scene {
@@ -14,10 +14,12 @@ export default class Battle extends Phaser.Scene {
 
         this.player = data.player;
         this.goons = data.goons;
-        this.lastLevel = data.player.scene;
-        //this.lastLevel = this.scene.get('level1');
+        //this.lastLevel = data.player.scene;
+        this.lastLevel = this.scene.get('level1');
         //this.player = new Player(this, 0, 0, ' ', 0);
+        console.log(this.player);
         this.player.addAbilities();
+        console.log(this.player.abilities);
         this.abilities = this.player.abilities;
 
         this.buttonGroup = [];
@@ -319,9 +321,10 @@ export default class Battle extends Phaser.Scene {
                 //RECONCILE PLAYER HEALTH
                 this.player.takeDamage(damage);
                 this.playerHealth.setText(this.player.health);
-                if(this.player.health < 0){
+                if(this.player.health <= 0){
                     this.scene.start('gameOver');
                     this.scene.stop('battle');
+                    this.scene.stop(this.lastLevel);
                 }
             }else{
                 this.status.setText(curEnemy.name + " used " + ability.name + " and missed." );

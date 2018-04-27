@@ -1,4 +1,4 @@
-import Player from "../objects/player";
+import Player from "../objects/playerSprite";
 import getConversation from "../objects/Conversations";
 
 export default class Preload extends Phaser.Scene{

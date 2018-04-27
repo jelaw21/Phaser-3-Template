@@ -1,4 +1,5 @@
 import MessagePopUp from '../objects/MessagePopUp'
+import PlayerSprite from '../objects/playerSprite'
 import Player from '../objects/player'
 import getItem from '../objects/Items.js'
 import getConversation from '../objects/Conversations.js'
@@ -13,6 +14,7 @@ export default class Level1 extends Phaser.Scene {
     create(){
 
         //CREATE THE MAP
+        this.playerData = new Player();
         this.map = this.make.tilemap({key: 'forest'});
         this.tiles = this.map.addTilesetImage('backgroundTiles1', 'backgroundTiles1');
         this.tiles2 = this.map.addTilesetImage('backgroundTiles2', 'backgroundTiles2');
@@ -38,9 +40,9 @@ export default class Level1 extends Phaser.Scene {
 
         //HAD TO CREATE THE PLAYER TO PUT FOREGROUND ON TOP
         //this.player = this.physics.add.sprite(450, 600, 'playerE');
-        this.player = new Player(this, 450, 600, 'playerE', 0);
+        this.player = new PlayerSprite(this, 450, 600, 'playerE', 0);
         this.add.existing(this.player);
-        this.player.init();
+        this.player.init(this.playerData);
         this.player.initialEquipment(this.blockedObjects);
 
         //PART OF MAP PLAYER WALKS BEHIND
@@ -87,29 +89,31 @@ export default class Level1 extends Phaser.Scene {
 
     collectCoins(player, coin){
         coin.destroy();
-        this.player.addGold(1);
-        if(this.player.getGold() === 5){
-            this.player.addToInventory(getItem('leather_armor'));
-            this.player.addToInventory(getItem('common_shoes'));
-            this.player.addToInventory(getItem('leather_bracers'));
-            this.player.addToInventory(getItem('leather_shoulders'));
+        this.playerData.addGold(1);
+        if(this.playerData.getGold() === 5){
+            this.playerData.addToInventory(getItem('leather_armor'));
+            this.playerData.addToInventory(getItem('common_shoes'));
+            this.playerData.addToInventory(getItem('leather_bracers'));
+            this.playerData.addToInventory(getItem('leather_shoulders'));
             var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui');
             this.add.existing(message);
             message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
         }
-        if(this.player.getGold() === 2){
+        if(this.playerData.getGold() === 1){
             this.cameras.main.shake(250);
             let goons = ['goblin'];
             this.time.delayedCall(500, this.startBattle, [goons], this);
+            //bump
+
         }
-        if(this.player.getGold() === 6){
+        if(this.playerData.getGold() === 6){
             this.cameras.main.shake(250);
             let goons = ['goblin','goblin', 'goblin'];
             this.time.delayedCall(500, this.startBattle, [goons], this);
         }
     }
     startBattle(goons){
-        this.scene.launch('battle', {player: this.player, goons: goons});
+        this.scene.launch('battle', {player: this.playerData, goons: goons});
         this.scene.pause(this);
     }
     hitSign() {
@@ -117,10 +121,10 @@ export default class Level1 extends Phaser.Scene {
     }
 
     hitGate(player, gate){
-        if(this.player.getGold() >= 8){
+        if(this.playerData.getGold() >= 1){
             gate.destroy();
             this.cameras.main.fade(3000);
-            this.scene.start('townMap', {inventory: this.player.inventory});
+            this.scene.start('townMap', {player: this.playerData});
         }else{
             this.events.emit('gateMessage');
         }

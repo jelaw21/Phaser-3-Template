@@ -1,4 +1,4 @@
-import Player from '../objects/player'
+import Player from '../objects/playerSprite'
 export default class Town extends Phaser.Scene {
 
     constructor(config) {
@@ -7,8 +7,10 @@ export default class Town extends Phaser.Scene {
     }
 
     init(data){
-        this.player = new Player(this, 625, 600, 'playerE', 0);
-        this.player.inventory = data.inventory;
+        //this.player = new Player(this, 625, 600, 'playerE', 0);
+        this.player = data.player;
+        //this.player.inventory = data.inventory;
+        console.log(data.player);
     }
 
     create(){
