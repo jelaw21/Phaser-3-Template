@@ -11,6 +11,7 @@ export default class Dialog extends Phaser.Scene {
         this.player = data.player;
         this.lastScene = data.scene;
         this.content = data.content;
+        //this.scene.pause(this.lastScene);
     }
 
     create(){
@@ -56,10 +57,11 @@ export default class Dialog extends Phaser.Scene {
                 this.scene.start('MainMenu');
             }else{
                 this.scene.stop('dialog');
-                this.scene.resume(this.player.scene);
+                this.scene.resume(this.lastScene);
             }
 
         }else{
+            this.scene.pause(this.lastScene);
             this.charImage.setTexture(this.content[this.index].character);
             if(this.content[this.index].position === 'left'){
                 posX = -50;

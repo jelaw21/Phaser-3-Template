@@ -7,7 +7,6 @@ export default class Battle extends Phaser.Scene {
         super({key: 'battle'});
 
     }
-
     //INITIALIZE BATTLE
 
     init(data){
@@ -17,9 +16,7 @@ export default class Battle extends Phaser.Scene {
         //this.lastLevel = data.player.scene;
         this.lastLevel = this.scene.get('level1');
         //this.player = new Player(this, 0, 0, ' ', 0);
-        console.log(this.player);
-        this.player.addAbilities();
-        console.log(this.player.abilities);
+        this.player.equipAbilities();
         this.abilities = this.player.abilities;
 
         this.buttonGroup = [];
@@ -140,10 +137,6 @@ export default class Battle extends Phaser.Scene {
         this.startRound();
     }
 
-    //START ROUND
-    //PLAYER CHOOSES ENEMY
-    //PLAYER CHOOSES ATTACK
-
     startRound(){
         this.playerDamage = 0;
         this.hitCount = 0;
@@ -258,13 +251,7 @@ export default class Battle extends Phaser.Scene {
                 this.time.delayedCall(250, this.bonusHit, [], this);
             }
         }
-        //RECONCILE ENEMY'S HEALTH
 
-        /*if (this.deathCount === this.enemyGroup.length) {
-            this.circleTarget.setVisible(false);
-            this.circle.setVisible(false);
-            this.time.delayedCall(1500, this.endBattle, [], this);
-        }*/
         this.input.keyboard.off('keydown_A');
     }
 
@@ -277,7 +264,6 @@ export default class Battle extends Phaser.Scene {
             if(enemy.health <= 0 && scene.currentEnemy.getData('alive')){
                 scene.currentEnemy.anims.play('deadGoblin', true);
                 scene.currentEnemy.setData('alive', false);
-                scene.enemiesHealth[scene.currentEnemy.getData('ID')].setText('DEAD');
                 scene.status.setText(' ');
                 scene.deathCount++;
                 if(scene.currentEnemy.getData('ID')+1 >= scene.enemies.length){
@@ -330,18 +316,20 @@ export default class Battle extends Phaser.Scene {
                 this.status.setText(curEnemy.name + " used " + ability.name + " and missed." );
                 Phaser.Display.Align.To.TopCenter(this.status, this.enemies[this.enemyCount]);
             }
-        }
 
-        this.enemyCount++;
+            this.enemyCount++;
 
-        if(this.enemyCount < this.enemyGroup.length){
+            if(this.enemyCount < this.enemyGroup.length){
+                this.time.delayedCall(1000, this.enemiesTurn, [], this);
+            }else{
+                this.activate(this);
+            }
 
-            this.time.delayedCall(1000, this.enemiesTurn, [], this);
         }else{
-            this.activate(this);
+            this.enemyCount++;
+            this.enemiesTurn()
         }
     }
-
     //END BATTLE
     activate(scene) {
         this.buttonGroup.forEach(function (element) {
@@ -365,7 +353,7 @@ export default class Battle extends Phaser.Scene {
 
     endBattle(){
         this.scene.stop('battle');
-        this.scene.launch('battleWin', {scene: this.lastLevel, goons: this.enemyGroup});
+        this.scene.launch('battleWin', {scene: this.lastLevel, goons: this.enemyGroup, player: this.player});
     }
 
 

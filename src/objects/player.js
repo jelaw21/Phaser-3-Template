@@ -1,4 +1,4 @@
-import getAbility from "./Abilities";
+import {getAbility, searchAbilities}  from "./Abilities";
 import getItem from "./Items";
 
 export default class Player {
@@ -8,11 +8,10 @@ export default class Player {
         this.name = 'Erick';
         this.maxHealth = 200;
         this.health = this.maxHealth;
-        this.abilities = [getAbility('punch'), getAbility('kick')];
+        this.abilities = [getAbility('punch')];
         this.exp = 0;
         this.inventory = [getItem('gold')];
         this.equipment = [];
-        this.abilities = [getAbility('punch'), getAbility('kick')];
     }
 
     addGold(amount){
@@ -31,9 +30,30 @@ export default class Player {
         this.health += amount;
     }
 
+    addExp(amount){
+        this.exp += amount;
+    }
+
     addAbilities(){
+        let abilities = searchAbilities();
+        for(let i = 0; i < abilities.length; i++){
+            let addIt = true;
+            if(this.exp > getAbility(abilities[i]).exp){
+                for(let j = 0; j < this.abilities.length; j++){
+                    if(this.abilities[j].name === getAbility(abilities[i]).name){
+                        addIt = false;
+                    }
+                }
+            }
+            if(addIt){
+                this.abilities.push(getAbility(abilities[i]));
+            }
+        }
+    }
+    //TODO: IS THIS NEEDED???
+    equipAbilities(){
         for(let i = 0 ; i < this.abilities.length; i ++){
-            if(this.exp >= this.abilities[i].playerExp ){
+            if(this.exp >= this.abilities[i].exp ){
                 this.abilities[i].active = true;
             }else
                 this.abilities[i].active = false;

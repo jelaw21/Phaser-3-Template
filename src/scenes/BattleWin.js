@@ -8,24 +8,29 @@ export default class BattleWin extends Phaser.Scene {
     init(data){
         this.lastScene = data.scene;
         this.enemies = data.goons;
+        this.player = data.player;
     }
 
     create(){
         let gold = 0;
         let exp = 0;
+        let numAbilities = this.player.abilities.length;
+        console.log(this.player.abilities);
 
-        //calculate Player Gold
         this.enemies.forEach(function(element){
-            console.log(element.getGold());
             gold = gold + element.getGold();
         });
-        //calculate Player Exp
+
         this.enemies.forEach(function(element){
             exp = exp + element.getExp();
         });
-        //calculate Combat Exp
-        //lookup new abilities
-        //assign values to player
+
+        this.player.addGold(gold);
+        this.player.addExp(exp);
+        this.player.addAbilities();
+        console.log(this.player.abilities);
+        let newAbilities = this.player.abilities.length;
+
         let graphics = this.add.graphics();
         graphics.fillStyle(0x2f4f4f, .7);
         graphics.fillRect(this.sys.game.config.width*(2/5), 50, 300, 500);
@@ -34,8 +39,10 @@ export default class BattleWin extends Phaser.Scene {
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(1/5)+20, gold);
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(2/5), "EXP: EARNED: ");
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(2/5)+20, exp);
-        this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5), "ABILITY EARNED: ");
-        this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5)+20, "KICK");
+        if(newAbilities > numAbilities){
+            this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5), "ABILITY EARNED: ");
+            this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5)+20, this.player.abilities[newAbilities -1].name);
+        }
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(4/5), "click to continue...");
         //bump
         //this.dead = this.add.sprite(this.sys.game.config.width/2, this.sys.game.config.height*(2/5), 'deadMale');

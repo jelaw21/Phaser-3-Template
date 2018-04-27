@@ -78,13 +78,13 @@ export default class Level1 extends Phaser.Scene {
         //this.player.body.drawDebug(graphicsMap);
 
         this.scene.launch('dialog', {player: this.player, content: getConversation('act1scene1'), scene:this});
-        this.scene.pause(this);
+        //ithis.scene.pause(this);
 
        }
 
     update(){
 
-        this.player.move(this.cursors);
+        this.player.move();
     }
 
     collectCoins(player, coin){
@@ -102,14 +102,14 @@ export default class Level1 extends Phaser.Scene {
         if(this.playerData.getGold() === 1){
             this.cameras.main.shake(250);
             let goons = ['goblin'];
-            this.time.delayedCall(500, this.startBattle, [goons], this);
+            this.time.delayedCall(250, this.startBattle, [goons], this);
             //bump
 
         }
         if(this.playerData.getGold() === 6){
             this.cameras.main.shake(250);
             let goons = ['goblin','goblin', 'goblin'];
-            this.time.delayedCall(500, this.startBattle, [goons], this);
+            this.time.delayedCall(250, this.startBattle, [goons], this);
         }
     }
     startBattle(goons){
