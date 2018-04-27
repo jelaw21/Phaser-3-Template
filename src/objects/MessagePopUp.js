@@ -21,12 +21,13 @@ export default class MessagePopUp extends Phaser.GameObjects.Sprite{
                 }
             }
         }
-        this.textBox = this.scene.make.text(config);
-        this.exitBackground = this.scene.add.sprite(this.x, this.y, 'exitBackground').setScale(.8);
+        this.setDepth(2);
+        this.textBox = this.scene.make.text(config).setDepth(2);
+        this.exitBackground = this.scene.add.sprite(this.x, this.y, 'exitBackground').setScale(.8).setDepth(2);
 
         Phaser.Display.Align.In.Center(this.textBox, this.messageBox);
         Phaser.Display.Align.In.TopRight(this.exitBackground, this.messageBox);
-        this.closeButton = this.scene.add.sprite(this.exitBackground.x, this.exitBackground.y, 'exitButton').setInteractive();
+        this.closeButton = this.scene.add.sprite(this.exitBackground.x, this.exitBackground.y, 'exitButton').setInteractive().setDepth(2);
         Phaser.Display.Align.In.Center(this.closeButton, this.exitBackground);
 
         this.closeButton.on('pointerdown', this.closeMessageBox, this);

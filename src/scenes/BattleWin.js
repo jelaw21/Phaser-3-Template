@@ -15,7 +15,6 @@ export default class BattleWin extends Phaser.Scene {
         let gold = 0;
         let exp = 0;
         let numAbilities = this.player.abilities.length;
-        console.log(this.player.abilities);
 
         this.enemies.forEach(function(element){
             gold = gold + element.getGold();
@@ -28,7 +27,6 @@ export default class BattleWin extends Phaser.Scene {
         this.player.addGold(gold);
         this.player.addExp(exp);
         this.player.addAbilities();
-        console.log(this.player.abilities);
         let newAbilities = this.player.abilities.length;
 
         let graphics = this.add.graphics();

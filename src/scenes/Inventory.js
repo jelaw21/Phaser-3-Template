@@ -40,7 +40,6 @@ export default class Inventory extends Phaser.Scene {
     }
 
     equipItem(pointer, invItem){
-
         for(let i = 0; i < this.player.inventory.length; i++){
             if(this.player.inventory[i].name === invItem.name){
                 if(this.player.inventory[i].equipped === true){
@@ -59,6 +58,4 @@ export default class Inventory extends Phaser.Scene {
         this.scene.stop('inventory');
         this.scene.resume(this.lastScene);
     }
-
-    //this.add.text(20,i*20,element.name + ":  " + element.quantity,{fontSize: '24px', fontFamily: 'UnifrakturCook', fill: '#ffffff'})
 }

@@ -1,4 +1,4 @@
-import Player from '../objects/playerSprite'
+import Player from '../objects/player'
 import Enemy from '../objects/enemy'
 import getEnemy from '../objects/Enemies'
 export default class Battle extends Phaser.Scene {
@@ -264,6 +264,7 @@ export default class Battle extends Phaser.Scene {
             if(enemy.health <= 0 && scene.currentEnemy.getData('alive')){
                 scene.currentEnemy.anims.play('deadGoblin', true);
                 scene.currentEnemy.setData('alive', false);
+                scene.enemiesHealth[scene.currentEnemy.getData('ID')].setVisible(false);
                 scene.status.setText(' ');
                 scene.deathCount++;
                 if(scene.currentEnemy.getData('ID')+1 >= scene.enemies.length){
@@ -302,11 +303,15 @@ export default class Battle extends Phaser.Scene {
                 }
             }
             if(damage > 0){
-                this.status.setText(curEnemy.name + " used " + ability.name + " and did " + damage + " pts of damage." );
+                let adjustedDamage = (this.adjustDamage(damage));
+                //bump
+                //let adjustedDamage = Math.round(damage*(1 - (this.player.getArmor()/100)));
+                this.status.setText(curEnemy.name + " used " + ability.name + " and did " + adjustedDamage + " pts of damage." );
                 Phaser.Display.Align.To.TopCenter(this.status, this.enemies[this.enemyCount]);
+
                 //RECONCILE PLAYER HEALTH
-                this.player.takeDamage(damage);
-                this.playerHealth.setText(this.player.health);
+                this.player.takeDamage(adjustedDamage);
+                this.playerHealth.setText(this.player.getHealth());
                 if(this.player.health <= 0){
                     this.scene.start('gameOver');
                     this.scene.stop('battle');
@@ -329,6 +334,23 @@ export default class Battle extends Phaser.Scene {
             this.enemyCount++;
             this.enemiesTurn()
         }
+    }
+
+    adjustDamage(damage){
+
+        let equipment = this.player.equipment;
+        console.log(this.player.equipment);
+        let adjustedDamage = 0;
+
+        for(let i = 0; i < equipment.length; i++){
+            console.log("ENEMIES RAW DAMAGE: " + damage);
+            console.log(equipment[i].name + "'s REDUCTION: " + ((equipment[i].effect/100)));
+            adjustedDamage += (Math.min((damage*((equipment[i].effect/100))), equipment[i].maxEffect));
+            console.log("ADJUSTED DAMAGE: " + adjustedDamage);
+        }
+        adjustedDamage = Math.round(damage - adjustedDamage);
+
+        return adjustedDamage;
     }
     //END BATTLE
     activate(scene) {

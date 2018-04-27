@@ -14,7 +14,8 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
     init(player){
         //TODO: MAKE THESE GETTER/SETTER METHODS
         this.inventory = player.inventory;
-        this.equipment = player.equipment;
+        //this.equipment = player.equipment;
+        this.equipment = [];
         this.abilities = player.abilities;
         this.playerData = player;
 
@@ -54,7 +55,7 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
             }
         }else if((this.keyW.isDown || this.keyS.isDown) && this.keyD.isDown){
             this.anims.play('right', true);
-            this.playRightAnims()
+            this.playRightAnims();
             if(this.keyW.isDown){
                 velX = 100;
                 velY = -100;
@@ -101,18 +102,6 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
             element.body.setVelocity(x, y);
         })
     }
-    /*addToInventory(itemToAdd){
-
-        for(let i = 0; i < this.inventory.length; i++){
-            if(this.inventory[i].name === itemToAdd.name){
-                this.inventory[i].quantity++;
-            }else
-                this.inventory.push(itemToAdd);
-                break;
-        }
-    }*/
-
-
 
     addEquipmentCollision(scene, layers){
         for(let i = 0; i < this.equipment.length; i++){
@@ -122,28 +111,21 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
 
         }
     }
-    //bump
 
     buildEquipped(player, layers){
-        //bump
+        this.playerData.buildEquipment();
         for(let m = 0; m < this.equipment.length; m++){
            this.equipment[m].destroy();
         }
         this.equipment = [player.scene.physics.add.sprite(player.x, player.y, 'CommonB', 18)];
-        //this.equipment = [];
 
-        for(let i = 0; i < this.inventory.length; i++){
-            if(this.inventory[i].equipped === true){
-                if(this.inventory[i].type === 'ARMOR'){
-                    for(let j = 0; j < this.inventory[i].image.length; j++){
-                        this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.inventory[i].image[j], 18));
-                    }
-                }else if(this.inventory[i].type === 'WEAPON'){
-                    this.abilities.push(this.inventory[i].abilities)
+        for(let i = 0; i < this.playerData.equipment.length; i++){
+            if(this.playerData.equipment[i].type === 'ARMOR') {
+                for (let j = 0; j < this.playerData.equipment[i].image.length; j++) {
+                    this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.playerData.equipment[i].image[j], 18));
                 }
             }
         }
-
         for(let i = 0; i < this.equipment.length; i++){
             this.equipment[i].body.setSize(16,16);
             this.equipment[i].body.setOffset(24, 47);
@@ -151,16 +133,6 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
         }
         this.addEquipmentCollision(this.scene, layers);
     }
-
-    /*addAbilities(){
-        for(let i = 0 ; i < this.abilities.length; i ++){
-            if(this.experience >= this.abilities[i].playerExp ){
-                this.abilities[i].active = true;
-            }else
-                this.abilities[i].active = false;
-        }
-    }*/
-
 
     playRightAnims(){
         for(let i = 0; i < this.equipment.length; i++){

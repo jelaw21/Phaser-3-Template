@@ -12,6 +12,8 @@ let items = {
         'name': 'LEATHER ARMOR',
         'slot': 'TORSO',
         'image': ['LeatherB'],
+        'effect': 3,
+        'maxEffect': 10,
         'quantity': 1,
         'icon': 'armorLeatherIcon',
         'equipped': false
@@ -29,7 +31,8 @@ let items = {
         'slot': 'SHIRT',
         'name': 'WHITE SHIRT',
         'image': ['LeatherA'],
-        'effect': 10,
+        'effect': 0,
+        'maxEffect': 0,
         'quantity': 1,
         'icon': 'shirtIcon',
         'equipped': false
@@ -39,7 +42,8 @@ let items = {
         'slot': 'LEGS',
         'name': 'WORN PANTS',
         'image': ['CommonC'],
-        'effect': 10,
+        'effect': 0,
+        'maxEffect': 0,
         'quantity': 1,
         'icon': 'pantsIcon',
         'equipped': false
@@ -49,7 +53,8 @@ let items = {
         'name': 'HAIR',
         'slot': 'HEAD',
         'image': ['CommonB'],
-        'effect': 10,
+        'effect': 0,
+        'maxEffect': 0,
         'quantity': 0,
         'equipped': false
     },
@@ -58,7 +63,8 @@ let items = {
         'name': 'SHOES',
         'slot': 'FEET',
         'image': ['CommonA'],
-        'effect': 10,
+        'effect': 1,
+        'maxEffect': 5,
         'quantity': 1,
         'icon': 'shoesIcon',
         'equipped': false
@@ -68,7 +74,8 @@ let items = {
         'name': 'LEATHER BRACERS',
         'slot': 'WRIST',
         'image': ['LeatherD'],
-        'effect': 10,
+        'effect': 2,
+        'maxEffect': 5,
         'quantity': 1,
         'icon': 'bracersLeatherIcon',
         'equipped': false
@@ -78,9 +85,19 @@ let items = {
         'name': 'LEATHER SHOULDERS',
         'slot': 'SHOULDERS',
         'image': ['LeatherC'],
-        'effect': 10,
+        'effect': 2,
+        'maxEffect': 7,
         'quantity': 1,
         'icon': 'shouldersLeatherIcon',
+        'equipped': false
+    },
+    'short_sword':{
+        'type': 'WEAPON',
+        'name': 'SHORT SWORD',
+        'slot': 'WEAPON',
+        'image': [' '],
+        'abilities': ['slash', 'stab'],
+        'icon': '',
         'equipped': false
     }
 };
