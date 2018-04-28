@@ -68,6 +68,13 @@ export default class Preload extends Phaser.Scene{
         this.load.image('lukas', 'assets/images/maleCharacter.png');
         this.load.image('attackCircle','assets/images/attackCircle.png');
         this.load.image('arrow','assets/images/arrowSilver.png');
+        this.load.image('guiPaper','assets/images/paperBackground.png');
+        this.load.image('guiBackground', 'assets/images/guiBackground.png');
+        this.load.image('itemBox','assets/images/itemBox.png' );
+        this.load.image('uncheckBox','assets/images/uncheckBox.png' );
+        this.load.image('checkBox','assets/images/checkBox.png' );
+        this.load.image('punch','assets/images/punch.png' );
+        this.load.image('kick','assets/images/kick.png' );
 
 
 

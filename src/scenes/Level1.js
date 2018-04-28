@@ -123,8 +123,9 @@ export default class Level1 extends Phaser.Scene {
     hitGate(player, gate){
         if(this.playerData.getGold() >= 1){
             gate.destroy();
-            this.cameras.main.fade(3000);
-            this.scene.start('townMap', {player: this.playerData});
+            //this.cameras.main.fade(3000);
+            this.scene.start('gameOver', {player: this.playerData});
+            this.scene.stop('level1');
         }else{
             this.events.emit('gateMessage');
         }

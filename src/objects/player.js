@@ -11,8 +11,8 @@ export default class Player {
         this.availableAbilities = [getAbility('punch')];
         this.activeAbilities = [];
         this.exp = 0;
-        this.unarmedEXP = 0;
-        this.wepEXP = 0;
+        this.unarmedEXP = 50;
+        this.swordEXP = 0;
         this.inventory = [getItem('gold')];
         this.equipment = [];
         this.armor = 20;
@@ -42,6 +42,14 @@ export default class Player {
         this.exp += amount;
     }
 
+    addUnarmedExp(amount){
+        this.unarmedEXP += amount;
+    }
+    getUnarmedExp(){
+        return this.unarmedEXP;
+    }
+
+
     getArmor(){
         return this.armor;
     }
@@ -49,6 +57,27 @@ export default class Player {
     getEquipment(){
         return this.equipment;
     }
+
+    getActiveAbilities(){
+        return this.activeAbilities;
+    }
+
+    toggleActiveAbility(ability){
+        for(let i = 0; i < this.availableAbilities.length; i++){
+            if(ability.name === this.availableAbilities[i].name ){
+                 if(this.availableAbilities[i].active === true){
+                    this.availableAbilities[i].active = false
+                }else
+                    this.availableAbilities[i].active = true
+            }
+        }
+    }
+
+
+    getAvailableAbilities(){
+        return this.availableAbilities;
+    }
+
     //ADD ABILITIES TO THE AVAILABLE ABILITIES
     addAbilities(){
         //look through unarmed
@@ -65,23 +94,28 @@ export default class Player {
         for(let i = 0; i < this.equipment.length; i++){
             if(this.equipment[i].type === 'WEAPON'){
                 for(let j = 0; j < this.equipment[i].abilities; j++){
-                    this.availableAbilities.push(getAbility(this.equipment[i].abilities[j]))
+                    if(this.swordEXP >= getAbility(abilities[i]).exp && getAbility(abilities[i]).group === 'SWORD')
+                        this.availableAbilities.push(getAbility(this.equipment[i].abilities[j]))
                 }
             }
         }
 
-        console.log(this.availableAbilities);
+        //console.log(this.availableAbilities);
     }
 
     equipAbilities(){
-        this.availableAbilities = [];
+        let player = this;
+        this.activeAbilities = [];
         this.availableAbilities.forEach(function(element){
+            //console.log(element);
+            //console.log(element.active);
+            //console.log(player.activeAbilities);
             if(element.active){
-                this.activeAbilities.push(element);
+                player.activeAbilities.push(element);
             }
-        })
+        });
 
-        console.log(this.availableAbilities);
+        //console.log(this.activeAbilities);
     }
 
     //TODO: REDO BECAUSE ABILITIES CAN BE ACTIVE ...
@@ -132,7 +166,7 @@ export default class Player {
                 this.inventory[i].equipped = true;
             }
         }
-
+        this.addAbilities();
         this.buildEquipment();
         this.calculateArmor();
     }
@@ -144,8 +178,6 @@ export default class Player {
             if (this.inventory[i].equipped === true) {
                 if (this.inventory[i].type === 'ARMOR') {
                     this.equipment.push(this.inventory[i]);
-                } else if (this.inventory[i].type === 'WEAPON') {
-                    this.abilities.push(this.inventory[i].abilities)
                 }
             }
         }

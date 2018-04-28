@@ -14,20 +14,22 @@ export default class BattleWin extends Phaser.Scene {
     create(){
         let gold = 0;
         let exp = 0;
-        let numAbilities = this.player.abilities.length;
+        let numAbilities = this.player.getAvailableAbilities().length;
 
         this.enemies.forEach(function(element){
             gold = gold + element.getGold();
         });
+
+
 
         this.enemies.forEach(function(element){
             exp = exp + element.getExp();
         });
 
         this.player.addGold(gold);
-        this.player.addExp(exp);
+        this.player.addUnarmedExp(exp);
         this.player.addAbilities();
-        let newAbilities = this.player.abilities.length;
+        let newAbilities = this.player.getAvailableAbilities().length;
 
         let graphics = this.add.graphics();
         graphics.fillStyle(0x2f4f4f, .7);
@@ -39,7 +41,7 @@ export default class BattleWin extends Phaser.Scene {
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(2/5)+20, exp);
         if(newAbilities > numAbilities){
             this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5), "ABILITY EARNED: ");
-            this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5)+20, this.player.abilities[newAbilities -1].name);
+            this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5)+20, this.player.availableAbilities[newAbilities -1].name);
         }
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(4/5), "click to continue...");
         //bump

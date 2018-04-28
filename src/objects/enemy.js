@@ -1,6 +1,3 @@
-import getItem from "./Items";
-import getAbility from "./Abilities";
-
 export default class Enemy {
 
     constructor(config) {
@@ -8,7 +5,7 @@ export default class Enemy {
         this.image = config.image;
         this.health = config.health;
         this.abilities = config.abilities;
-        this.exp = config.exp;
+        this.expAward = config.exp;
         this.chance = config.chance;
         this.gold = config.gold;
     }
@@ -48,11 +45,11 @@ export default class Enemy {
     }
 
     getExp() {
-        return this.exp;
+        return this.expAward;
     }
 
     setExp(value) {
-        this.exp = value;
+        this.expAward = value;
     }
 
     getChance() {

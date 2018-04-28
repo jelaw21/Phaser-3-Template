@@ -1,4 +1,3 @@
-import Player from '../objects/player'
 import Enemy from '../objects/enemy'
 import getEnemy from '../objects/Enemies'
 export default class Battle extends Phaser.Scene {
@@ -17,7 +16,7 @@ export default class Battle extends Phaser.Scene {
         this.lastLevel = this.scene.get('level1');
         //this.player = new Player(this, 0, 0, ' ', 0);
         this.player.equipAbilities();
-        this.abilities = this.player.abilities;
+        this.abilities = this.player.getActiveAbilities();
 
         this.buttonGroup = [];
         this.attackGroup = [];
@@ -44,13 +43,11 @@ export default class Battle extends Phaser.Scene {
 
 
         for(let i = 0; i< this.abilities.length; i++){
-            if(this.abilities[i].active === true){
                 let button = this.add.image(20, (i * 60) + 365, 'button').setInteractive().setOrigin(0).setName(this.abilities[i].name);
                 this.buttonGroup.push(button);
                 let text = this.add.text(0 , 0, this.abilities[i].name);
                 this.textGroup.push(text);
                 Phaser.Display.Align.In.Center(this.textGroup[i], this.buttonGroup[i]);
-            }
         }
         /*let attack1Super = this.add.image(260, 365, 'button').setOrigin(0);
         let attack2 = this.add.image(20, 425, 'button').setOrigin(0);
@@ -277,6 +274,7 @@ export default class Battle extends Phaser.Scene {
                     Phaser.Display.Align.To.TopCenter(scene.status, scene.currentEnemy);
                     Phaser.Display.Align.In.Center(scene.circle, scene.currentEnemy);
                     Phaser.Display.Align.In.Center(scene.circleTarget, scene.currentEnemy);
+                    Phaser.Display.Align.To.TopCenter(scene.selector, scene.currentEnemy);
                 }
             }
         }

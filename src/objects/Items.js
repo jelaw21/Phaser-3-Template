@@ -93,6 +93,7 @@ let items = {
     },
     'short_sword':{
         'type': 'WEAPON',
+        'group': 'SWORD',
         'name': 'SHORT SWORD',
         'slot': 'WEAPON',
         'image': [' '],

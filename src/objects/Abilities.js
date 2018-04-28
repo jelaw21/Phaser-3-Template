@@ -19,7 +19,8 @@ let abilities = {
         'durations': [1500, 1000],
         'damage': [2, 2, 4],
         'exp': 0,
-        'active': false
+        'active': true,
+        'icon': 'punch'
     },
     'kick': {
         'type':"UNARMED",
@@ -28,7 +29,8 @@ let abilities = {
         'durations': [2000, 1000, 750],
         'damage': [3, 3, 4, 4],
         'exp': 15,
-        'active': false
+        'active': false,
+        'icon': 'kick'
     },
     'slash':{
         'type':"WEAPON",
@@ -37,7 +39,8 @@ let abilities = {
         'durations': [1000, 1000],
         'damage': [4, 6, 5],
         'exp': 0,
-        'active': false
+        'active': false,
+        'icon': 'kick'
     },
     'stab':{
         'type':"WEAPON",
@@ -46,7 +49,8 @@ let abilities = {
         'durations': [750],
         'damage': [5, 5],
         'exp': 30,
-        'active': false
+        'active': false,
+        'icon': 'kick'
     }
 };
 

@@ -1,5 +1,4 @@
 import getItem from '../objects/Items.js'
-import getAbility from '../objects/Abilities.js'
 
 export default class PlayerSprite extends Phaser.GameObjects.Sprite {
 
@@ -28,6 +27,7 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
         this.keyA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.keyD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.keyS = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.abilKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
     }
 
     //TODO
@@ -95,6 +95,10 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
         if(this.invKey.isDown){
             this.scene.scene.launch('inventory', {player: this.playerData, scene: this.level, sprite: this});
             this.scene.scene.pause(this.scene);
+        }
+        if(this.abilKey.isDown){
+                this.scene.scene.launch('abilityMan', {player: this.playerData, scene: this.level});
+                this.scene.scene.pause(this.scene);
         }
     }
     equipUpdate(x, y){
