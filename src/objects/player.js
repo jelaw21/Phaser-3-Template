@@ -11,7 +11,7 @@ export default class Player {
         this.availableAbilities = [getAbility('punch')];
         this.activeAbilities = [];
         this.exp = 0;
-        this.unarmedEXP = 50;
+        this.unarmedEXP = 0;
         this.swordEXP = 0;
         this.inventory = [getItem('gold')];
         this.equipment = [];

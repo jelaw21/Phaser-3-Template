@@ -20,8 +20,6 @@ export default class BattleWin extends Phaser.Scene {
             gold = gold + element.getGold();
         });
 
-
-
         this.enemies.forEach(function(element){
             exp = exp + element.getExp();
         });
@@ -42,13 +40,10 @@ export default class BattleWin extends Phaser.Scene {
         if(newAbilities > numAbilities){
             this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5), "ABILITY EARNED: ");
             this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5)+20, this.player.availableAbilities[newAbilities -1].name);
+            this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5)+50, "PRESS \'P\' TO EQUIP");
         }
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(4/5), "click to continue...");
-        //bump
-        //this.dead = this.add.sprite(this.sys.game.config.width/2, this.sys.game.config.height*(2/5), 'deadMale');
-        //this.dead.anims.play('deadMale', true);
         this.input.on('pointerdown', this.resumeScene, this);
-
     }
 
     resumeScene(){
