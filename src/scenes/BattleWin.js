@@ -2,7 +2,6 @@ export default class BattleWin extends Phaser.Scene {
 
     constructor() {
         super({key: 'battleWin'});
-
     }
 
     init(data){
@@ -49,5 +48,6 @@ export default class BattleWin extends Phaser.Scene {
     resumeScene(){
         this.scene.stop(this);
         this.scene.resume(this.lastScene);
+
     }
 }

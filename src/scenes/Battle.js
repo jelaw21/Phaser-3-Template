@@ -264,18 +264,21 @@ export default class Battle extends Phaser.Scene {
                 scene.enemiesHealth[scene.currentEnemy.getData('ID')].setVisible(false);
                 scene.status.setText(' ');
                 scene.deathCount++;
-                if(scene.currentEnemy.getData('ID')+1 >= scene.enemies.length){
-                    scene.currentEnemy = scene.enemies[0];
-                    Phaser.Display.Align.To.TopCenter(scene.status, scene.currentEnemy);
-                    Phaser.Display.Align.In.Center(scene.circle, scene.currentEnemy);
-                    Phaser.Display.Align.In.Center(scene.circleTarget, scene.currentEnemy);
-                }else{
-                    scene.currentEnemy = scene.enemies[scene.currentEnemy.getData('ID')+1];
-                    Phaser.Display.Align.To.TopCenter(scene.status, scene.currentEnemy);
-                    Phaser.Display.Align.In.Center(scene.circle, scene.currentEnemy);
-                    Phaser.Display.Align.In.Center(scene.circleTarget, scene.currentEnemy);
-                    Phaser.Display.Align.To.TopCenter(scene.selector, scene.currentEnemy);
+                while(scene.currentEnemy.getData('alive') === false && (scene.deathCount < scene.enemyGroup.length)){
+                    if(scene.currentEnemy.getData('ID')+1 >= scene.enemies.length){
+                        scene.currentEnemy = scene.enemies[0];
+                        Phaser.Display.Align.To.TopCenter(scene.status, scene.currentEnemy);
+                        Phaser.Display.Align.In.Center(scene.circle, scene.currentEnemy);
+                        Phaser.Display.Align.In.Center(scene.circleTarget, scene.currentEnemy);
+                    }else{
+                        scene.currentEnemy = scene.enemies[scene.currentEnemy.getData('ID')+1];
+                        Phaser.Display.Align.To.TopCenter(scene.status, scene.currentEnemy);
+                        Phaser.Display.Align.In.Center(scene.circle, scene.currentEnemy);
+                        Phaser.Display.Align.In.Center(scene.circleTarget, scene.currentEnemy);
+                        Phaser.Display.Align.To.TopCenter(scene.selector, scene.currentEnemy);
+                    }
                 }
+
             }
         }
         if(scene.deathCount === scene.enemyGroup.length){
@@ -330,21 +333,22 @@ export default class Battle extends Phaser.Scene {
 
         }else{
             this.enemyCount++;
-            this.enemiesTurn()
+            if(this.enemyCount < this.enemyGroup.length){
+                this.enemiesTurn();
+            }else{
+                this.activate(this);
+            }
         }
     }
 
     adjustDamage(damage){
 
         let equipment = this.player.equipment;
-        console.log(this.player.equipment);
         let adjustedDamage = 0;
 
         for(let i = 0; i < equipment.length; i++){
-            console.log("ENEMIES RAW DAMAGE: " + damage);
-            console.log(equipment[i].name + "'s REDUCTION: " + ((equipment[i].effect/100)));
+
             adjustedDamage += (Math.min((damage*((equipment[i].effect/100))), equipment[i].maxEffect));
-            console.log("ADJUSTED DAMAGE: " + adjustedDamage);
         }
         adjustedDamage = Math.round(damage - adjustedDamage);
 
