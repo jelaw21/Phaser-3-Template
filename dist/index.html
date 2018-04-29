@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Arcania</title>
     <script src="bundle.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js">
+    </script>
+    <script>
+        WebFont.load({
+            google: {
+                families: ['Berkshire Swash','Cute Font', 'Marmelad','Sanchez']
+            }
+        });
+    </script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css" >
-    </body>
     <style>
         body{
             margin:0;
@@ -29,13 +37,12 @@
         }
     </style>
 </head>
-
 <body>
     <div class="'container-fluid">
         <div class="row middle-xs center-xs page">
             <div id='phaser-app' class='col-xs'></div>
         </div>
     </div>
-
+</body>
 </html>
 

@@ -16,30 +16,35 @@ export default class MainMenu extends Phaser.Scene {
 
     create (){
 
-
         this.cWidth = this.sys.game.config.width;
         this.cHeight = this.sys.game.config.height;
-        this.title = this.add.image(this.cWidth/2, (this.cHeight/2)-100, 'title').setAngle(-20).setScale(.7);
-        this.button = this.add.image(this.cWidth/2, this.cHeight/2+50, 'button').setInteractive();
-        this.startText = this.add.text(0,0,'START', {fontSize: '24px', fontFamily: 'UnifrakturCook', fill: '#000'});
+        this.button = this.add.image(this.cWidth/2, this.cHeight/2+50, 'buttonUp').setInteractive().setVisible(false);
+        this.startText = this.add.text(0,0,'START', {fontSize: '24px', fontFamily: 'Berkshire Swash', fill: '#000'}).setVisible(false);
+        this.title = this.add.image(this.cWidth/2, (this.cHeight/2)-100, 'title').setScale(10)
+        //bump
         Phaser.Display.Align.In.Center(this.startText, this.button);
 
         this.tweens.add({
             targets: this.title,
-            angle: 20,
-            duration: 5000,
-            yoyo: true,
-            repeat: -1,
+            scaleX: .7,
+            scaleY: .7,
+            duration: 1000,
+            onComplete: this.showButton,
+            onCompleteParams: [ this.button, this.startText]
         });
-
         this.button.on('pointerdown', function(pointer){
-            this.setTexture('buttonPressed');
+            this.setTexture('buttonDown');
 
-        } )
+        } );
         this.button.on('pointerout', function(pointer){
-            this.setTexture('button');
-        } )
+            this.setTexture('buttonUp');
+        } );
         this.button.on('pointerup', this.callLevel, this);
+    }
+
+    showButton(tween, targets, button, start){
+        button.setVisible(true);
+        start.setVisible(true);
     }
 
     update(){

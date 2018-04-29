@@ -95,7 +95,7 @@ export default class Level1 extends Phaser.Scene {
             this.playerData.addToInventory(getItem('common_shoes'));
             this.playerData.addToInventory(getItem('leather_bracers'));
             this.playerData.addToInventory(getItem('leather_shoulders'));
-            var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui');
+            var message = new MessagePopUp(this, this.player.x, this.player.y, 'messageGUI');
             this.add.existing(message);
             message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
         }
@@ -132,12 +132,12 @@ export default class Level1 extends Phaser.Scene {
     }
 
     signMessage(){
-        var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui');
+        var message = new MessagePopUp(this, this.player.x, this.player.y, 'messageGUI');
         this.add.existing(message);
         message.createText('Collect Gold pieces. Hit \'I\' for Inventory');
     }
     gateMessage(){
-        var message = new MessagePopUp(this, this.player.x, this.player.y, 'gui').setOrigin(0);
+        var message = new MessagePopUp(this, this.player.x, this.player.y, 'messageGUI').setOrigin(0);
         this.add.existing(message);
         message.createText('You need to find all 8 coins to pass.');
     }

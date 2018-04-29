@@ -1,9 +1,7 @@
-import Player from '../objects/player'
 export default class AbilitiesManager extends Phaser.Scene {
 
     constructor() {
         super({key: 'abilityMan'});
-
     }
 
     init(data){
@@ -16,116 +14,112 @@ export default class AbilitiesManager extends Phaser.Scene {
     }
 
     create(){
-        this.style ={
-            font: '24px Arial',
-                fill: 'black',
-                wordWrap:{
-                width: 512,
-                    useAdvancedWrap: true
+        this.cWidth = this.sys.game.config.width;
+        this.cHeight = this.sys.game.config.height;
+        this.background = this.add.image(this.cWidth/2, this.cHeight/2, 'abilitiesGUI').setDisplaySize(512, 512);
+
+        this.itemNameStyle = {
+            fontSize: 16,
+            fontFamily: 'Sanchez',
+            fill: 'white',
+            stroke: '#222',
+            strokeThickness: 1,
+            wordWrap:{
+                width: this.background.displayWidth-5,
+                useAdvancedWrap: true
             }
-        }
+        };
 
-        //let graphics = this.add.graphics();
+        this.itemDescStyle = {
+            fontSize: 24,
+            fontFamily: 'Cute Font',
+            stroke: '#222',
+            strokeThickness: 1,
+            wordWrap:{
+                width: this.background.displayWidth-5,
+                useAdvancedWrap: true
+            }
+        };
 
-        this.image = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2, 'guiBackground');
-        //graphics.fillStyle(0x0000ff)
-        //graphics.fillRect(144, 44, 512, 128);
-        //graphics.fillStyle(0xff0000);
-        //graphics.fillRect(144, 172, 512, 256);
-        //graphics.fillStyle(0x00ff00);
-        //graphics.fillRect(144, 428, 512, 128);
-
-        //this.add.zone(0, 0, 512, 512).setOrigin(.5).setPosition(this.sys.game.config.width/2, this.sys.game.config.height/2).setInteractive().setName('zone1');
         this.zoneHeader = this.add.zone(144,44,512,128).setName('HEADER');
         this.zoneBody = this.add.zone(144, 172, 512, 256).setName('BODY');
         this.zoneFooter = this.add.zone(144, 428, 512, 128).setName('FOOTER');
-        let scene = this.scene;
-        this.equippedGroup = [];
-        this.abilityText = [];
-        //this.input.on('pointerdown', this.seeImage, this);
+        this.checkboxGroup = [];
 
-        this.title = this.add.text(175 , 80, "ABILITIES: Click to Equip", this.style);
+        this.title = this.add.text(this.cWidth/2-4, 62, "ABILITIES", {fontSize: 20, fontFamily: 'Berkshire Swash', fill: '#000'}).setOrigin(.5);
         //Phaser.Display.Align.In.Center(this.title, this.zoneHeader);
-        for(let i = 0; i < this.abilities.length; i ++) {
-                //this.add.text(150, (i * 30) + 180, this.abilities[i].name, this.style).setData('ID', i).setInteractive();
-                let ability = (this.add.image(170, (i*50)+ 190, 'itemBox').setData('ID', i).setInteractive().setOrigin(0).setDisplaySize(48,48));
-                let abilityIcon = this.add.image(170, (i*50)+ 190, this.abilities[i].icon).setOrigin(0);
 
-                this.equippedGroup.push(this.add.image(205, (i*50)+ 225, ' ').setOrigin(.5).setSize(32, 32));
-                this.abilityText.push(this.add.text(170, (i*50)+ 190, ' ', this.style).setVisible(false));
+        for(let i = 0; i < this.abilities.length; i++) {
+                //this.add.text(150, (i * 30) + 180, this.abilities[i].name, this.style).setData('ID', i).setInteractive();
+                let ability = this.add.image(170, (i*50)+ 190, 'itemBox').setData('ID', i).setInteractive().setOrigin(0).setDisplaySize(48,48);
+                let abilityIcon = this.add.image(170, (i*50)+ 190, this.abilities[i].icon).setOrigin(0);
+                this.checkboxGroup.push(this.add.image(205, (i*50)+ 225, ' ').setOrigin(.5).setSize(32, 32));
                 Phaser.Display.Align.In.BottomRight(abilityIcon, ability);
         }
-        this.setAbilityText();
+        this.abilityNameText = this.add.text(164, 480, 'ABILITY NAME', this.itemNameStyle).setVisible(false);
+        this.abilityDesc = this.add.text(164, 500, 'ABILITY DESC', this.itemDescStyle).setVisible(false);
+        this.abilityStats = this.add.text(164, 520, 'ABILITY STATS', this.itemDescStyle).setVisible(false);
+        this.abilityDam = this.add.text(364, 520, 'ABILITY STATS', this.itemDescStyle).setVisible(false);
+        this.setAbilityCheck();
+
+        this.closeButton = this.add.image(652, 64, 'exitButton').setInteractive().setData('ID','CLOSE');
+
         this.input.on('gameobjectdown', this.equipAbility, this);
         this.input.on('pointerover', this.displayName, this);
         this.input.on('pointerout', this.clearDisplayName, this);
-
-        this.add.text(150, 478, "CLICK HERE TO CLOSE", this.style).setData('ID', 100).setInteractive();
-
         //Phaser.Display.Align.In.Center(this.image, this.scene.add.zone(0,0,800,600));
 
         //this.abilKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+
     }
     update(){
-        /*if(this.abilKey.isDown){
-            console.log('ABILITY MANAGER: keypress');
-            this.scene.resume(this.lastScene);
-            this.scene.stop('abilityMan');
 
-        }*/
     }
 
-    setAbilityText(){
+    setAbilityCheck(){
         let abilities = this.player.getAvailableAbilities();
         for(let i = 0; i < abilities.length; i ++) {
             if(abilities[i].active){
-                this.equippedGroup[i].setTexture('checkBox');
+                this.checkboxGroup[i].setTexture('checkBox');
             }else{
-                this.equippedGroup[i].setTexture('uncheckBox');
+                this.checkboxGroup[i].setTexture('uncheckBox');
             }
         }
     }
 
     equipAbility(pointer, gameObject){
         let index = gameObject.getData('ID');
-        if(index === 100){
-            this.scene.resume(this.lastScene);
-            this.scene.stop('abilityMan');
-        }else{
+
+        if(index !== "CLOSE"){
             this.player.toggleActiveAbility(this.abilities[index]);
             this.player.equipAbilities();
-            this.setAbilityText();
+            this.setAbilityCheck();
+        }else{
+            this.scene.stop('abilityMan');
+            this.scene.resume(this.lastScene);
         }
     }
 
     displayName(pointer, gameObject){
         let index = gameObject[0].getData('ID');
-        if(index === 100) {
-
-        }else {
-            this.abilityText[index].setText(this.abilities[index].name);
-            this.abilityText[index].setVisible(true);
+        if(index !== 'CLOSE'){
+            this.abilityNameText.setText(this.abilities[index].name).setVisible(true);
+            this.abilityDesc.setText(this.abilities[index].desc).setVisible(true);
+            this.abilityStats.setText("NUMBER OF ATTACKS: " + this.abilities[index].numAtk).setVisible(true);
+            this.abilityDam.setText("MAX POSSIBLE DAMAGE: " + this.abilities[index].maxDam).setVisible(true);
         }
-
     }
+
+    //bump
 
     clearDisplayName(pointer, gameObject){
         let index = gameObject[0].getData('ID');
-        if(index === 100) {
-
-        }else{
-            this.abilityText[index].setText(this.abilities[index].name);
-            this.abilityText[index].setVisible(false);
+        if(index !== 'CLOSE'){
+            this.abilityNameText.setVisible(false);
+            this.abilityDesc.setVisible(false);
+            this.abilityStats.setVisible(false);
+            this.abilityDam.setVisible(false);
         }
 
     }
-
-
-    seeImage(){
-        if(this.image.visible === true){
-            this.image.setVisible(false)
-        }else
-            this.image.setVisible(true)
-    }
-
 }

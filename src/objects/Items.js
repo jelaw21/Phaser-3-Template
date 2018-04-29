@@ -16,7 +16,8 @@ let items = {
         'maxEffect': 10,
         'quantity': 1,
         'icon': 'armorLeatherIcon',
-        'equipped': false
+        'equipped': false,
+        'desc': 'The typical wannabe armor for starting adventurers.'
     },
     'gold': {
         'type': 'gold',
@@ -35,7 +36,8 @@ let items = {
         'maxEffect': 0,
         'quantity': 1,
         'icon': 'shirtIcon',
-        'equipped': false
+        'equipped': false,
+        'desc': 'A common shirt, slightly tattered.'
     },
     'common_legs':{
         'type': 'ARMOR',
@@ -46,7 +48,8 @@ let items = {
         'maxEffect': 0,
         'quantity': 1,
         'icon': 'pantsIcon',
-        'equipped': false
+        'equipped': false,
+        'desc': 'Greenish common pants with a few stylish rips and tears.'
     },
     'common_head':{
         'type': 'ARMOR',
@@ -67,7 +70,8 @@ let items = {
         'maxEffect': 5,
         'quantity': 1,
         'icon': 'shoesIcon',
-        'equipped': false
+        'equipped': false,
+        'desc': 'Common shoes that protect feet. Be wary, they smell.'
     },
     'leather_bracers':{
         'type': 'ARMOR',
@@ -78,7 +82,8 @@ let items = {
         'maxEffect': 5,
         'quantity': 1,
         'icon': 'bracersLeatherIcon',
-        'equipped': false
+        'equipped': false,
+        'desc': 'Fashionable leather wrist guards. Helps prevent loss of hands.'
     },
     'leather_shoulders':{
         'type': 'ARMOR',
@@ -89,7 +94,8 @@ let items = {
         'maxEffect': 7,
         'quantity': 1,
         'icon': 'shouldersLeatherIcon',
-        'equipped': false
+        'equipped': false,
+        'desc': 'Protects the shoulders from harm and adds that \'beffy\' look.'
     },
     'short_sword':{
         'type': 'WEAPON',
@@ -102,4 +108,5 @@ let items = {
         'equipped': false
     }
 };
+
 

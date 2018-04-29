@@ -18,9 +18,11 @@ let abilities = {
         'numAtk': 2,
         'durations': [1500, 1000],
         'damage': [2, 2, 4],
+        'maxDam': 8,
         'exp': 0,
         'active': true,
-        'icon': 'punch'
+        'icon': 'punch',
+        'desc': 'A basic attack. Does not cut down trees.'
     },
     'kick': {
         'type':"UNARMED",
@@ -28,9 +30,11 @@ let abilities = {
         'numAtk': 3,
         'durations': [2000, 1000, 750],
         'damage': [3, 3, 4, 4],
+        'maxDam': 14,
         'exp': 15,
         'active': false,
-        'icon': 'kick'
+        'icon': 'kick',
+        'desc': 'Like Bruce Lee, only slower.'
     },
     'slash':{
         'type':"WEAPON",
@@ -38,6 +42,7 @@ let abilities = {
         'numAtk': 2,
         'durations': [1000, 1000],
         'damage': [4, 6, 5],
+        'maxDam': 15,
         'exp': 0,
         'active': false,
         'icon': 'kick'
@@ -48,6 +53,7 @@ let abilities = {
         'numAtk': 1,
         'durations': [750],
         'damage': [5, 5],
+        'maxDam': 10,
         'exp': 30,
         'active': false,
         'icon': 'kick'

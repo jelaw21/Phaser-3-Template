@@ -26,7 +26,7 @@ export default class Preload extends Phaser.Scene{
             barCover.fillRect((barX + barDisplayWidth*value), barY, barDisplayWidth, barDisplayHeight);
         });
 
-        this.sys.game.events.on('resize', this.resize, this);
+        //this.sys.game.events.on('resize', this.resize, this);
 
         //this.resize();
 
@@ -52,7 +52,7 @@ export default class Preload extends Phaser.Scene{
         this.load.tilemapTiledJSON('forest', 'assets/tilemaps/forest.json');
         this.load.tilemapTiledJSON('town', 'assets/tilemaps/town.json');
         this.load.image('button', 'assets/images/buttonLong_blue.png');
-        this.load.image('exitButton', 'assets/images/closeX.png');
+        this.load.image('exitButton', 'assets/images/closeButton.png');
         this.load.image('exitBackground', 'assets/images/exitBackground.png');
         this.load.image('buttonPressed', 'assets/images/buttonLong_blue_pressed.png');
         this.load.image('coin', 'assets/images/coin.png');
@@ -75,6 +75,11 @@ export default class Preload extends Phaser.Scene{
         this.load.image('checkBox','assets/images/checkBox.png' );
         this.load.image('punch','assets/images/punch.png' );
         this.load.image('kick','assets/images/kick.png' );
+        this.load.image('buttonDown','assets/images/buttonDown.png' );
+        this.load.image('buttonUp','assets/images/buttonUp.png' );
+        this.load.image('abilitiesGUI','assets/images/abilitiesGUI.png' );
+        this.load.image('inventoryGUI','assets/images/inventoryGUI.png' );
+        this.load.image('messageGUI','assets/images/messageGUI.png' );
 
 
 
@@ -354,14 +359,12 @@ export default class Preload extends Phaser.Scene{
             frameRate: 5
         });
         this.time.delayedCall(1000, this.callMenu, [], this);
-
-
     }
 
-    resize(){
+    /*resize(){
         this.logo.setPosition(this.cWidth/2, this.cHeight/2-100);
         this.barLogo.setPosition(this.logo.x-(this.logo.displayWidth*.4), (this.logo.displayHeight)+75);
-    }
+    }*/
 
     callMenu(){
         //this.player = new Player(this, 0, 0, ' ', 0);
