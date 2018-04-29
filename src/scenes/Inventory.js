@@ -60,7 +60,8 @@ export default class Inventory extends Phaser.Scene {
             }
            }*/
 
-        this.title = this.add.text(this.cWidth/2-4, 62, "INVENTORY", {fontSize: 20, fontFamily: 'Berkshire Swash', fill: '#000'}).setOrigin(.5);
+        //this.title = this.add.text(this.cWidth/2-4, 62, "INVENTORY", {fontSize: 20, fontFamily: 'Berkshire Swash', fill: '#000'}).setOrigin(.5);
+        this.title = this.add.bitmapText(this.cWidth/2-4, 62, 'livingstone',"INVENTORY", 30).setOrigin(.5);
         this.invSprite = new PlayerSprite(this, this.cWidth/2, 132, 'playerS', 0);
         this.add.existing(this.invSprite);
         this.invSprite.init(this.player);

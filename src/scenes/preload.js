@@ -26,10 +26,6 @@ export default class Preload extends Phaser.Scene{
             barCover.fillRect((barX + barDisplayWidth*value), barY, barDisplayWidth, barDisplayHeight);
         });
 
-        //this.sys.game.events.on('resize', this.resize, this);
-
-        //this.resize();
-
         this.load.spritesheet('playerE', 'assets/images/BODY_EAST.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('playerW', 'assets/images/BODY_WEST.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('playerN', 'assets/images/BODY_NORTH.png', {frameWidth: 64, frameHeight:64});
@@ -43,7 +39,6 @@ export default class Preload extends Phaser.Scene{
         this.load.spritesheet('CommonA', 'assets/images/FEET_shoes_brown.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('CommonB', 'assets/images/HEAD_hair_blonde.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('CommonC', 'assets/images/LEGS_pants_greenish.png', {frameWidth: 64, frameHeight: 64});
-        this.load.image('gui', 'assets/images/panel_brown.png');
         this.load.image('itemTiles', 'assets/images/ProjectUtumno_full.png');
         this.load.image('townTiles1', 'assets/images/town.png');
         this.load.image('backgroundTiles2', 'assets/images/trees_plants.png');
@@ -53,7 +48,6 @@ export default class Preload extends Phaser.Scene{
         this.load.tilemapTiledJSON('town', 'assets/tilemaps/town.json');
         this.load.image('button', 'assets/images/buttonLong_blue.png');
         this.load.image('exitButton', 'assets/images/closeButton.png');
-        this.load.image('exitBackground', 'assets/images/exitBackground.png');
         this.load.image('buttonPressed', 'assets/images/buttonLong_blue_pressed.png');
         this.load.image('coin', 'assets/images/coin.png');
         this.load.image('sign', 'assets/images/sign.png');
@@ -68,8 +62,6 @@ export default class Preload extends Phaser.Scene{
         this.load.image('lukas', 'assets/images/maleCharacter.png');
         this.load.image('attackCircle','assets/images/attackCircle.png');
         this.load.image('arrow','assets/images/arrowSilver.png');
-        this.load.image('guiPaper','assets/images/paperBackground.png');
-        this.load.image('guiBackground', 'assets/images/guiBackground.png');
         this.load.image('itemBox','assets/images/itemBox.png' );
         this.load.image('uncheckBox','assets/images/uncheckBox.png' );
         this.load.image('checkBox','assets/images/checkBox.png' );
@@ -80,7 +72,7 @@ export default class Preload extends Phaser.Scene{
         this.load.image('abilitiesGUI','assets/images/abilitiesGUI.png' );
         this.load.image('inventoryGUI','assets/images/inventoryGUI.png' );
         this.load.image('messageGUI','assets/images/messageGUI.png' );
-
+        this.load.bitmapFont('livingstone', 'assets/fonts/livingstone.png', 'assets/fonts/livingstone.fnt');
 
 
     }
@@ -360,11 +352,6 @@ export default class Preload extends Phaser.Scene{
         });
         this.time.delayedCall(1000, this.callMenu, [], this);
     }
-
-    /*resize(){
-        this.logo.setPosition(this.cWidth/2, this.cHeight/2-100);
-        this.barLogo.setPosition(this.logo.x-(this.logo.displayWidth*.4), (this.logo.displayHeight)+75);
-    }*/
 
     callMenu(){
         //this.player = new Player(this, 0, 0, ' ', 0);

@@ -12,7 +12,7 @@ export default class GameOver extends Phaser.Scene {
         //bump
         this.dead = this.add.sprite(this.sys.game.config.width/2, this.sys.game.config.height*(2/5), 'deadMale');
         this.dead.anims.play('deadMale', true);
-        this.input.on('pointerdown', this.startOver, this);
+        //this.input.on('pointerdown', this.startOver, this);
 
     }
 
