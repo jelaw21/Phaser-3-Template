@@ -9,7 +9,7 @@ export default class Inventory extends Phaser.Scene {
 
     init(data){
         this.player = data.player;
-        this.lastScene = this.scene.get(data.scene);
+        this.lastScene = data.scene;
         this.sprite = data.sprite;
     }
 

@@ -98,7 +98,7 @@ export default class Level1 extends Phaser.Scene {
             this.add.existing(message);
             message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
         }
-        if(this.playerData.getGold() === 2){
+        if(this.playerData.getGold() === 1){
             this.cameras.main.shake(250);
             let goons = ['goblin'];
             this.time.delayedCall(250, this.startBattle, [goons], this);
@@ -122,10 +122,10 @@ export default class Level1 extends Phaser.Scene {
     hitGate(player, gate){
         if(this.playerData.getGold() >= 0){
             gate.destroy();
-            //this.cameras.main.fade(3000);
+            this.cameras.main.fade(1000);
+
             this.scene.start('gameOver', {player: this.playerData});
-            //this.scene.pause('level1');
-            //this.scene.stop('level1');
+
 
         }else{
             this.events.emit('gateMessage');

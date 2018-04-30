@@ -113,8 +113,8 @@ export default class Battle extends Phaser.Scene {
         this.status = this.add.text(0, 0, '');
         this.circle = this.add.image(100, 100,'attackCircle').setVisible(false);
         this.circleTarget = this.add.image(100, 100,'attackCircle').setScale(1).setVisible(false);
-        this.add.text(490, 370, "Player's Health: ");
-        this.playerHealth = this.add.text(490, 400, this.player.health);
+        this.add.text(490, 370, "Player's Health: ", {color:"black"});
+        this.playerHealth = this.add.text(490, 400, this.player.health, {color:"black"});
         Phaser.Display.Align.In.Center(this.circle, this.currentEnemy);
         Phaser.Display.Align.In.Center(this.circleTarget, this.currentEnemy);
         Phaser.Display.Align.To.TopCenter(this.status, this.currentEnemy);
