@@ -1,5 +1,7 @@
-import {getAbility, searchAbilities}  from "./Abilities";
-import getItem from "./Items";
+import {getAbility, getAbilityList}  from "./AbilitiesList";
+import getItem from "./ItemList";
+import Item from "./Item";
+import Ability from "./Ability";
 
 export default class Player {
 
@@ -8,12 +10,15 @@ export default class Player {
         this.name = 'Erick';
         this.maxHealth = 200;
         this.health = this.maxHealth;
-        this.availableAbilities = [getAbility('punch')];
+        this.allAvaiableAbilities = [];
+        this.currentAvailableAbilities = [];
         this.activeAbilities = [];
         this.exp = 0;
         this.unarmedEXP = 0;
+        this.unarmedLvl = 1;
         this.swordEXP = 0;
-        this.inventory = [getItem('gold')];
+        this.swordLvl = 1;
+        this.inventory = [new Item(getItem('gold'))];
         this.equipment = [];
         this.armor = 20;
     }
@@ -49,6 +54,13 @@ export default class Player {
         return this.unarmedEXP;
     }
 
+    addSwordExp(amount){
+        this.swordEXP += amount;
+    }
+
+    getSwordExp(){
+        return this.swordEXP;
+    }
 
     getArmor(){
         return this.armor;
@@ -58,115 +70,128 @@ export default class Player {
         return this.equipment;
     }
 
+    //ABILITIES MANAGEMENT
+
     getActiveAbilities(){
         return this.activeAbilities;
     }
 
     toggleActiveAbility(ability){
         for(let i = 0; i < this.availableAbilities.length; i++){
-            if(ability.name === this.availableAbilities[i].name ){
-                 if(this.availableAbilities[i].active === true){
-                    this.availableAbilities[i].active = false
+            if(ability.name === this.availableAbilities[i].getName() ){
+                 if(this.availableAbilities[i].getActive()){
+                    this.availableAbilities[i].setActive(false)
                 }else
-                    this.availableAbilities[i].active = true
+                    this.availableAbilities[i].setActive(true)
             }
         }
     }
 
-
     getAvailableAbilities(){
-        return this.availableAbilities;
+        return this.currentAvailableAbilities;
     }
 
-    //ADD ABILITIES TO THE AVAILABLE ABILITIES
+    generateAllAbilities(){
+        let abilities = getAbilityList();
+        for(let i = 0; i < abilities.length; i++){
+            for(let j = 0; j < this.allAvaiableAbilities.length; j++){
+                if((getAbility(abilities[i]).type === 'UNARMED') && (this.unarmedLvl >= getAbility(abilities[i]).unlockLvl) && (getAbility(abilities[i]).name !== this.allAvaiableAbilities[j].getName())){
+                    this.allAvaiableAbilities.push(new Ability(getAbility(abilities[i])));
+                }
+                if((getAbility(abilities[i]).type === 'SWORD') && (this.swordLvl >= getAbility(abilities[i]).unlockLvl) && (getAbility(abilities[i]).name !== this.allAvaiableAbilities[j].getName())){
+                    this.allAvaiableAbilities.push(new Ability(getAbility(abilities[i])));
+                }
+            }
+        }
+        console.log(this.allAvaiableAbilities);
+
+        this.addAbilities();
+    }
+
     addAbilities(){
         //look through unarmed
-        this.availableAbilities = [];
-        let abilities = searchAbilities();
-        for(let i = 0; i < abilities.length; i++){
-            if(getAbility(abilities[i]).type === 'UNARMED'){
-                if(this.unarmedEXP >= getAbility(abilities[i]).exp){
-                    this.availableAbilities.push(getAbility(abilities[i]))
-                }
+        this.currentAvailableAbilities = [];
+
+
+        //ALL AVAILABLE UNARMED ARE ADDED
+        for(let i = 0; i <  this.allAvaiableAbilities.length; i++){
+            if(this.allAvaiableAbilities.getType() === 'UNARMED'){
+                this.currentAvailableAbilities.push(this.allAvaiableAbilities[i]);
             }
         }
         //look through weapons
         for(let i = 0; i < this.equipment.length; i++){
-            if(this.equipment[i].type === 'WEAPON'){
-                for(let j = 0; j < this.equipment[i].abilities; j++){
-                    if(this.swordEXP >= getAbility(abilities[i]).exp && getAbility(abilities[i]).group === 'SWORD')
-                        this.availableAbilities.push(getAbility(this.equipment[i].abilities[j]))
+            if(this.equipment[i].getType() === 'WEAPON' && this.equipment[i].getGroup() === 'SWORD' ){
+                for(let j = 0; j < this.equipment[i].getAbilities().length; j++){
+                    for(let k = 0; k < this.allAvaiableAbilities.length; k++){
+                        if(this.equipment[i].abilities[j].getName() === this.allAvaiableAbilities[k].getName()){
+                            this.currentAvailableAbilities.push(this.allAvaiableAbilities[k]);
+                        }
+                    }
                 }
             }
         }
-
-        //console.log(this.availableAbilities);
     }
 
     equipAbilities(){
         let player = this;
         this.activeAbilities = [];
-        this.availableAbilities.forEach(function(element){
-            //console.log(element);
-            //console.log(element.active);
-            //console.log(player.activeAbilities);
-            if(element.active){
+        this.currentAvailableAbilities.forEach(function(element){
+            if(element.getActive()){
                 player.activeAbilities.push(element);
             }
         });
-
-        //console.log(this.activeAbilities);
     }
 
-    //TODO: REDO BECAUSE ABILITIES CAN BE ACTIVE ...
-   /* addAbilities(){
-        let abilities = searchAbilities();
-        for(let i = 0; i < abilities.length; i++){
-            let addIt = true;
-            if(this.exp > getAbility(abilities[i]).exp){
-                for(let j = 0; j < this.abilities.length; j++){
-                    if(this.abilities[j].name === getAbility(abilities[i]).name){
-                        addIt = false;
-                    }
-                }
-            }
-            if(addIt){
-                this.abilities.push(getAbility(abilities[i]));
-            }
-        }
-    }
-    //TODO: IS THIS NEEDED???
-    equipAbilities(){
-        for(let i = 0 ; i < this.abilities.length; i ++){
-            if(this.exp >= this.abilities[i].exp ){
-                this.abilities[i].active = true;
-            }else
-                this.abilities[i].active = false;
-        }
-    }*/
-
+   //INVENTORY MANAGEMENT
     addToInventory(itemToAdd){
+        let item = new Item(getItem(itemToAdd));
+        let itemFound = false;
+        let index = 0;
 
         for(let i = 0; i < this.inventory.length; i++){
-            if(this.inventory[i].name === itemToAdd.name){
-                this.inventory[i].quantity++;
-            }else
-                this.inventory.push(itemToAdd);
-            break;
+            if(this.inventory[i].getName() === item.getName()){
+                itemFound = true;
+                index = i;
+            }
+        }
+        if(itemFound){
+            this.inventory[index].increaseQuantity(1);
+        }else
+            this.inventory.push(item);
+    }
+    removeFromInventory(itemToRemove){
+        let item = this.fromInventory(itemToRemove);
+        item.decreaseQuantity(1);
+
+        for(let i = 0; i < this.inventory.length; i++){
+            if(this.inventory[i].getQuantity() <= 0){
+                this.inventory.splice(i, 1);
+            }
+        }
+
+        this.buildEquipment();
+    }
+    fromInventory(itemToFind){
+        for(let i = 0 ; i < this.inventory.length;i++){
+            if(this.inventory[i].getName() === getItem(itemToFind).name){
+                return this.inventory[i];
+            }
         }
     }
     equipItem(itemToEquip){
+
         for(let i = 0; i < this.inventory.length; i++){
 
-            if(this.inventory[i].slot === itemToEquip.slot){
-                this.inventory[i].equipped = false
-
+            if(this.inventory[i].getSlot() === itemToEquip.getSlot()){
+                this.inventory[i].setEquipped(false);
             }
-            if(this.inventory[i].name === itemToEquip.name){
-                this.inventory[i].equipped = true;
+            if(this.inventory[i].getName() === itemToEquip.getName()){
+                this.inventory[i].setEquipped(true);
             }
         }
-        this.addAbilities();
+
+        this.generateAllAbilities();
         this.buildEquipment();
         this.calculateArmor();
     }
@@ -175,21 +200,51 @@ export default class Player {
         this.equipment = [];
 
         for(let i = 0; i < this.inventory.length; i++) {
-            if (this.inventory[i].equipped === true) {
-                if (this.inventory[i].type === 'ARMOR') {
+            if (this.inventory[i].getEquipped() === true) {
+                if (this.inventory[i].getType() === 'ARMOR') {
                     this.equipment.push(this.inventory[i]);
                 }
             }
         }
     }
-
     calculateArmor(){
         this.armor = 0;
         for(let i = 0; i < this.equipment.length; i++){
-            if(this.inventory[i].type === 'ARMOR'){
-                this.armor = this.armor + this.inventory[i].effect;
+            if(this.inventory[i].getType() === 'ARMOR'){
+                this.armor = this.armor + this.inventory[i].getEffect();
             }
         }
     }
 
+    levelUp() {
+
+        this.availableAbilities.forEach(function (element) {
+
+            let nextLevel = element.getLevel() + 1;
+            let targetExp = nextLevel * (nextLevel - 1) * 200;
+
+            if(element.getExp() >= targetExp){
+                element.increaseLevel();
+            }
+
+            element.resetCount();
+        });
+
+        let nextLevel = this.unarmedLvl + 1;
+        let targetExp =  nextLevel * (nextLevel - 1) * 200;
+
+        if(this.unarmedEXP >= targetExp){
+            this.unarmedLvl += 1;
+        }
+
+        nextLevel = this.swordLvl + 1;
+        targetExp =  nextLevel * (nextLevel - 1) * 200;
+
+        if(this.swordExp >= targetExp){
+            this.swordLvl += 1;
+        }
+
+        this.generateAllAbilities();
+
+    }
 }

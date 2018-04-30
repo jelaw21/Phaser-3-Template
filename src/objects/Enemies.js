@@ -1,4 +1,4 @@
-import {getAbility, searchAbilities}  from "./Abilities";
+import {getAbility, searchAbilities}  from "./AbilitiesList";
 
 export default function getEnemy(enemy){
 
@@ -12,7 +12,7 @@ let enemies = {
         'image': 'goblin',
         'health': 20,
         'abilities': [getAbility('punch'), getAbility('kick')],
-        'exp': 20,
+        'exp': 500,
         'chance': 50,
         'gold': 0
     }

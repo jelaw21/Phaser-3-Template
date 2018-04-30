@@ -69,7 +69,7 @@ export default class Preload extends Phaser.Scene{
         this.load.image('kick','assets/images/kick.png' );
         this.load.image('buttonDown','assets/images/buttonDown.png' );
         this.load.image('buttonUp','assets/images/buttonUp.png' );
-        this.load.image('abilitiesGUI','assets/images/abilitiesGUI.png' );
+        //this.load.image('abilitiesGUI','assets/images/abilitiesGUI.png' );
         //this.load.image('inventoryGUI','assets/images/inventoryGUI.png' );
         this.load.image('messageGUI','assets/images/messageGUI.png' );
         this.load.bitmapFont('livingstone', 'assets/fonts/livingstone.png', 'assets/fonts/livingstone.fnt');
@@ -78,6 +78,7 @@ export default class Preload extends Phaser.Scene{
         this.load.image('battleButUp','assets/images/battleButUp.png' );
         this.load.image('itemBox','assets/images/itemBoxDarker.png' );
         this.load.image('inventoryGUI','assets/images/inventoryGUIDarker.png' );
+        this.load.image('abilitiesGUI','assets/images/abilitiesGUIDarker.png' );
     }
 
     create(){

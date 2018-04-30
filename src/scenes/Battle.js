@@ -12,9 +12,7 @@ export default class Battle extends Phaser.Scene {
 
         this.player = data.player;
         this.goons = data.goons;
-        //this.lastLevel = data.player.scene;
-        this.lastLevel = this.scene.get('level1');
-        //this.player = new Player(this, 0, 0, ' ', 0);
+        this.lastLevel = data.scene;
         this.player.equipAbilities();
         this.abilities = this.player.getActiveAbilities();
 
@@ -40,12 +38,20 @@ export default class Battle extends Phaser.Scene {
         this.background = this.add.image(0, 0, 'battleGUI').setOrigin(0);
 
         for(let i = 0; i< this.abilities.length; i++){
-                let button = this.add.image(20, (i * 60) + 365, 'battleButUp').setInteractive().setOrigin(0).setName(this.abilities[i].name).setDisplaySize(190,49);
-                this.buttonGroup.push(button);
-                let text = this.add.text(0 , 0, this.abilities[i].name, {fontSize: 20});
-                //let text = this.add.bitmapText(0, 0,'livingstone', 'SWEEPING CRANE'/*this.abilities[i].name*/, 24);
-                this.textGroup.push(text);
-                Phaser.Display.Align.In.Center(this.textGroup[i], this.buttonGroup[i], -22, -5);
+            let posX = 0;
+            if(i%2 === 0){
+                posX = 20;
+            }else
+                posX = 260;
+
+            let button = this.add.image(posX, (i * 60) + 365, 'battleButUp').setInteractive().setOrigin(0).setName(this.abilities[i].name).setDisplaySize(190,49);
+            this.buttonGroup.push(button);
+            let text = this.add.text(0 , 0, this.abilities[i].name, {fontSize: 20});
+            //let text = this.add.bitmapText(0, 0,'livingstone', 'SWEEPING CRANE'/*this.abilities[i].name*/, 24);
+            this.textGroup.push(text);
+            Phaser.Display.Align.In.Center(this.textGroup[i], this.buttonGroup[i], -22, -5);
+
+
         }
         /*let attack1Super = this.add.image(260, 365, 'button').setOrigin(0);
         let attack2 = this.add.image(20, 425, 'button').setOrigin(0);
@@ -241,11 +247,13 @@ export default class Battle extends Phaser.Scene {
                     this.playerDamage = this.playerDamage + this.currentAtk.damage[this.hitCount];
                     this.status.setText(this.playerDamage);
                     Phaser.Display.Align.To.TopCenter(this.status, this.currentEnemy);
+                    this.currentAtk.increaseCount();
                 }
             }
             this.hitCount++;
             if(this.hitCount === this.currentAtk.numAtk){
                 this.playerDamage = this.playerDamage + this.currentAtk.damage[this.currentAtk.numAtk];
+                this.currentAtk.increaseCount();
                 this.time.delayedCall(250, this.bonusHit, [], this);
             }
         }

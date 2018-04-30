@@ -1,4 +1,4 @@
-import getItem from '../objects/Items.js'
+import getItem from './ItemList.js'
 
 export default class PlayerSprite extends Phaser.GameObjects.Sprite {
 
@@ -32,10 +32,10 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
 
     //TODO
     initialEquipment(layers){
-        this.playerData.addToInventory(getItem('common_chest'));
-        this.playerData.addToInventory(getItem('common_legs'));
-        this.playerData.equipItem(getItem('common_chest'));
-        this.playerData.equipItem(getItem('common_legs'));
+        this.playerData.addToInventory('common_chest');
+        this.playerData.addToInventory('common_legs');
+        this.playerData.equipItem(this.playerData.fromInventory('common_chest'));
+        this.playerData.equipItem(this.playerData.fromInventory('common_legs'));
         this.buildEquipped(this, layers);
     }
 
@@ -115,6 +115,7 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
             this.scene.scene.pause(this.level);
         }
     }
+
     equipUpdate(x, y){
         this.equipment.forEach(function(element){
             element.body.setVelocity(x, y);

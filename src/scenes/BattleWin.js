@@ -5,7 +5,7 @@ export default class BattleWin extends Phaser.Scene {
     }
 
     init(data){
-        this.lastScene = data.scene;
+        this.lastLevel = data.scene;
         this.enemies = data.goons;
         this.player = data.player;
     }
@@ -13,7 +13,11 @@ export default class BattleWin extends Phaser.Scene {
     create(){
         let gold = 0;
         let exp = 0;
-        let numAbilities = this.player.getAvailableAbilities().length;
+        let totalCount = 0;
+        //[UNARMED,SWORD, ... ]
+        let expTypeCount = [0, 0];
+        let abilities = this.player.getAvailableAbilities();
+        let numAbilities = abilities.length;
 
         this.enemies.forEach(function(element){
             gold = gold + element.getGold();
@@ -23,9 +27,32 @@ export default class BattleWin extends Phaser.Scene {
             exp = exp + element.getExp();
         });
 
+        for(let i = 0; i < numAbilities; i++){
+            totalCount += abilities[i].getCount();
+            if(abilities[i].getType() === "UNARMED"){
+                expTypeCount[0] = expTypeCount[0] + abilities[i].getCount();
+            }else if(abilities[i].getType() === "SWORD"){
+                expTypeCount[1] = expTypeCount[1] + abilities[i].getCount();
+            }
+        }
+
+        this.player.addUnarmedExp(Math.round((expTypeCount[0]/totalCount)*exp));
+        this.player.addSwordExp(Math.round((expTypeCount[1]/totalCount)*exp));
+
+
+        for(let i = 0; i < numAbilities; i++){
+            let expShare = Math.round((abilities[i].getCount()/totalCount)*exp);
+            console.log(this.player.availableAbilities);
+            this.player.availableAbilities[i].setExp(expShare);
+        }
+
+        this.player.addExp(exp);
         this.player.addGold(gold);
-        this.player.addUnarmedExp(exp);
-        this.player.addAbilities();
+        this.player.levelUp();
+
+        console.log(this.player);
+        console.log(this.player.getAvailableAbilities());
+
         let newAbilities = this.player.getAvailableAbilities().length;
 
         let graphics = this.add.graphics();
@@ -43,11 +70,15 @@ export default class BattleWin extends Phaser.Scene {
         }
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(4/5), "click to continue...");
         this.input.on('pointerdown', this.resumeScene, this);
+
+
+
+
     }
 
     resumeScene(){
         this.scene.stop(this);
-        this.scene.resume(this.lastScene);
+        this.scene.resume(this.lastLevel);
 
     }
 }

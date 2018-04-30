@@ -7,8 +7,6 @@ export default class AbilitiesManager extends Phaser.Scene {
     init(data){
         this.player = data.player;
         this.player.addAbilities();
-        //this.player.unarmedEXP = 50;
-        //this.sprite = data.sprite;
         this.lastScene = data.scene;
         this.abilities = this.player.getAvailableAbilities();
     }
@@ -46,7 +44,6 @@ export default class AbilitiesManager extends Phaser.Scene {
         this.zoneFooter = this.add.zone(144, 428, 512, 128).setName('FOOTER');
         this.checkboxGroup = [];
 
-        //this.title = this.add.text(this.cWidth/2-4, 62, "ABILITIES", {fontSize: 20, fontFamily: 'Berkshire Swash', fill: '#000'}).setOrigin(.5);
         this.title = this.add.bitmapText(this.cWidth/2-4, 62, 'livingstone',"ABILITIES", 32).setOrigin(.5);
 
 
