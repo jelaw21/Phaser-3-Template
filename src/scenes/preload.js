@@ -73,8 +73,9 @@ export default class Preload extends Phaser.Scene{
         this.load.image('inventoryGUI','assets/images/inventoryGUI.png' );
         this.load.image('messageGUI','assets/images/messageGUI.png' );
         this.load.bitmapFont('livingstone', 'assets/fonts/livingstone.png', 'assets/fonts/livingstone.fnt');
-
-
+        this.load.image('battleGUI','assets/images/battleGUI.png' );
+        this.load.image('battleButDown','assets/images/battleButDown.png' );
+        this.load.image('battleButUp','assets/images/battleButUp.png' );
     }
 
     create(){

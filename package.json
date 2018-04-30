@@ -18,7 +18,7 @@
   "author": "John Cheesman",
   "license": "MIT",
   "dependencies": {
-    "phaser": "^3.4.0"
+    "phaser": "^3.6.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

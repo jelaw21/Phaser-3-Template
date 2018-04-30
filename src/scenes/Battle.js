@@ -34,20 +34,18 @@ export default class Battle extends Phaser.Scene {
     //CREATE GRAPHICS
     create(){
         let graphics = this.add.graphics();
-        graphics.fillStyle(0x708090, .7);
+        graphics.fillStyle(0x203040, .7);
         graphics.fillRect(0, 0, this.sys.game.config.width, this.sys.game.config.height);
-        graphics.fillStyle(0x2f4f4f, .7);
-        graphics.fillRect(0,this.sys.game.config.height*(3/5), this.sys.game.config.width *(3/5), this.sys.game.config.height );
-        graphics.fillStyle(0x808080, .7);
-        graphics.fillRect(this.sys.game.config.width *(3/5),this.sys.game.config.height*(3/5), this.sys.game.config.width *(3/5), this.sys.game.config.height );
 
+        this.background = this.add.image(0, 0, 'battleGUI').setOrigin(0);
 
         for(let i = 0; i< this.abilities.length; i++){
-                let button = this.add.image(20, (i * 60) + 365, 'button').setInteractive().setOrigin(0).setName(this.abilities[i].name);
+                let button = this.add.image(20, (i * 60) + 365, 'battleButUp').setInteractive().setOrigin(0).setName(this.abilities[i].name).setDisplaySize(190,49);
                 this.buttonGroup.push(button);
-                let text = this.add.text(0 , 0, this.abilities[i].name);
+                let text = this.add.text(0 , 0, this.abilities[i].name, {fontSize: 20});
+                //let text = this.add.bitmapText(0, 0,'livingstone', 'SWEEPING CRANE'/*this.abilities[i].name*/, 24);
                 this.textGroup.push(text);
-                Phaser.Display.Align.In.Center(this.textGroup[i], this.buttonGroup[i]);
+                Phaser.Display.Align.In.Center(this.textGroup[i], this.buttonGroup[i], -22, -5);
         }
         /*let attack1Super = this.add.image(260, 365, 'button').setOrigin(0);
         let attack2 = this.add.image(20, 425, 'button').setOrigin(0);
@@ -135,12 +133,16 @@ export default class Battle extends Phaser.Scene {
     }
 
     startRound(){
+        this.buttonGroup.forEach(function(element){
+           element.setTexture('battleButUp');
+        });
         this.playerDamage = 0;
         this.hitCount = 0;
         this.enemyCount = 0;
         let dontAttack = false;
         let validTarget = true;
         this.selector.setVisible(true);
+
         this.input.on('gameobjectdown', function(pointer, gameObject){
                 let now = this.scene;
                 now.clearText();
@@ -175,7 +177,7 @@ export default class Battle extends Phaser.Scene {
 
     }
     setupAttack(pointer, gameobject){
-        gameobject.setTexture('buttonPressed');
+        gameobject.setTexture('battleButDown');
         this.circleTarget.setVisible(true);
         this.circle.setVisible(true);
         //let attacks = [];
@@ -217,7 +219,6 @@ export default class Battle extends Phaser.Scene {
         this.clearText();
         //Phaser.Display.Align.To.TopCenter(this.status, this.enemies[0]);
 
-        button.setTexture('button');
         this.circle.setScale(6);
         this.attackGroup[0].restart();
         this.buttonGroup.forEach(function(element){

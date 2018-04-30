@@ -95,7 +95,7 @@ let items = {
         'quantity': 1,
         'icon': 'shouldersLeatherIcon',
         'equipped': false,
-        'desc': 'Protects the shoulders from harm and adds that \'beffy\' look.'
+        'desc': 'Protects the shoulders from harm and adds that \'beefy\' look.'
     },
     'short_sword':{
         'type': 'WEAPON',
