@@ -16,8 +16,10 @@ export default class BattleWin extends Phaser.Scene {
         let totalCount = 0;
         //[UNARMED,SWORD, ... ]
         let expTypeCount = [0, 0];
-        let abilities = this.player.getAllAbilities();
+        let abilities = this.player.getCurrentAvailableAbilities();
         let numAbilities = abilities.length;
+
+        console.log(numAbilities);
 
         this.enemies.forEach(function(element){
             gold = gold + element.getGold();
@@ -49,9 +51,9 @@ export default class BattleWin extends Phaser.Scene {
         this.player.addGold(gold);
         this.player.levelUp();
 
-        console.log(this.player.getAllAbilities());
 
         let newAbilities = this.player.getCurrentAvailableAbilities().length;
+        console.log(newAbilities);
 
         let graphics = this.add.graphics();
         graphics.fillStyle(0x2f4f4f, .7);
@@ -63,15 +65,11 @@ export default class BattleWin extends Phaser.Scene {
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(2/5)+20, exp);
         if(newAbilities > numAbilities){
             this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5), "ABILITY EARNED: ");
-            this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5)+20, this.player.availableAbilities[newAbilities -1].name);
+            this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5)+20, this.player.currentAvailableAbilities[newAbilities -1].name);
             this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(3/5)+50, "PRESS \'P\' TO EQUIP");
         }
         this.add.text(this.sys.game.config.width/2, this.sys.game.config.height*(4/5), "click to continue...");
         this.input.on('pointerdown', this.resumeScene, this);
-
-
-
-
     }
 
     resumeScene(){

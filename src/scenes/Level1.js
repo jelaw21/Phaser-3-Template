@@ -89,23 +89,19 @@ export default class Level1 extends Phaser.Scene {
         coin.destroy();
         this.playerData.addGold(1);
         if(this.playerData.getGold() === 5){
-            //this.playerData.addToInventory('leather_armor');
-            this.playerData.removeFromInventory('leather_armor');
+            this.playerData.addToInventory('leather_armor');
             this.playerData.addToInventory('common_shoes');
             this.playerData.addToInventory('leather_bracers');
             this.playerData.addToInventory('leather_shoulders');
-            var message = new MessagePopUp(this, this.player.x, this.player.y, 'messageGUI');
+            let message = new MessagePopUp(this, this.player.x, this.player.y, 'messageGUI');
             this.add.existing(message);
             message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
-            //console.log(this.playerData.fromInventory('leather_armor').getQuantity());
-            //console.log(getItem('leather_armor').quantity);
         }
         if(this.playerData.getGold() === 1){
             this.playerData.addToInventory('leather_armor');
             this.cameras.main.shake(250);
             let goons = ['goblin'];
             this.time.delayedCall(250, this.startBattle, [goons], this);
-            //bump
 
         }
         if(this.playerData.getGold() === 6){
@@ -123,13 +119,9 @@ export default class Level1 extends Phaser.Scene {
     }
 
     hitGate(player, gate){
-        if(this.playerData.getGold() >= 0){
+        if(this.playerData.getGold() >= 8){
             gate.destroy();
-            this.cameras.main.fade(1000);
-
             this.scene.start('gameOver', {player: this.playerData});
-
-
         }else{
             this.events.emit('gateMessage');
         }

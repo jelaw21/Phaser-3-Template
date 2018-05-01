@@ -256,6 +256,5 @@ export default class Player {
         }
 
         this.generateAllAbilities();
-
     }
 }

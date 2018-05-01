@@ -115,7 +115,8 @@ export default class Battle extends Phaser.Scene {
         //TODO ENEMY AND PLAYER'S HEALTH BARS
         this.currentEnemy = this.enemies[0];
         this.selector = this.add.image(100, 100, 'arrow').setAngle(-90).setVisible(false).setOrigin(0,0);
-        this.add.text(200 ,325, 'HIT \'A\' WHEN CIRCLES ARE ON EACH OTHER TO ATTACK');
+        this.add.text(200 ,300, 'HIT \'A\' WHEN CIRCLES ARE ON EACH OTHER TO ATTACK');
+        this.add.text(100, 325, '\'A\' ONLY REGISTERS ONCE PER ATTACK. SO NO SPAMMING, WOODY WOODPECKER');
         this.status = this.add.text(0, 0, '');
         this.circle = this.add.image(100, 100,'attackCircle').setVisible(false);
         this.circleTarget = this.add.image(100, 100,'attackCircle').setScale(1).setVisible(false);
@@ -256,6 +257,9 @@ export default class Battle extends Phaser.Scene {
                 this.currentAtk.increaseCount();
                 this.time.delayedCall(250, this.bonusHit, [], this);
             }
+        }else{
+            this.status.setText("MISSED");
+            Phaser.Display.Align.To.TopCenter(this.status, this.currentEnemy);
         }
 
         this.input.keyboard.off('keydown_A');
