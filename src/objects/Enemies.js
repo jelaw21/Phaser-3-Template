@@ -12,7 +12,7 @@ let enemies = {
         'image': 'goblin',
         'health': 20,
         'abilities': [getAbility('punch'), getAbility('kick')],
-        'exp': 20,
+        'exp': 500,
         'chance': 50,
         'gold': 0
     }

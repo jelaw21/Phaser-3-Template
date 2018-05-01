@@ -1,4 +1,4 @@
-import MessagePopUp from '../objects/MessagePopUp'
+import MessagePopUp from './MessagePopUp'
 import PlayerSprite from '../objects/playerSprite'
 import Player from '../objects/player'
 import getConversation from '../objects/Conversations.js'
@@ -93,9 +93,10 @@ export default class Level1 extends Phaser.Scene {
             this.playerData.addToInventory('common_shoes');
             this.playerData.addToInventory('leather_bracers');
             this.playerData.addToInventory('leather_shoulders');
-            let message = new MessagePopUp(this, this.player.x, this.player.y, 'messageGUI');
+            this.scene.launch('message', {player:this.player, text: 'You\'ve Earned Leather Armor. Press \'I\' to equip'});
+            /*let message = new MessagePopUp(this, this.player.x, this.player.y, 'messageGUI');
             this.add.existing(message);
-            message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');
+            message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');*/
         }
         if(this.playerData.getGold() === 1){
             this.playerData.addToInventory('leather_armor');
@@ -127,13 +128,10 @@ export default class Level1 extends Phaser.Scene {
         }
     }
     signMessage(){
-        var message = new MessagePopUp(this, this.player.x, this.player.y, 'messageGUI');
-        this.add.existing(message);
-        message.createText('Collect Gold pieces. Hit \'I\' for Inventory');
+        let text = ['Collect Gold pieces.', '', 'Hit \'I\' for Inventory'];
+        this.scene.launch('message', {player:this.player, text: text});
     }
     gateMessage(){
-        var message = new MessagePopUp(this, this.player.x, this.player.y, 'messageGUI').setOrigin(0);
-        this.add.existing(message);
-        message.createText('You need to find all 8 coins to pass.');
+        this.scene.launch('message', {player:this.player, text: 'You need to find all 8 coins to pass.'});
     }
 }
