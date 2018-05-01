@@ -109,6 +109,8 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
             this.scene.scene.pause(this.level);
         }
 
+
+
     }
 
     equipUpdate(x, y){
