@@ -32,7 +32,7 @@ export default class MessagePopUp extends Phaser.Scene{
 
         this.closeButton.on('pointerdown', this.closeMessageBox, this);
 
-        this.time.delayedCall(4000, this.closeMessageBox, [], this);
+        this.time.delayedCall(2500, this.closeMessageBox, [], this);
     }
 
     closeMessageBox(){

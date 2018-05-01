@@ -29,6 +29,7 @@ export default class Preload extends Phaser.Scene{
         this.load.spritesheet('playerS', 'assets/images/BODY_SOUTH.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('deadMale', 'assets/images/BODY_male.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('goblin', 'assets/images/goblin.png', {frameWidth: 64, frameHeight:64});
+        this.load.spritesheet('ShortSword', 'assets/images/short_sword.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('LeatherB', 'assets/images/TORSO_leather_armor_torso.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('LeatherD', 'assets/images/TORSO_leather_armor_bracers.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('LeatherA', 'assets/images/TORSO_leather_armor_shirt_white.png', {frameWidth: 64, frameHeight: 64});
@@ -78,8 +79,8 @@ export default class Preload extends Phaser.Scene{
         this.load.image('abilitiesGUI','assets/images/abilitiesGUIDarker.png' );
         this.load.image('battleResultGUI','assets/images/battleResultGUI.png' );
         this.load.image('short_sword','assets/images/swordIcon.png');
-        this.load.image('slash','assets/images/swordIcon.png');
-        this.load.image('stab','assets/images/swordIcon.png');
+        this.load.image('slash','assets/images/slashIcon.png');
+        this.load.image('stab','assets/images/stabIcon.png');
     }
 
     create(){
@@ -355,6 +356,38 @@ export default class Preload extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers('deadMale'),
             frameRate: 5
         });
+        this.anims.create({
+            key:'rightShortSword',
+            frames: this.anims.generateFrameNumbers('ShortSword', {start: 27, end: 35}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'leftShortSword',
+            frames: this.anims.generateFrameNumbers('ShortSword', {start: 9, end: 17}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'upShortSword',
+            frames: this.anims.generateFrameNumbers('ShortSword', {start: 0, end: 8}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'downShortSword',
+            frames: this.anims.generateFrameNumbers('ShortSword', {start: 18, end: 26}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key:'stopShortSword',
+            frames: [{key: 'ShortSword', frame: 18}],
+            frameRate: 10
+        });
         this.time.delayedCall(1000, this.callMenu, [], this);
     }
 
@@ -362,7 +395,7 @@ export default class Preload extends Phaser.Scene{
         //this.player = new Player(this, 0, 0, ' ', 0);
         //this.scene.start('dialog', {player: this.player, content: getConversation('prologue'), scene: this});
         this.scene.start('MainMenu');
+        //bump
     };
-
 }
 

@@ -20,7 +20,8 @@ export default class Player {
         this.swordLvl = 1;
         this.inventory = [new Item(getItem('gold'))];
         this.equipment = [];
-        this.armor = 20;
+        this.armor = 0;
+        this.maxArmor = 0;
     }
 
     addGold(amount){
@@ -72,6 +73,10 @@ export default class Player {
 
     getArmor(){
         return this.armor;
+    }
+
+    getMaxArmor(){
+        return this.maxArmor;
     }
 
     getEquipment(){
@@ -229,8 +234,9 @@ export default class Player {
     calculateArmor(){
         this.armor = 0;
         for(let i = 0; i < this.equipment.length; i++){
-            if(this.inventory[i].getType() === 'ARMOR'){
+            if(this.equipment[i].getType() === 'ARMOR'){
                 this.armor = this.armor + this.inventory[i].getEffect();
+                this.maxArmor = this.maxArmor + this.inventory[i].getMaxEffect();
             }
         }
     }

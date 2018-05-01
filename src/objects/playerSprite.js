@@ -144,6 +144,11 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
                     this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.playerData.equipment[i].image[j], 18));
                 }
             }
+            if(this.playerData.equipment[i].type === 'WEAPON') {
+                for (let j = 0; j < this.playerData.equipment[i].image.length; j++) {
+                    this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.playerData.equipment[i].image[j], 18));
+                }
+            }
         }
         for(let i = 0; i < this.equipment.length; i++){
             this.equipment[i].body.setSize(16,16);

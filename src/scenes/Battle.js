@@ -38,19 +38,22 @@ export default class Battle extends Phaser.Scene {
         this.graphics1.fillRect(0, 0, this.cWidth, this.cHeight);
 
         this.background = this.add.image(0, 0, 'battleGUI').setOrigin(0);
+        let positionX = [];
+        let positionY = [];
+
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j<2 ;j++){
+                if(j === 0){
+                    positionX.push(20)
+                }else
+                    positionX.push(260)
+                positionY.push((i*60) + 365)
+            }
+        }
 
         for(let i = 0; i< this.abilities.length; i++){
-            let posX = 0;
-            let posY = 0;
-            if(i%2 === 0){
-                posX = 20;
-                posY = (i*60) + 365;
-            }else{
-                posX = 260;
-                posY = ((i-1)* 60) + 365;
-            }
 
-            let button = this.add.image(posX, posY, 'battleButUp').setInteractive().setOrigin(0).setName(this.abilities[i].name).setDisplaySize(190,49);
+            let button = this.add.image(positionX[i], positionY[i], 'battleButUp').setInteractive().setOrigin(0).setName(this.abilities[i].name).setDisplaySize(190,49);
             this.buttonGroup.push(button);
             let text = this.add.text(0 , 0, this.abilities[i].name, {fontSize: 20});
             //let text = this.add.bitmapText(0, 0,'livingstone', 'SWEEPING CRANE'/*this.abilities[i].name*/, 24);
@@ -144,11 +147,6 @@ export default class Battle extends Phaser.Scene {
 
         this.startRound();
     }
-
-    update(){
-        console.log(Math.abs(this.circle.scaleX - this.circleTarget.scaleX));
-    }
-
     startRound(){
         this.buttonGroup.forEach(function(element){
            element.setTexture('battleButUp');
@@ -229,9 +227,8 @@ export default class Battle extends Phaser.Scene {
                 })
             }
         }
-        //this.targetArea2 = this.add.image(this.circleTarget.x, this.circleTarget.y, 'attackCircle').setScale(1 + this.currentAtk.getLevel() * .25);
-        //this.targetArea2 = this.add.image(this.circleTarget.x, this.circleTarget.y, 'attackCircle').setScale(1 - this.currentAtk.getLevel() * .25);
-        this.graphics1.lineStyle(62 * (this.currentAtk.getLevel() * .25), 0xffffff, 0.5);
+
+        this.graphics1.lineStyle(62 * (this.currentAtk.getLevel() * .20), 0xffffff, 0.5);
         this.graphics1.strokeCircle(this.circleTarget.x, this.circleTarget.y, 31);
         this.playAttack1(gameobject);
     }
@@ -256,17 +253,16 @@ export default class Battle extends Phaser.Scene {
 
     //PLAYER HITS
     registerHit(){
-        console.log(Math.abs(this.circle.scaleX - this.circleTarget.scaleX));
-        if(Math.abs(this.circle.scaleX - this.circleTarget.scaleX)< (this.currentAtk.getLevel() * .25)){
-            for(let i = 0; i < this.attackGroup.length; i++){
-                if(this.attackGroup[i].isPlaying()){
+        if(Math.abs(this.circle.scaleX - this.circleTarget.scaleX)< (this.currentAtk.getLevel() * .20)){
+            for(let i = 0; i < this.attackGroup.length; i++) {
+                if (this.attackGroup[i].isPlaying()) {
                     this.playerDamage = this.playerDamage + this.currentAtk.damage[this.hitCount];
                     this.status.setText(this.playerDamage);
                     Phaser.Display.Align.To.TopCenter(this.status, this.currentEnemy);
                     this.currentAtk.increaseCount();
+                    this.hitCount++;
                 }
             }
-            this.hitCount++;
             if(this.hitCount === this.currentAtk.numAtk){
                 this.playerDamage = this.playerDamage + this.currentAtk.damage[this.currentAtk.numAtk];
                 this.currentAtk.increaseCount();
@@ -374,13 +370,11 @@ export default class Battle extends Phaser.Scene {
 
     adjustDamage(damage){
 
-        let equipment = this.player.equipment;
         let adjustedDamage = 0;
-
-        for(let i = 0; i < equipment.length; i++){
-
-            adjustedDamage += (Math.min((damage*((equipment[i].effect/100))), equipment[i].maxEffect));
+        if(this.player.getArmor()> 0){
+            adjustedDamage += (Math.min(damage * (this.player.getArmor()/100), this.player.getMaxArmor()));
         }
+
         adjustedDamage = Math.round(damage - adjustedDamage);
 
         return adjustedDamage;

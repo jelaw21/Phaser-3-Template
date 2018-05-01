@@ -102,7 +102,7 @@ let items = {
         'group': 'SWORD',
         'name': 'SHORT SWORD',
         'slot': 'WEAPON',
-        'image': [' '],
+        'image': ['ShortSword'],
         'quantity': 1,
         'abilities': ['slash', 'stab'],
         'icon': 'short_sword',

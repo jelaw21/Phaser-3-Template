@@ -88,6 +88,14 @@ export default class Level1 extends Phaser.Scene {
     collectCoins(player, coin){
         coin.destroy();
         this.playerData.addGold(1);
+
+        if(this.playerData.getGold() === 1){
+            this.playerData.addToInventory('short_sword');
+            this.cameras.main.shake(250);
+            let goons = ['goblin'];
+            this.time.delayedCall(250, this.startBattle, [goons], this);
+        }
+
         if(this.playerData.getGold() === 5){
             this.playerData.addToInventory('leather_armor');
             this.playerData.addToInventory('common_shoes');
@@ -98,13 +106,7 @@ export default class Level1 extends Phaser.Scene {
             this.add.existing(message);
             message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');*/
         }
-        if(this.playerData.getGold() === 1){
-            this.playerData.addToInventory('leather_armor');
-            this.cameras.main.shake(250);
-            let goons = ['goblin'];
-            this.time.delayedCall(250, this.startBattle, [goons], this);
 
-        }
         if(this.playerData.getGold() === 6){
             this.cameras.main.shake(250);
             let goons = ['goblin','goblin', 'goblin'];
