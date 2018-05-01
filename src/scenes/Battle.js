@@ -39,12 +39,16 @@ export default class Battle extends Phaser.Scene {
 
         for(let i = 0; i< this.abilities.length; i++){
             let posX = 0;
+            let posY = 0;
             if(i%2 === 0){
                 posX = 20;
-            }else
+                posY = (i*60) + 365;
+            }else{
                 posX = 260;
+                posY = ((i-1)* 60) + 365;
+            }
 
-            let button = this.add.image(posX, (i * 60) + 365, 'battleButUp').setInteractive().setOrigin(0).setName(this.abilities[i].name).setDisplaySize(190,49);
+            let button = this.add.image(posX, posY, 'battleButUp').setInteractive().setOrigin(0).setName(this.abilities[i].name).setDisplaySize(190,49);
             this.buttonGroup.push(button);
             let text = this.add.text(0 , 0, this.abilities[i].name, {fontSize: 20});
             //let text = this.add.bitmapText(0, 0,'livingstone', 'SWEEPING CRANE'/*this.abilities[i].name*/, 24);

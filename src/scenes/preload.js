@@ -79,6 +79,7 @@ export default class Preload extends Phaser.Scene{
         this.load.image('itemBox','assets/images/itemBoxDarker.png' );
         this.load.image('inventoryGUI','assets/images/inventoryGUIDarker.png' );
         this.load.image('abilitiesGUI','assets/images/abilitiesGUIDarker.png' );
+        this.load.image('battleResultGUI','assets/images/battleResultGUI.png' );
     }
 
     create(){

@@ -54,6 +54,14 @@ export default class Player {
         return this.unarmedEXP;
     }
 
+    getUnarmedLevel(){
+        return this.unarmedLvl;
+    }
+
+    getSwordLevel(){
+        return this.swordLvl;
+    }
+
     addSwordExp(amount){
         this.swordEXP += amount;
     }
