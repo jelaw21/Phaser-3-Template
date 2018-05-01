@@ -53,7 +53,7 @@ let abilities = {
         'experience': 0,
         'level': 1,
         'active': false,
-        'icon': 'kick',
+        'icon': 'slash',
         'desc': 'Swish and flick. Or just keep swishing.',
         'count': 0
     },
@@ -68,7 +68,7 @@ let abilities = {
         'experience': 0,
         'level': 1,
         'active': false,
-        'icon': 'kick',
+        'icon': 'stab',
         'desc': 'Stick em with the pointy end.',
         'count': 0
     }

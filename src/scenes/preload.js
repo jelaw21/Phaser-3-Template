@@ -1,6 +1,3 @@
-import Player from "../objects/playerSprite";
-import getConversation from "../objects/Conversations";
-
 export default class Preload extends Phaser.Scene{
 
     constructor(config){
@@ -80,6 +77,9 @@ export default class Preload extends Phaser.Scene{
         this.load.image('inventoryGUI','assets/images/inventoryGUIDarker.png' );
         this.load.image('abilitiesGUI','assets/images/abilitiesGUIDarker.png' );
         this.load.image('battleResultGUI','assets/images/battleResultGUI.png' );
+        this.load.image('short_sword','assets/images/swordIcon.png');
+        this.load.image('slash','assets/images/swordIcon.png');
+        this.load.image('stab','assets/images/swordIcon.png');
     }
 
     create(){

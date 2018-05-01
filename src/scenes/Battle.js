@@ -257,7 +257,7 @@ export default class Battle extends Phaser.Scene {
     //PLAYER HITS
     registerHit(){
         console.log(Math.abs(this.circle.scaleX - this.circleTarget.scaleX));
-        if(Math.abs(this.circle.scaleX - this.circleTarget.scaleX)< (/*this.currentAtk.getLevel()*/ 10 * .25)){
+        if(Math.abs(this.circle.scaleX - this.circleTarget.scaleX)< (this.currentAtk.getLevel() * .25)){
             for(let i = 0; i < this.attackGroup.length; i++){
                 if(this.attackGroup[i].isPlaying()){
                     this.playerDamage = this.playerDamage + this.currentAtk.damage[this.hitCount];

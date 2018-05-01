@@ -103,9 +103,11 @@ let items = {
         'name': 'SHORT SWORD',
         'slot': 'WEAPON',
         'image': [' '],
+        'quantity': 1,
         'abilities': ['slash', 'stab'],
-        'icon': '',
-        'equipped': false
+        'icon': 'short_sword',
+        'equipped': false,
+        'desc': 'A fabulously common looking dull sword.'
     }
 };
 
