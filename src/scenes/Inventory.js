@@ -11,6 +11,7 @@ export default class Inventory extends Phaser.Scene {
         this.player = data.player;
         this.lastScene = data.scene;
         this.sprite = data.sprite;
+        this.blockedObjects = [];
     }
 
     create() {
@@ -65,7 +66,7 @@ export default class Inventory extends Phaser.Scene {
         this.invSprite = new PlayerSprite(this, this.cWidth/2, 132, 'playerS', 0);
         this.add.existing(this.invSprite);
         this.invSprite.init(this.player);
-        this.invSprite.buildEquipped(this.invSprite, this.lastScene.blockedObjects);
+        this.invSprite.buildEquipped();
         let minicam = this.cameras.add(this.cWidth/2-48, 132-48, 96 , 96);
         minicam.setBackgroundColor(0x002244).setZoom(1.5).startFollow(this.invSprite);
         this.add.text(510, 72, this.player.inventory[0].getName() + ":  " + this.player.inventory[0].getQuantity(), {fontSize: '24px', fontFamily: 'Marmelad', fill: '#ffffff'});

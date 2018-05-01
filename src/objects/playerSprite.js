@@ -28,15 +28,20 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
         this.keyD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.keyS = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.abilKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+
+
     }
 
     //TODO
-    initialEquipment(layers){
+    initialEquipment( ){
         this.playerData.addToInventory('common_chest');
         this.playerData.addToInventory('common_legs');
+        this.playerData.addToInventory('leather_armor');
         this.playerData.equipItem(this.playerData.fromInventory('common_chest'));
         this.playerData.equipItem(this.playerData.fromInventory('common_legs'));
-        this.buildEquipped(this, layers);
+        this.playerData.equipItem(this.playerData.fromInventory('leather_armor'));
+        this.buildEquipped(this, this.level.blockedObjects);
+        this.playerData.emitter.on('inventoryChanged', this.buildEquipped, this);
     }
 
     move(){
@@ -128,7 +133,10 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
         }
     }
 
-    buildEquipped(player, layers){
+    buildEquipped(){
+        console.log('buildEquipped');
+        let player = this;
+        let layers = this.level.blockedObjects;
         this.playerData.buildEquipment();
         for(let m = 0; m < this.equipment.length; m++){
            this.equipment[m].destroy();
@@ -152,7 +160,7 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
             this.equipment[i].body.setOffset(24, 47);
             this.equipment[i].body.collideWorldBounds = true;
         }
-        this.addEquipmentCollision(this.scene, layers);
+        this.addEquipmentCollision(this.level, layers);
     }
 
     playRightAnims(){

@@ -191,6 +191,11 @@ export default class Player {
             }
         }
 
+        console.log('inventoryChanged');
+
+        this.emitter = new Phaser.EventEmitter();
+        this.emitter.emit('inventoryChanged');
+
         this.buildEquipment();
     }
     fromInventory(itemToFind){

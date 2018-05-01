@@ -91,6 +91,7 @@ export default class Level1 extends Phaser.Scene {
 
         if(this.playerData.getGold() === 1){
             this.playerData.addToInventory('short_sword');
+            this.playerData.removeFromInventory('leather_armor');
             this.cameras.main.shake(250);
             let goons = ['goblin'];
             this.time.delayedCall(250, this.startBattle, [goons], this);
