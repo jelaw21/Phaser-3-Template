@@ -31,9 +31,11 @@ export default class Battle extends Phaser.Scene {
     }
     //CREATE GRAPHICS
     create(){
-        let graphics = this.add.graphics();
-        graphics.fillStyle(0x203040, .7);
-        graphics.fillRect(0, 0, this.sys.game.config.width, this.sys.game.config.height);
+        this.cWidth = this.sys.game.config.width;
+        this.cHeight = this.sys.game.config.height
+        this.graphics1 = this.add.graphics();
+        this.graphics1.fillStyle(0x203040, .7);
+        this.graphics1.fillRect(0, 0, this.cWidth, this.cHeight);
 
         this.background = this.add.image(0, 0, 'battleGUI').setOrigin(0);
 
@@ -143,6 +145,10 @@ export default class Battle extends Phaser.Scene {
         this.startRound();
     }
 
+    update(){
+        console.log(Math.abs(this.circle.scaleX - this.circleTarget.scaleX));
+    }
+
     startRound(){
         this.buttonGroup.forEach(function(element){
            element.setTexture('battleButUp');
@@ -189,7 +195,7 @@ export default class Battle extends Phaser.Scene {
     }
     setupAttack(pointer, gameobject){
         gameobject.setTexture('battleButDown');
-        this.circleTarget.setVisible(true);
+        //this.circleTarget.setVisible(true);
         this.circle.setVisible(true);
         //let attacks = [];
         this.input.off('gameobjectdown');
@@ -223,6 +229,10 @@ export default class Battle extends Phaser.Scene {
                 })
             }
         }
+        //this.targetArea2 = this.add.image(this.circleTarget.x, this.circleTarget.y, 'attackCircle').setScale(1 + this.currentAtk.getLevel() * .25);
+        //this.targetArea2 = this.add.image(this.circleTarget.x, this.circleTarget.y, 'attackCircle').setScale(1 - this.currentAtk.getLevel() * .25);
+        this.graphics1.lineStyle(62 * (this.currentAtk.getLevel() * .25), 0xffffff, 0.5);
+        this.graphics1.strokeCircle(this.circleTarget.x, this.circleTarget.y, 31);
         this.playAttack1(gameobject);
     }
     playAttack1(button){
@@ -246,7 +256,8 @@ export default class Battle extends Phaser.Scene {
 
     //PLAYER HITS
     registerHit(){
-        if(Math.abs(this.circle.scaleX - this.circleTarget.scaleX)< .2){
+        console.log(Math.abs(this.circle.scaleX - this.circleTarget.scaleX));
+        if(Math.abs(this.circle.scaleX - this.circleTarget.scaleX)< (/*this.currentAtk.getLevel()*/ 10 * .25)){
             for(let i = 0; i < this.attackGroup.length; i++){
                 if(this.attackGroup[i].isPlaying()){
                     this.playerDamage = this.playerDamage + this.currentAtk.damage[this.hitCount];
@@ -271,6 +282,9 @@ export default class Battle extends Phaser.Scene {
 
     //ENEMIES ATTACK
     waitAFew(tween,target,button,scene){
+        scene.graphics1.clear();
+        scene.graphics1.fillStyle(0x203040, .7);
+        scene.graphics1.fillRect(0, 0, scene.cWidth, scene.cHeight);
         if(scene.playerDamage > 0){
             let enemy = scene.enemyGroup[scene.currentEnemy.getData('ID')];
             enemy.setHealth(enemy.getHealth() - scene.playerDamage);
