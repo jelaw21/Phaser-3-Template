@@ -10,7 +10,7 @@ export default class Player {
         this.name = 'Erick';
         this.maxHealth = 200;
         this.health = this.maxHealth;
-        this.allAvaiableAbilities = [];
+        this.allAvaiableAbilities = [new Ability(getAbility('punch'))];
         this.currentAvailableAbilities = [];
         this.activeAbilities = [];
         this.exp = 0;
@@ -77,34 +77,42 @@ export default class Player {
     }
 
     toggleActiveAbility(ability){
-        for(let i = 0; i < this.availableAbilities.length; i++){
-            if(ability.name === this.availableAbilities[i].getName() ){
-                 if(this.availableAbilities[i].getActive()){
-                    this.availableAbilities[i].setActive(false)
+        for(let i = 0; i < this.currentAvailableAbilities.length; i++){
+            if(ability.name === this.currentAvailableAbilities[i].getName() ){
+                 if(this.currentAvailableAbilities[i].getActive()){
+                    this.currentAvailableAbilities[i].setActive(false)
                 }else
-                    this.availableAbilities[i].setActive(true)
+                    this.currentAvailableAbilities[i].setActive(true)
             }
         }
     }
 
-    getAvailableAbilities(){
+    getCurrentAvailableAbilities(){
         return this.currentAvailableAbilities;
+    }
+
+    getAbility(index){
+        return this.allAvaiableAbilities[index];
+    }
+
+    getAllAbilities(){
+        return this.allAvaiableAbilities;
     }
 
     generateAllAbilities(){
         let abilities = getAbilityList();
         for(let i = 0; i < abilities.length; i++){
-            for(let j = 0; j < this.allAvaiableAbilities.length; j++){
-                if((getAbility(abilities[i]).type === 'UNARMED') && (this.unarmedLvl >= getAbility(abilities[i]).unlockLvl) && (getAbility(abilities[i]).name !== this.allAvaiableAbilities[j].getName())){
+            let foundIt = false;
+            let index = 0;
+                for(let j = 0; j < this.allAvaiableAbilities.length; j++){
+                    if(getAbility(abilities[i]).name === this.getAbility(j).getName()){
+                        foundIt = true;
+                    }
+                }
+                if(!foundIt){
                     this.allAvaiableAbilities.push(new Ability(getAbility(abilities[i])));
                 }
-                if((getAbility(abilities[i]).type === 'SWORD') && (this.swordLvl >= getAbility(abilities[i]).unlockLvl) && (getAbility(abilities[i]).name !== this.allAvaiableAbilities[j].getName())){
-                    this.allAvaiableAbilities.push(new Ability(getAbility(abilities[i])));
-                }
-            }
         }
-        console.log(this.allAvaiableAbilities);
-
         this.addAbilities();
     }
 
@@ -112,19 +120,19 @@ export default class Player {
         //look through unarmed
         this.currentAvailableAbilities = [];
 
-
         //ALL AVAILABLE UNARMED ARE ADDED
         for(let i = 0; i <  this.allAvaiableAbilities.length; i++){
-            if(this.allAvaiableAbilities.getType() === 'UNARMED'){
+            if(this.allAvaiableAbilities[i].getType() === 'UNARMED' && this.unarmedLvl >= this.allAvaiableAbilities[i].getUnlockLevel()){
                 this.currentAvailableAbilities.push(this.allAvaiableAbilities[i]);
             }
         }
         //look through weapons
         for(let i = 0; i < this.equipment.length; i++){
-            if(this.equipment[i].getType() === 'WEAPON' && this.equipment[i].getGroup() === 'SWORD' ){
-                for(let j = 0; j < this.equipment[i].getAbilities().length; j++){
+            if(this.equipment[i].getType() === 'WEAPON'){
+                for(let j = 0; j < this.equipment[i].abilities.length; j++){
                     for(let k = 0; k < this.allAvaiableAbilities.length; k++){
-                        if(this.equipment[i].abilities[j].getName() === this.allAvaiableAbilities[k].getName()){
+                        let ability = getAbility(this.equipment[i].abilities[j]);
+                        if(ability.name === this.allAvaiableAbilities[k].getName() && ability.type === 'SWORD' && this.swordLvl >= ability.unlockLvl){
                             this.currentAvailableAbilities.push(this.allAvaiableAbilities[k]);
                         }
                     }
@@ -204,6 +212,9 @@ export default class Player {
                 if (this.inventory[i].getType() === 'ARMOR') {
                     this.equipment.push(this.inventory[i]);
                 }
+                if (this.inventory[i].getType() === 'WEAPON'){
+                    this.equipment.push(this.inventory[i]);
+                }
             }
         }
     }
@@ -218,7 +229,7 @@ export default class Player {
 
     levelUp() {
 
-        this.availableAbilities.forEach(function (element) {
+        this.allAvaiableAbilities.forEach(function (element) {
 
             let nextLevel = element.getLevel() + 1;
             let targetExp = nextLevel * (nextLevel - 1) * 200;
@@ -240,7 +251,7 @@ export default class Player {
         nextLevel = this.swordLvl + 1;
         targetExp =  nextLevel * (nextLevel - 1) * 200;
 
-        if(this.swordExp >= targetExp){
+        if(this.swordEXP >= targetExp){
             this.swordLvl += 1;
         }
 

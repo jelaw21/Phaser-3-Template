@@ -8,7 +8,7 @@ export default class AbilitiesManager extends Phaser.Scene {
         this.player = data.player;
         this.player.addAbilities();
         this.lastScene = data.scene;
-        this.abilities = this.player.getAvailableAbilities();
+        this.abilities = this.player.getCurrentAvailableAbilities();
     }
 
     create(){
@@ -75,7 +75,7 @@ export default class AbilitiesManager extends Phaser.Scene {
     }
 
     setAbilityCheck(){
-        let abilities = this.player.getAvailableAbilities();
+        let abilities = this.player.getCurrentAvailableAbilities();
         for(let i = 0; i < abilities.length; i ++) {
             if(abilities[i].active){
                 this.checkboxGroup[i].setTexture('checkBox');

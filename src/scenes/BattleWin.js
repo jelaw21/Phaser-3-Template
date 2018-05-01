@@ -16,7 +16,7 @@ export default class BattleWin extends Phaser.Scene {
         let totalCount = 0;
         //[UNARMED,SWORD, ... ]
         let expTypeCount = [0, 0];
-        let abilities = this.player.getAvailableAbilities();
+        let abilities = this.player.getAllAbilities();
         let numAbilities = abilities.length;
 
         this.enemies.forEach(function(element){
@@ -28,11 +28,11 @@ export default class BattleWin extends Phaser.Scene {
         });
 
         for(let i = 0; i < numAbilities; i++){
-            totalCount += abilities[i].getCount();
+            totalCount += this.player.getAbility(i).getCount();
             if(abilities[i].getType() === "UNARMED"){
-                expTypeCount[0] = expTypeCount[0] + abilities[i].getCount();
+                expTypeCount[0] = expTypeCount[0] + this.player.getAbility(i).getCount();
             }else if(abilities[i].getType() === "SWORD"){
-                expTypeCount[1] = expTypeCount[1] + abilities[i].getCount();
+                expTypeCount[1] = expTypeCount[1] + this.player.getAbility(i).getCount();
             }
         }
 
@@ -41,19 +41,17 @@ export default class BattleWin extends Phaser.Scene {
 
 
         for(let i = 0; i < numAbilities; i++){
-            let expShare = Math.round((abilities[i].getCount()/totalCount)*exp);
-            console.log(this.player.availableAbilities);
-            this.player.availableAbilities[i].setExp(expShare);
+            let expShare = Math.round((this.player.getAbility(i).getCount()/totalCount)*exp);
+            this.player.getAbility(i).setExp(expShare);
         }
 
         this.player.addExp(exp);
         this.player.addGold(gold);
         this.player.levelUp();
 
-        console.log(this.player);
-        console.log(this.player.getAvailableAbilities());
+        console.log(this.player.getAllAbilities());
 
-        let newAbilities = this.player.getAvailableAbilities().length;
+        let newAbilities = this.player.getCurrentAvailableAbilities().length;
 
         let graphics = this.add.graphics();
         graphics.fillStyle(0x2f4f4f, .7);

@@ -1,7 +1,6 @@
 import MessagePopUp from '../objects/MessagePopUp'
 import PlayerSprite from '../objects/playerSprite'
 import Player from '../objects/player'
-import getItem from '../objects/ItemList.js'
 import getConversation from '../objects/Conversations.js'
 
 export default class Level1 extends Phaser.Scene {
