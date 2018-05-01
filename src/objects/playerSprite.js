@@ -92,28 +92,23 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
         }
         this.body.setVelocity(velX, velY);
         this.equipUpdate(velX, velY);
+
         this.checkMenus();
+
 
     }
 
-    checkMenus(){
-        if(this.invKey.isDown){
-            console.log('INV KEY PRESSED');
-            if(this.scene.scene.isActive('inventory')){
-                console.log("INV ACTIVE");
-                this.scene.scene.stop('inventory');
-                this.scene.scene.resume(this.scene);
-            }else{
-                console.log('INV NOT ACTIVE');
-                this.scene.scene.pause(this.level);
-                this.scene.scene.launch('inventory', {player: this.playerData, scene: this.level, sprite: this});
+    checkMenus() {
 
-            }
+        if(Phaser.Input.Keyboard.JustDown(this.invKey)) {
+            this.scene.scene.pause(this.level);
+            this.scene.scene.launch('inventory', {player: this.playerData, scene: this.level, sprite: this});
         }
-        if(this.abilKey.isDown){
+        if(Phaser.Input.Keyboard.JustDown(this.abilKey)) {
             this.scene.scene.launch('abilityMan', {player: this.playerData, scene: this.level});
             this.scene.scene.pause(this.level);
         }
+
     }
 
     equipUpdate(x, y){

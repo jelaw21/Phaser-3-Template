@@ -67,11 +67,15 @@ export default class AbilitiesManager extends Phaser.Scene {
         this.input.on('pointerout', this.clearDisplayName, this);
         //Phaser.Display.Align.In.Center(this.image, this.scene.add.zone(0,0,800,600));
 
-        //this.abilKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        this.abilKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
     }
-    update(){
 
+    update(){
+        if(Phaser.Input.Keyboard.JustDown(this.abilKey)){
+            this.scene.stop('abilityMan');
+            this.scene.resume(this.lastScene);
+        }
     }
 
     setAbilityCheck(){

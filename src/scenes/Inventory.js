@@ -94,7 +94,6 @@ export default class Inventory extends Phaser.Scene {
                 }
             }
         }
-
         this.closeButton.on('pointerdown', this.closeInventory, this);
 
         this.input.on('gameobjectdown', function (pointer, gameObject){
@@ -104,8 +103,20 @@ export default class Inventory extends Phaser.Scene {
         this.input.on('gameobjectover', this.showDescr, this);
         this.input.on('gameobjectout', this.clearDescr, this);
 
+        this.invKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
 
     }
+
+    update(){
+        if(Phaser.Input.Keyboard.JustDown(this.invKey)){
+            if (this.scene.isActive('inventory')) {
+                this.scene.stop('inventory');
+                this.scene.resume(this.lastScene);
+
+            }
+        }
+    }
+
 
     equipItem(pointer, invItem){
         for(let i = 0; i < this.player.inventory.length; i++){
