@@ -31,7 +31,7 @@ let abilities = {
         'type':"UNARMED",
         'name': "KICK",
         'numAtk': 3,
-        'durations': [2000, 1000, 750],
+        'durations': [1500, 1000, 500],
         'damage': [3, 3, 4, 4],
         'maxDam': 14,
         'unlockLvl': 2,
