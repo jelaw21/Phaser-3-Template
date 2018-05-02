@@ -12,6 +12,7 @@ export default class BattleWin extends Phaser.Scene {
         this.lastLevel = data.scene;
         this.enemies = data.goons;
         this.player = data.player;
+        this.reward = data.reward;
 
         //this.player = new Player();
         //this.enemies = [new Enemy(getEnemy('goblin'))];
@@ -160,6 +161,12 @@ export default class BattleWin extends Phaser.Scene {
             this.add.text(cWidth/2 - 90, cHeight*(1/5)+380, "PRESS \'P\' TO EQUIP", this.style);
         }
         this.add.text(cWidth/2 - 90, cHeight*(1/5)+420, "click to continue...", this.style3);
+        for(let i = 0; i < this.reward.length; i++){
+            this.player.addToInventory(this.reward[i]);
+            let text = ['ITEM ACQUIRED: ', this.player.fromInventory(this.reward[i]).getName()];
+            this.scene.launch('message', {player:this.player, text: text});
+        }
+
         this.input.on('pointerdown', this.resumeScene, this);
     }
 

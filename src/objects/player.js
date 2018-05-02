@@ -14,14 +14,29 @@ export default class Player {
         this.currentAvailableAbilities = [];
         this.activeAbilities = [];
         this.exp = 0;
+        this.level = 1;
         this.unarmedEXP = 0;
         this.unarmedLvl = 1;
         this.swordEXP = 0;
         this.swordLvl = 1;
+        this.spearEXP = 0;
+        this.spearLvl = 1;
+        this.maceEXP = 0;
+        this.maceLvl = 1;
+        this.axeEXP = 0;
+        this.axeLvl = 1;
+        this.bowEXP = 0;
+        this.bowLvl = 1;
         this.inventory = [new Item(getItem('gold'))];
         this.equipment = [];
         this.armor = 0;
         this.maxArmor = 0;
+        this.emitter = new Phaser.EventEmitter();
+    }
+
+    expToNextLevel(){
+        let nextLevel = this.level + 1;
+        return nextLevel * (nextLevel - 1) * 200;
     }
 
     addGold(amount){
@@ -40,12 +55,28 @@ export default class Player {
         this.health += amount;
     }
 
-    getHealth(amount){
+    getHealth(){
         return this.health;
+    }
+
+    getMaxHealth(){
+        return this.maxHealth;
+    }
+
+    getExp(){
+        return this.exp;
     }
 
     addExp(amount){
         this.exp += amount;
+    }
+
+    getLevel(){
+        return this.level;
+    }
+
+    increaseLevel(){
+        this.level += 1;
     }
 
     addUnarmedExp(amount){
@@ -69,6 +100,54 @@ export default class Player {
 
     getSwordExp(){
         return this.swordEXP;
+    }
+
+    getSpearLevel(){
+        return this.spearLvl;
+    }
+
+    addSpearExp(amount){
+        this.spearEXP += amount;
+    }
+
+    getSpearExp(){
+        return this.spearEXP;
+    }
+
+    getMaceLevel(){
+        return this.maceLvl;
+    }
+
+    addMaceExp(amount){
+        this.maceEXP += amount;
+    }
+
+    getMaceExp(){
+        return this.maceEXP;
+    }
+
+    getAxeLevel(){
+        return this.axeLvl;
+    }
+
+    addAxeExp(amount){
+        this.axeEXP += amount;
+    }
+
+    getAxeExp(){
+        return this.axeEXP;
+    }
+
+    getBowLevel(){
+        return this.bowLvl;
+    }
+
+    addBowExp(amount){
+        this.bowEXP += amount;
+    }
+
+    getBowExp(){
+        return this.bowEXP;
     }
 
     getArmor(){
@@ -191,9 +270,6 @@ export default class Player {
             }
         }
 
-        console.log('inventoryChanged');
-
-        this.emitter = new Phaser.EventEmitter();
         this.emitter.emit('inventoryChanged');
 
         this.buildEquipment();
@@ -219,7 +295,6 @@ export default class Player {
 
         this.generateAllAbilities();
         this.buildEquipment();
-        this.calculateArmor();
     }
 
     buildEquipment(){
@@ -235,18 +310,33 @@ export default class Player {
                 }
             }
         }
+
+        this.calculateArmor();
     }
     calculateArmor(){
         this.armor = 0;
+        this.maxArmor = 0;
+
         for(let i = 0; i < this.equipment.length; i++){
-            if(this.equipment[i].getType() === 'ARMOR'){
-                this.armor = this.armor + this.inventory[i].getEffect();
-                this.maxArmor = this.maxArmor + this.inventory[i].getMaxEffect();
+            if(this.equipment[i].getType() === 'ARMOR' && this.equipment[i].getEquipped() === true){
+               this.armor = this.armor + this.equipment[i].getEffect();
+               this.maxArmor = this.maxArmor + this.equipment[i].getMaxEffect();
             }
         }
     }
 
     levelUp() {
+
+        let nextLevel = this.level + 1;
+        let targetExp = nextLevel * (nextLevel - 1) * 200;
+
+        if(this.exp >= targetExp){
+            this.increaseLevel();
+            this.maxHealth += this.level  * (this.level -1)* 5;
+            this.health = this.maxHealth;
+        }
+
+
 
         this.allAvaiableAbilities.forEach(function (element) {
 
@@ -260,8 +350,8 @@ export default class Player {
             element.resetCount();
         });
 
-        let nextLevel = this.unarmedLvl + 1;
-        let targetExp =  nextLevel * (nextLevel - 1) * 200;
+        nextLevel = this.unarmedLvl + 1;
+        targetExp =  nextLevel * (nextLevel - 1) * 200;
 
         if(this.unarmedEXP >= targetExp){
             this.unarmedLvl += 1;

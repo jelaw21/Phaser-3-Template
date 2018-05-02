@@ -75,4 +75,12 @@ export default class Item {
         this.equipped = amount;
     }
 
+    getAbilities(){
+        return this.abilities
+    }
+
+    getAbility(index){
+        return this.abilities[index];
+    }
+
 }

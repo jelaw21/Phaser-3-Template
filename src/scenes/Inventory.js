@@ -22,6 +22,28 @@ export default class Inventory extends Phaser.Scene {
 
         let count = 0;
         this.itemBox = [];
+        this.playerInfoText = {
+            fontSize: 20,
+            fontFamily: 'Marmelad',
+            fill: 'white',
+            stroke: '#222',
+            strokeThickness: 2,
+            wordWrap:{
+                width: this.background.displayWidth-5,
+                useAdvancedWrap: true
+            }
+        };
+        this.playerInfoNumbers = {
+            fontSize: 16,
+            fontFamily: 'Marmelad',
+            fill: 'white',
+            stroke: '#222',
+            strokeThickness: 2,
+            wordWrap:{
+                width: this.background.displayWidth-5,
+                useAdvancedWrap: true
+            }
+        };
         this.itemNameStyle = {
             fontSize: 16,
             fontFamily: 'Sanchez',
@@ -40,7 +62,7 @@ export default class Inventory extends Phaser.Scene {
             stroke: '#222',
             strokeThickness: 1,
             wordWrap:{
-                width: this.background.displayWidth-5,
+                width: this.background.displayWidth-20,
                 useAdvancedWrap: true
             }
         };
@@ -64,17 +86,24 @@ export default class Inventory extends Phaser.Scene {
         //this.title = this.add.text(this.cWidth/2-4, 62, "INVENTORY", {fontSize: 20, fontFamily: 'Berkshire Swash', fill: '#000'}).setOrigin(.5);
         this.title = this.add.bitmapText(this.cWidth/2-4, 62, 'livingstone',"INVENTORY", 30).setOrigin(.5);
         this.invSprite = new PlayerSprite(this, this.cWidth/2, 132, 'playerS', 0);
+        this.add.text(this.cWidth/2, 200, 'HEALTH: ' + this.player.getHealth() + '/' + this.player.getMaxHealth(), this.playerInfoText).setOrigin(.5);
+
         this.add.existing(this.invSprite);
         this.invSprite.init(this.player);
         this.invSprite.buildEquipped();
         let minicam = this.cameras.add(this.cWidth/2-48, 132-48, 96 , 96);
         minicam.setBackgroundColor(0x002244).setZoom(1.5).startFollow(this.invSprite);
-        this.add.text(510, 72, this.player.inventory[0].getName() + ":  " + this.player.inventory[0].getQuantity(), {fontSize: '24px', fontFamily: 'Marmelad', fill: '#ffffff'});
+        this.add.text(164, 72, 'LEVEL: ' + this.player.getLevel(), this.playerInfoText).setInteractive().setName('LEVEL');
+        this.add.text(164, 122, 'EXPERIENCE:  ' + this.player.getExp(), this.playerInfoNumbers);
+        this.add.text(164, 162, 'EXP TO LVL ' + (this.player.getLevel() + 1) + ': ' + this.player.expToNextLevel(), this.playerInfoNumbers),
+        this.add.text(510, 72, this.player.inventory[0].getName() + ":  " + this.player.inventory[0].getQuantity(), this.playerInfoText);
+        this.armorText = this.add.text(510, 122, 'ARMOR: ' + this.player.getArmor(), this.playerInfoNumbers).setInteractive().setName('ARMOR');
+        this.maxArmorText = this.add.text(510, 163, 'MAX ARMOR: ' + this.player.getMaxArmor(), this.playerInfoNumbers).setInteractive().setName('MAXARMOR');
         this.add.text(164, 200, 'Click Icon to Equip', {fontSize: '24px', fontFamily: 'Cute Font', fill: '#ffffff'});
         this.itemNameText = this.add.text(164, 480, 'ITEM NAME', this.itemNameStyle).setVisible(false);
         this.itemDescText = this.add.text(164, 500, 'ITEM DESCRIPTION', this.itemDescStyle).setVisible(false);
-        this.itemArmPerc = this.add.text(164, 520, 'ARMOR PROTECTION %: ', this.itemDescStyle).setVisible(false);
-        this.itemArmMax = this.add.text(384, 520, 'MAX PROTECTION PTS: ', this.itemDescStyle).setVisible(false);
+        this.itemInfo1 = this.add.text(164, 520, 'ARMOR PROTECTION %: ', this.itemDescStyle).setVisible(false);
+        this.itemInfo2 = this.add.text(384, 520, 'MAX PROTECTION PTS: ', this.itemDescStyle).setVisible(false);
         this.closeButton = this.add.image(652, 64, 'exitButton').setInteractive();
 
         //this.player.inventory.length
@@ -116,6 +145,9 @@ export default class Inventory extends Phaser.Scene {
 
             }
         }
+
+        this.armorText.setText('ARMOR: ' + this.player.getArmor());
+        this.maxArmorText.setText('MAX ARMOR: ' + this.player.getMaxArmor());
     }
 
 
@@ -137,16 +169,44 @@ export default class Inventory extends Phaser.Scene {
         }
 
     showDescr(pointer, invItem){
-        //bump
-        for(let i = 0; i < this.player.inventory.length; i++){
-            let item = this.player.inventory[i];
-            if(item.getName() === invItem.name){
-                this.itemNameText.setText(item.getName()).setVisible(true);
-                this.itemDescText.setText(item.getDesc()).setVisible(true);
-                this.itemArmPerc.setText("ARMOR PROTECTION %: " + item.getEffect()).setVisible(true);
-                this.itemArmMax.setText("MAX PROTECTION PTS: " + item.getMaxEffect()).setVisible(true);
+        if(invItem.name === 'LEVEL' || invItem.name === 'ARMOR' || invItem.name === 'MAXARMOR' ){
+            if(invItem.name === 'LEVEL') {
+                this.itemNameText.setText('LEVEL').setVisible(true);
+                this.itemDescText.setText('Currently only updates Health. In the future, may determine if an item can be equipped.').setVisible(true);
+            }else if(invItem.name === 'ARMOR') {
+                this.itemNameText.setText('ARMOR').setVisible(true);
+                this.itemDescText.setText('The perecentage of damage the armor protects against. ').setVisible(true);
+            }else if(invItem.name === 'MAXARMOR') {
+                this.itemNameText.setText('MAX ARMOR').setVisible(true);
+                this.itemDescText.setText('The maximum protection the armor provides. If armor protect percentage is above this, this is the protection amount.').setVisible(true);
+            }
+
+        }else{
+            for(let i = 0; i < this.player.inventory.length; i++){
+                let item = this.player.inventory[i];
+                if(item.getName() === invItem.name){
+                    this.itemNameText.setText(item.getName() + "  (" + item.getQuantity() + ")").setVisible(true);
+                    this.itemDescText.setText(item.getDesc()).setVisible(true);
+                    if(item.getType() === 'ARMOR'){
+                        this.itemInfo1.setText("ARMOR PROTECTION %: " + item.getEffect()).setVisible(true);
+                        this.itemInfo2.setText("MAX PROTECTION PTS: " + item.getMaxEffect()).setVisible(true);
+                    }
+                    if(item.getType() === 'WEAPON'){
+                        let abilitiesList = '';
+                        for(let i = 0; i< item.getAbilities().length; i++){
+                            if(i === item.getAbilities().length -1 ){
+                                abilitiesList += item.getAbility(i).toUpperCase();
+                            }else
+                                abilitiesList += item.getAbility(i).toUpperCase() + ', ';
+
+                        }
+                        this.itemInfo1.setText("AVAILABLE ABILITIES: " + abilitiesList).setVisible(true);
+                    }
+
+                }
             }
         }
+
     }
 
     //bump
@@ -154,8 +214,8 @@ export default class Inventory extends Phaser.Scene {
     clearDescr(pointer, invItem){
         this.itemNameText.setVisible(false);
         this.itemDescText.setVisible(false);
-        this.itemArmPerc.setVisible(false);
-        this.itemArmMax.setVisible(false);
+        this.itemInfo1.setVisible(false);
+        this.itemInfo2.setVisible(false);
     }
 
     closeInventory(){

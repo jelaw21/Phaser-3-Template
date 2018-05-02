@@ -36,10 +36,8 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
     initialEquipment( ){
         this.playerData.addToInventory('common_chest');
         this.playerData.addToInventory('common_legs');
-        this.playerData.addToInventory('leather_armor');
         this.playerData.equipItem(this.playerData.fromInventory('common_chest'));
         this.playerData.equipItem(this.playerData.fromInventory('common_legs'));
-        this.playerData.equipItem(this.playerData.fromInventory('leather_armor'));
         this.buildEquipped(this, this.level.blockedObjects);
         this.playerData.emitter.on('inventoryChanged', this.buildEquipped, this);
     }
@@ -134,7 +132,6 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
     }
 
     buildEquipped(){
-        console.log('buildEquipped');
         let player = this;
         let layers = this.level.blockedObjects;
         this.playerData.buildEquipment();
