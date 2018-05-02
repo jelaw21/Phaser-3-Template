@@ -8,7 +8,6 @@ export default class Dialog extends Phaser.Scene {
     }
 
     init(data) {
-        this.player = data.player;
         this.lastScene = data.scene;
         this.content = data.content;
         //this.scene.pause(this.lastScene);
