@@ -95,7 +95,7 @@ export default class Inventory extends Phaser.Scene {
         minicam.setBackgroundColor(0x002244).setZoom(1.5).startFollow(this.invSprite);
         this.add.text(164, 72, 'LEVEL: ' + this.player.getLevel(), this.playerInfoText).setInteractive().setName('LEVEL');
         this.add.text(164, 122, 'EXPERIENCE:  ' + this.player.getExp(), this.playerInfoNumbers);
-        this.add.text(164, 162, 'EXP TO LVL ' + (this.player.getLevel() + 1) + ': ' + this.player.expToNextLevel(), this.playerInfoNumbers),
+        this.add.text(164, 162, 'EXP TO LVL ' + (this.player.getLevel() + 1) + ': ' + this.player.expToNextLevel(this.player.getLevel()), this.playerInfoNumbers);
         this.add.text(510, 72, this.player.inventory[0].getName() + ":  " + this.player.inventory[0].getQuantity(), this.playerInfoText);
         this.armorText = this.add.text(510, 122, 'ARMOR: ' + this.player.getArmor(), this.playerInfoNumbers).setInteractive().setName('ARMOR');
         this.maxArmorText = this.add.text(510, 163, 'MAX ARMOR: ' + this.player.getMaxArmor(), this.playerInfoNumbers).setInteractive().setName('MAXARMOR');

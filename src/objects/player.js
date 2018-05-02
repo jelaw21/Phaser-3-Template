@@ -34,9 +34,9 @@ export default class Player {
         this.emitter = new Phaser.EventEmitter();
     }
 
-    expToNextLevel(){
-        let nextLevel = this.level + 1;
-        return nextLevel * (nextLevel - 1) * 200;
+
+    expToNextLevel(level){
+        return (level+1) * (level) * 200;
     }
 
     addGold(amount){
@@ -327,10 +327,10 @@ export default class Player {
 
     levelUp() {
 
-        let nextLevel = this.level + 1;
-        let targetExp = nextLevel * (nextLevel - 1) * 200;
+        console.log(this.expToNextLevel(this.level));
+        console.log(this.exp);
 
-        if(this.exp >= targetExp){
+        if(this.exp >= this.expToNextLevel(this.level)){
             this.increaseLevel();
             this.maxHealth += this.level  * (this.level -1)* 5;
             this.health = this.maxHealth;
@@ -346,21 +346,16 @@ export default class Player {
             if(element.getExp() >= targetExp){
                 element.increaseLevel();
             }
-
             element.resetCount();
         });
 
-        nextLevel = this.unarmedLvl + 1;
-        targetExp =  nextLevel * (nextLevel - 1) * 200;
 
-        if(this.unarmedEXP >= targetExp){
+
+        if(this.unarmedEXP >= this.expToNextLevel(this.unarmedLvl)){
             this.unarmedLvl += 1;
         }
 
-        nextLevel = this.swordLvl + 1;
-        targetExp =  nextLevel * (nextLevel - 1) * 200;
-
-        if(this.swordEXP >= targetExp){
+        if(this.swordEXP >= this.expToNextLevel(this.swordLvl)){
             this.swordLvl += 1;
         }
 

@@ -93,8 +93,14 @@ export default class Level1 extends Phaser.Scene {
             //this.playerData.addToInventory('short_sword');
             this.cameras.main.shake(250);
             let goons = ['goblin'];
-            let rewards = ['short_sword'];
+            let rewards = [];
             this.time.delayedCall(250, this.startBattle, [goons, rewards], this);
+        }
+
+        if(this.playerData.getGold() === 3){
+            //this.playerData.addToInventory('short_sword');
+            this.cameras.main.shake(250);
+            this.time.delayedCall(250, this.startBattle, [['goblin'], ['short_sword']], this);
         }
 
         if(this.playerData.getGold() === 5){
@@ -110,9 +116,12 @@ export default class Level1 extends Phaser.Scene {
 
         if(this.playerData.getGold() === 6){
             this.cameras.main.shake(250);
-            let goons = ['goblin','goblin', 'goblin'];
-
             this.time.delayedCall(250, this.startBattle, [['goblin', 'goblin', 'goblin'], []], this);
+        }
+
+        if(this.playerData.getGold() === 8){
+            this.cameras.main.shake(250);
+            this.time.delayedCall(250, this.startBattle, [['goblin', 'goblin', 'goblin','goblin', 'goblin'], []], this);
         }
     }
     startBattle(goons, reward){
