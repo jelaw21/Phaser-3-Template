@@ -66,6 +66,8 @@ export default class AbilitiesManager extends Phaser.Scene {
                 Phaser.Display.Align.In.BottomRight(abilityIcon, ability);
         }
         this.abilityNameText = this.add.text(164, 480, 'ABILITY NAME', this.itemNameStyle).setVisible(false);
+        this.abilityLevelText = this.add.text(364, 480, 'LEVEL: ', this.itemNameStyle).setVisible(false);
+        this.abilityRadiusText = this.add.text(500, 480, 'Hit Radius %: ', this.itemNameStyle).setVisible(false);
         this.abilityDesc = this.add.text(164, 500, 'ABILITY DESC', this.itemDescStyle).setVisible(false);
         this.abilityStats = this.add.text(164, 520, 'ABILITY STATS', this.itemDescStyle).setVisible(false);
         this.abilityDam = this.add.text(364, 520, 'ABILITY STATS', this.itemDescStyle).setVisible(false);
@@ -79,6 +81,7 @@ export default class AbilitiesManager extends Phaser.Scene {
         //Phaser.Display.Align.In.Center(this.image, this.scene.add.zone(0,0,800,600));
 
         this.abilKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        this.invKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
 
     }
 
@@ -86,6 +89,11 @@ export default class AbilitiesManager extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(this.abilKey)){
             this.scene.stop('abilityMan');
             this.scene.resume(this.lastScene);
+        }
+
+        if(Phaser.Input.Keyboard.JustDown(this.invKey)) {
+            this.scene.stop(this);
+            this.scene.launch('inventory', {player: this.player, scene: this.lastScene, sprite: this.lastScene.player});
         }
     }
 
@@ -102,7 +110,6 @@ export default class AbilitiesManager extends Phaser.Scene {
 
     equipAbility(pointer, gameObject){
         let index = gameObject.getData('ID');
-
         if(index !== "CLOSE"){
             this.player.toggleActiveAbility(this.abilities[index]);
             this.player.equipAbilities();
@@ -116,7 +123,11 @@ export default class AbilitiesManager extends Phaser.Scene {
     displayName(pointer, gameObject){
         let index = gameObject[0].getData('ID');
         if(index !== 'CLOSE'){
+            let radius = (this.abilities[index].getLevel() * .20 / 2.5)*100;
+
             this.abilityNameText.setText(this.abilities[index].name).setVisible(true);
+            this.abilityLevelText.setText("Level:   " + this.abilities[index].getLevel() + '/10').setVisible(true);
+            this.abilityRadiusText.setText('Hit Radius %: ' + radius).setVisible(true);
             this.abilityDesc.setText(this.abilities[index].desc).setVisible(true);
             this.abilityStats.setText("NUMBER OF ATTACKS: " + this.abilities[index].numAtk).setVisible(true);
             this.abilityDam.setText("MAX POSSIBLE DAMAGE: " + this.abilities[index].maxDam).setVisible(true);
@@ -129,6 +140,8 @@ export default class AbilitiesManager extends Phaser.Scene {
         let index = gameObject[0].getData('ID');
         if(index !== 'CLOSE'){
             this.abilityNameText.setVisible(false);
+            this.abilityLevelText.setVisible(false);
+            this.abilityRadiusText.setVisible(false);
             this.abilityDesc.setVisible(false);
             this.abilityStats.setVisible(false);
             this.abilityDam.setVisible(false);

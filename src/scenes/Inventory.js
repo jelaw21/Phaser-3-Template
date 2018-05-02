@@ -134,16 +134,19 @@ export default class Inventory extends Phaser.Scene {
         this.input.on('gameobjectout', this.clearDescr, this);
 
         this.invKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
+        this.abilKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
     }
 
     update(){
         if(Phaser.Input.Keyboard.JustDown(this.invKey)){
-            if (this.scene.isActive('inventory')) {
                 this.scene.stop('inventory');
                 this.scene.resume(this.lastScene);
+        }
 
-            }
+        if(Phaser.Input.Keyboard.JustDown(this.abilKey)) {
+            this.scene.launch('abilityMan', {player: this.player, scene: this.lastScene});
+            this.scene.stop('inventory');
         }
 
         this.armorText.setText('ARMOR: ' + this.player.getArmor());
@@ -163,6 +166,10 @@ export default class Inventory extends Phaser.Scene {
                     this.sprite.buildEquipped(this.sprite, this.lastScene.blockedObjects);
                     this.invSprite.buildEquipped(this.invSprite, this.lastScene.blockedObjects);
                     this.player.inventory[i].setEquipped(true);
+                    if(this.player.inventory[i].getType() === 'WEAPON'){
+                        let text = ['New Abilities Available'];
+                        this.scene.launch('message', {player:this.player, text: text});
+                    }
                 }
                 }
             }

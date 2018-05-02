@@ -21,6 +21,8 @@ export default class BattleWin extends Phaser.Scene {
     create(){
         let cWidth = this.sys.game.config.width;
         let cHeight = this.sys.game.config.height;
+        let winToast = false;
+        let text = [];
 
         this.style = {
             fontSize: 16,
@@ -76,8 +78,11 @@ export default class BattleWin extends Phaser.Scene {
             }
         }
 
-        this.player.addUnarmedExp(Math.round((expTypeCount[0]/totalCount)*exp));
-        this.player.addSwordExp(Math.round((expTypeCount[1]/totalCount)*exp));
+        let unarmedEarned = Math.round((expTypeCount[0]/totalCount)*exp);
+        let swordEarned = Math.round((expTypeCount[1]/totalCount)*exp);
+
+        this.player.addUnarmedExp(unarmedEarned);
+        this.player.addSwordExp(swordEarned);
 
 
         for(let i = 0; i < numAbilities; i++){
@@ -105,8 +110,9 @@ export default class BattleWin extends Phaser.Scene {
         this.add.text(cWidth/2 + 87, cHeight*(1/5)+55, exp, this.style2);
 
         this.add.text(cWidth/2 - 90, cHeight*(1/5)+115, "UNARMED EXP: ", this.style);
-        this.add.text(cWidth/2 + 87, cHeight*(1/5)+115, this.player.getUnarmedExp(), this.style2);
+        this.add.text(cWidth/2 + 87, cHeight*(1/5)+115, unarmedEarned, this.style2);
 
+        //TODO REDO THIS SECTION
         if(newUnarmedLevel > oldUnarmLevel){
             this.unarmedButton = this.add.image(cWidth/2, cHeight*(1/5)+150, 'battleButDown').setDisplaySize(128, 32).setVisible(false);
             this.unarmedText = this.add.bitmapText(cWidth/2, 800, 'livingstone',"LEVEL UP", 24).setOrigin(.5).setScale(7);
@@ -122,7 +128,7 @@ export default class BattleWin extends Phaser.Scene {
         }
 
         this.add.text(cWidth/2 - 90, cHeight*(1/5)+175, "SWORD EXP: ", this.style);
-        this.add.text(cWidth/2 + 87, cHeight*(1/5)+175, this.player.getSwordExp(), this.style2);
+        this.add.text(cWidth/2 + 87, cHeight*(1/5)+175, swordEarned, this.style2);
 
         if(newSwordLevel > oldSwordLevel){
             this.swordButton = this.add.image(cWidth/2, cHeight*(1/5)+210, 'battleButDown').setDisplaySize(128, 32).setVisible(false);
@@ -163,11 +169,24 @@ export default class BattleWin extends Phaser.Scene {
         this.add.text(cWidth/2 - 90, cHeight*(1/5)+420, "click to continue...", this.style3);
         for(let i = 0; i < this.reward.length; i++){
             this.player.addToInventory(this.reward[i]);
-            let text = ['ITEM ACQUIRED: ', this.player.fromInventory(this.reward[i]).getName()];
+            winToast = true;
+            text = ['ITEM ACQUIRED: ', this.player.fromInventory(this.reward[i]).getName()];
+        }
+
+        if(winToast){
             this.scene.launch('message', {player:this.player, text: text});
         }
 
+
         this.input.on('pointerdown', this.resumeScene, this);
+        this.abilKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    }
+
+    update(){
+        if(Phaser.Input.Keyboard.JustDown(this.abilKey)) {
+            this.scene.launch('abilityMan', {player: this.player, scene: this.lastLevel});
+            this.scene.stop('battleWin');
+        }
     }
 
     showSwordButton(tween, target, scene){

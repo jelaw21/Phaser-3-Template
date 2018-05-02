@@ -111,7 +111,8 @@ export default class Level1 extends Phaser.Scene {
         if(this.playerData.getGold() === 6){
             this.cameras.main.shake(250);
             let goons = ['goblin','goblin', 'goblin'];
-            this.time.delayedCall(250, this.startBattle, [goons], this);
+
+            this.time.delayedCall(250, this.startBattle, [['goblin', 'goblin', 'goblin'], []], this);
         }
     }
     startBattle(goons, reward){
