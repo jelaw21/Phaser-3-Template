@@ -330,7 +330,7 @@ export default class Player {
         console.log(this.expToNextLevel(this.level));
         console.log(this.exp);
 
-        if(this.exp >= this.expToNextLevel(this.level)){
+        while(this.exp >= this.expToNextLevel(this.level)){
             this.increaseLevel();
             this.maxHealth += this.level  * (this.level -1)* 5;
             this.health = this.maxHealth;
