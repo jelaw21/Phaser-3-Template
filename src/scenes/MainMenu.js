@@ -12,15 +12,11 @@ export default class MainMenu extends Phaser.Scene {
         this.cWidth = this.sys.game.config.width;
         this.cHeight = this.sys.game.config.height;
         this.button = this.add.image(this.cWidth/2, this.cHeight/2+50, 'buttonUp').setInteractive().setVisible(false);
-        this.startText = this.add.bitmapText(this.cWidth/2-42, this.cHeight/2+35,'livingstone', 'START', 32).setVisible(false);
+        this.startText = this.add.bitmapText(this.cWidth/2, this.cHeight/2,'livingstone2', 'START', 20).setVisible(false);
+        this.title = this.add.bitmapText(this.cWidth/2, this.cHeight/2-50,'gothic', 'Tymeria: Plaguelands', 72).setOrigin(.5).setScale(10);
 
-        this.startText2 = this.add.bitmapText(this.cWidth/2, this.cHeight/2+200,'livingstone', 'Title will chance as \'Arcania\' is from \'Gothic\' series', 20).setOrigin(.5).setVisible(false);
-        this.startText3 = this.add.bitmapText(this.cWidth/2, this.cHeight/2+250,'livingstone', 'I am bummed.', 20).setOrigin(.5).setVisible(false);
+        Phaser.Display.Align.In.Center(this.startText, this.button);
 
-
-        //this.startText = this.add.text(0,0,'START', {fontSize: '24px', fontFamily: 'Berkshire Swash', fill: '#000'}).setVisible(false);
-        this.title = this.add.image(this.cWidth/2, (this.cHeight/2)-100, 'title').setScale(10);
-        //Phaser.Display.Align.In.Center(this.startText, this.button);
 
         this.tweens.add({
             targets: this.title,
@@ -43,8 +39,6 @@ export default class MainMenu extends Phaser.Scene {
     showButton(tween, targets, button, start, start2, start3){
         button.setVisible(true);
         start.setVisible(true);
-        start2.setVisible(true);
-        start3.setVisible(true);
     }
 
     update(){

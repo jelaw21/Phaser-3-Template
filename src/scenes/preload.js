@@ -71,6 +71,8 @@ export default class Preload extends Phaser.Scene{
         //this.load.image('inventoryGUI','assets/images/inventoryGUI.png' );
         this.load.image('messageGUI','assets/images/messageGUI.png' );
         this.load.bitmapFont('livingstone', 'assets/fonts/livingstone.png', 'assets/fonts/livingstone.fnt');
+        this.load.bitmapFont('livingstone2', 'assets/fonts/livingstone2.png', 'assets/fonts/livingstone2.fnt');
+        this.load.bitmapFont('gothic', 'assets/fonts/gothic2.png', 'assets/fonts/gothic2.fnt');
         this.load.image('battleGUI','assets/images/battleGUI.png' );
         this.load.image('battleButDown','assets/images/battleButDown.png' );
         this.load.image('battleButUp','assets/images/battleButUp.png' );
@@ -81,6 +83,8 @@ export default class Preload extends Phaser.Scene{
         this.load.image('short_sword','assets/images/swordIcon.png');
         this.load.image('slash','assets/images/slashIcon.png');
         this.load.image('stab','assets/images/stabIcon.png');
+        //bump
+
     }
 
     create(){

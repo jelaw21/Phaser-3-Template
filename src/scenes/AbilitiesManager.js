@@ -44,7 +44,7 @@ export default class AbilitiesManager extends Phaser.Scene {
         this.zoneFooter = this.add.zone(144, 428, 512, 128).setName('FOOTER');
         this.checkboxGroup = [];
 
-        this.title = this.add.bitmapText(this.cWidth/2-4, 62, 'livingstone',"ABILITIES", 32).setOrigin(.5);
+        this.title = this.add.bitmapText(this.cWidth/2-4, 62, 'livingstone',"ABILITIES", 30).setOrigin(.5);
 
         this.add.text(164, 85, "UNARMED COMBAT: ", this.itemNameStyle);
         this.add.text(354, 85, this.player.getUnarmedLevel() + "/10", this.itemNameStyle);

@@ -134,6 +134,7 @@ export default class BattleWin extends Phaser.Scene {
             this.swordButton = this.add.image(cWidth/2, cHeight*(1/5)+210, 'battleButDown').setDisplaySize(128, 32).setVisible(false);
             this.swordText = this.add.bitmapText(cWidth/2, 800, 'livingstone',"LEVEL UP", 24).setOrigin(.5).setScale(7);
 
+
             this.tweens.add({
                 targets: this.swordText,
                 y: cHeight*(1/5)+210,
