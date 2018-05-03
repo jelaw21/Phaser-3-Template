@@ -9,10 +9,11 @@ export default class BattleWin extends Phaser.Scene {
     }
 
     init(data){
-        this.lastLevel = data.scene;
+        this.last = data.scene;
         this.enemies = data.goons;
         this.player = data.player;
         this.reward = data.reward;
+        this.sprite = data.sprite;
 
         //this.player = new Player();
         //this.enemies = [new Enemy(getEnemy('goblin'))];
@@ -185,7 +186,7 @@ export default class BattleWin extends Phaser.Scene {
 
     update(){
         if(Phaser.Input.Keyboard.JustDown(this.abilKey)) {
-            this.scene.launch('abilityMan', {player: this.player, scene: this.lastLevel});
+            this.scene.launch('abilityMan', {player: this.player, scene: this.last, sprite:this.last.sprite});
             this.scene.stop('battleWin');
         }
     }
@@ -201,7 +202,7 @@ export default class BattleWin extends Phaser.Scene {
 
     resumeScene(){
         this.scene.stop(this);
-        this.scene.resume(this.lastLevel);
+        this.scene.resume(this.last);
 
     }
 }

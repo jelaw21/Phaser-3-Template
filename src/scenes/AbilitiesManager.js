@@ -7,7 +7,8 @@ export default class AbilitiesManager extends Phaser.Scene {
     init(data){
         this.player = data.player;
         this.player.addAbilities();
-        this.lastScene = data.scene;
+        this.last = data.scene;
+        this.sprite = data.sprite;
         this.abilities = this.player.getCurrentAvailableAbilities();
     }
 
@@ -88,12 +89,12 @@ export default class AbilitiesManager extends Phaser.Scene {
     update(){
         if(Phaser.Input.Keyboard.JustDown(this.abilKey)){
             this.scene.stop('abilityMan');
-            this.scene.resume(this.lastScene);
+            this.scene.resume(this.last);
         }
 
         if(Phaser.Input.Keyboard.JustDown(this.invKey)) {
             this.scene.stop(this);
-            this.scene.launch('inventory', {player: this.player, scene: this.lastScene, sprite: this.lastScene.player});
+            this.scene.launch('inventory', {player: this.player, scene: this.last, sprite: this.sprite});
         }
     }
 

@@ -9,7 +9,7 @@ export default class Inventory extends Phaser.Scene {
 
     init(data){
         this.player = data.player;
-        this.lastScene = data.scene;
+        this.last = data.scene;
         this.sprite = data.sprite;
         this.blockedObjects = [];
     }
@@ -83,7 +83,6 @@ export default class Inventory extends Phaser.Scene {
             }
            }*/
 
-        //this.title = this.add.text(this.cWidth/2-4, 62, "INVENTORY", {fontSize: 20, fontFamily: 'Berkshire Swash', fill: '#000'}).setOrigin(.5);
         this.title = this.add.bitmapText(this.cWidth/2-4, 62, 'livingstone',"INVENTORY", 30).setOrigin(.5);
         this.invSprite = new PlayerSprite(this, this.cWidth/2, 132, 'playerS', 0);
         this.add.text(this.cWidth/2, 200, 'HEALTH: ' + this.player.getHealth() + '/' + this.player.getMaxHealth(), this.playerInfoText).setOrigin(.5);
@@ -106,7 +105,7 @@ export default class Inventory extends Phaser.Scene {
         this.itemInfo2 = this.add.text(384, 520, 'MAX PROTECTION PTS: ', this.itemDescStyle).setVisible(false);
         this.closeButton = this.add.image(652, 64, 'exitButton').setInteractive();
 
-        //this.player.inventory.length
+
         for(let i = 0; i < 5; i++){
             for(let j = 0; j< 12; j++){
                 this.itemBox.push(this.add.image(((j)*40)+160, ((i)*40) + 251, 'itemBox').setOrigin(0).setData('ID', count));
@@ -141,11 +140,11 @@ export default class Inventory extends Phaser.Scene {
     update(){
         if(Phaser.Input.Keyboard.JustDown(this.invKey)){
                 this.scene.stop('inventory');
-                this.scene.resume(this.lastScene);
+                this.scene.resume(this.last);
         }
 
         if(Phaser.Input.Keyboard.JustDown(this.abilKey)) {
-            this.scene.launch('abilityMan', {player: this.player, scene: this.lastScene});
+            this.scene.launch('abilityMan', {player: this.player, scene: this.last, sprite: this.sprite});
             this.scene.stop('inventory');
         }
 
@@ -159,12 +158,12 @@ export default class Inventory extends Phaser.Scene {
             if(this.player.inventory[i].getName() === invItem.name){
                 if(this.player.inventory[i].getEquipped() === true){
                     this.player.inventory[i].setEquipped(false);
-                    this.sprite.buildEquipped(this.sprite, this.lastScene.blockedObjects);
-                    this.invSprite.buildEquipped(this.invSprite, this.lastScene.blockedObjects);
+                    this.sprite.buildEquipped(this.sprite, this.last.blockedObjects);
+                    this.invSprite.buildEquipped(this.invSprite, this.last.blockedObjects);
                 }else{
                     this.player.equipItem(this.player.inventory[i]);
-                    this.sprite.buildEquipped(this.sprite, this.lastScene.blockedObjects);
-                    this.invSprite.buildEquipped(this.invSprite, this.lastScene.blockedObjects);
+                    this.sprite.buildEquipped(this.sprite, this.last.blockedObjects);
+                    this.invSprite.buildEquipped(this.invSprite, this.last.blockedObjects);
                     this.player.inventory[i].setEquipped(true);
                     if(this.player.inventory[i].getType() === 'WEAPON'){
                         let text = ['New Abilities Available'];
@@ -216,8 +215,6 @@ export default class Inventory extends Phaser.Scene {
 
     }
 
-    //bump
-
     clearDescr(pointer, invItem){
         this.itemNameText.setVisible(false);
         this.itemDescText.setVisible(false);
@@ -227,9 +224,7 @@ export default class Inventory extends Phaser.Scene {
 
     closeInventory(){
         this.scene.stop('inventory');
-        this.scene.resume(this.lastScene);
+        this.scene.resume(this.last);
     }
-
-    //push
 
 }

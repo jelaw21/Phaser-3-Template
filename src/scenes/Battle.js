@@ -12,7 +12,7 @@ export default class Battle extends Phaser.Scene {
 
         this.player = data.player;
         this.goons = data.goons;
-        this.lastLevel = data.scene;
+        this.last = data.scene;
         this.reward = data.reward;
         this.player.equipAbilities();
         this.abilities = this.player.getActiveAbilities();
@@ -33,7 +33,7 @@ export default class Battle extends Phaser.Scene {
     //CREATE GRAPHICS
     create(){
         this.cWidth = this.sys.game.config.width;
-        this.cHeight = this.sys.game.config.height
+        this.cHeight = this.sys.game.config.height;
         this.graphics1 = this.add.graphics();
         this.graphics1.fillStyle(0x203040, .7);
         this.graphics1.fillRect(0, 0, this.cWidth, this.cHeight);
@@ -344,7 +344,7 @@ export default class Battle extends Phaser.Scene {
                 if(this.player.health <= 0){
                     this.scene.start('gameOver');
                     this.scene.stop('battle');
-                    this.scene.stop(this.lastLevel);
+                    this.scene.stop(this.last);
                 }
             }else{
                 this.status.setText(curEnemy.name + " used " + ability.name + " and missed." );
@@ -403,7 +403,7 @@ export default class Battle extends Phaser.Scene {
 
     endBattle(){
         this.scene.stop('battle');
-        this.scene.launch('battleWin', {scene: this.lastLevel, goons: this.enemyGroup, player: this.player, reward: this.reward});
+        this.scene.launch('battleWin', {scene: this.last, goons: this.enemyGroup, player: this.player, reward: this.reward, sprite: this.last.sprite});
     }
 
 

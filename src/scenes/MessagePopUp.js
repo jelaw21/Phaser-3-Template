@@ -5,7 +5,6 @@ export default class MessagePopUp extends Phaser.Scene{
     }
 
     init(data){
-        this.player = data.player;
         this.text = data.text;
     }
 
@@ -24,9 +23,7 @@ export default class MessagePopUp extends Phaser.Scene{
 
         this.background = this.add.image(10, 10, 'messageGUI').setDisplaySize(128,128).setDepth(2).setOrigin(0);
         this.textbox = this.add.text(0 , 0, this.text, style).setDepth(2);
-        //this.exitBackground = this.scene.add.sprite(this.x, this.y, 'exitBackground').setDepth(2);
         Phaser.Display.Align.In.Center(this.textbox, this.background);
-        //Phaser.Display.Align.In.TopRight(this.exitBackground, this.messageBox);
         this.closeButton = this.add.sprite(this.x, this.y, 'exitButton').setInteractive().setDepth(2).setOrigin(.5);
         Phaser.Display.Align.To.RightTop(this.closeButton, this.background, -17, 10);
 

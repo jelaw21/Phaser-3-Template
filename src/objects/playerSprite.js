@@ -1,5 +1,3 @@
-import getItem from './ItemList.js'
-
 export default class PlayerSprite extends Phaser.GameObjects.Sprite {
 
     constructor(scene, x, y, texture, frame) {
@@ -13,10 +11,9 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
     init(player){
         //TODO: MAKE THESE GETTER/SETTER METHODS
         this.inventory = player.inventory;
-        //this.equipment = player.equipment;
         this.equipment = [];
         this.abilities = player.abilities;
-        this.playerData = player;
+        this.player = player;
 
         this.scene.physics.add.existing(this);
         this.body.setSize(16,16);
@@ -34,12 +31,12 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
 
     //TODO
     initialEquipment( ){
-        this.playerData.addToInventory('common_chest');
-        this.playerData.addToInventory('common_legs');
-        this.playerData.equipItem(this.playerData.fromInventory('common_chest'));
-        this.playerData.equipItem(this.playerData.fromInventory('common_legs'));
+        this.player.addToInventory('common_chest');
+        this.player.addToInventory('common_legs');
+        this.player.equipItem(this.player.fromInventory('common_chest'));
+        this.player.equipItem(this.player.fromInventory('common_legs'));
         this.buildEquipped(this, this.level.blockedObjects);
-        this.playerData.emitter.on('inventoryChanged', this.buildEquipped, this);
+        this.player.emitter.on('inventoryChanged', this.buildEquipped, this);
     }
 
     move(){
@@ -105,15 +102,12 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
 
         if(Phaser.Input.Keyboard.JustDown(this.invKey)) {
             this.scene.scene.pause(this.level);
-            this.scene.scene.launch('inventory', {player: this.playerData, scene: this.level, sprite: this});
+            this.scene.scene.launch('inventory', {player: this.player, scene: this.level, sprite: this});
         }
         if(Phaser.Input.Keyboard.JustDown(this.abilKey)) {
-            this.scene.scene.launch('abilityMan', {player: this.playerData, scene: this.level});
+            this.scene.scene.launch('abilityMan', {player: this.player, scene: this.level, sprite: this});
             this.scene.scene.pause(this.level);
         }
-
-
-
     }
 
     equipUpdate(x, y){
@@ -134,23 +128,23 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
     buildEquipped(){
         let player = this;
         let layers = this.level.blockedObjects;
-        this.playerData.buildEquipment();
+        this.player.buildEquipment();
         for(let m = 0; m < this.equipment.length; m++){
            this.equipment[m].destroy();
         }
         this.equipment = [player.scene.physics.add.sprite(player.x, player.y, 'CommonB', 18)];
 
-        for(let i = 0; i < this.playerData.equipment.length; i++){
-            if(this.playerData.equipment[i].type === 'ARMOR') {
-                for (let j = 0; j < this.playerData.equipment[i].image.length; j++) {
-                    this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.playerData.equipment[i].image[j], 18));
+        for(let i = 0; i < this.player.equipment.length; i++){
+            if(this.player.equipment[i].type === 'ARMOR') {
+                for (let j = 0; j < this.player.equipment[i].image.length; j++) {
+                    this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.player.equipment[i].image[j], 18));
                 }
             }
         }
-        for(let i = 0; i < this.playerData.equipment.length; i++){
-            if(this.playerData.equipment[i].type === 'WEAPON') {
-                for (let j = 0; j < this.playerData.equipment[i].image.length; j++) {
-                    this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.playerData.equipment[i].image[j], 18));
+        for(let i = 0; i < this.player.equipment.length; i++){
+            if(this.player.equipment[i].type === 'WEAPON') {
+                for (let j = 0; j < this.player.equipment[i].image.length; j++) {
+                    this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.player.equipment[i].image[j], 18));
                 }
             }
         }

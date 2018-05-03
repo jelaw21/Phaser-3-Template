@@ -12,8 +12,8 @@ export default class Level1 extends Phaser.Scene {
 
     create(){
         //CREATE THE MAP
-        this.playerData = new Player();
-        this.playerData.generateAllAbilities();
+        this.player = new Player();
+        this.player.generateAllAbilities();
         this.map = this.make.tilemap({key: 'forest'});
         this.tiles = this.map.addTilesetImage('backgroundTiles1', 'backgroundTiles1');
         this.tiles2 = this.map.addTilesetImage('backgroundTiles2', 'backgroundTiles2');
@@ -39,17 +39,17 @@ export default class Level1 extends Phaser.Scene {
 
         //HAD TO CREATE THE PLAYER TO PUT FOREGROUND ON TOP
         //this.player = this.physics.add.sprite(450, 600, 'playerE');
-        this.player = new PlayerSprite(this, 450, 600, 'playerE', 0);
-        this.add.existing(this.player);
-        this.player.init(this.playerData);
-        this.player.initialEquipment(this.blockedObjects);
+        this.sprite = new PlayerSprite(this, 450, 600, 'playerE', 0);
+        this.add.existing(this.sprite);
+        this.sprite.init(this.player);
+        this.sprite.initialEquipment(this.blockedObjects);
 
         //PART OF MAP PLAYER WALKS BEHIND
         var layer = this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
         layer.setDepth(1);
         var layer2 = this.map.createDynamicLayer('foregroundLayer2', this.tiles2, 0,0);
         layer2.setDepth(1);
-        cam.startFollow(this.player);
+        cam.startFollow(this.sprite);
 
         //TRYING TO RESIZE MAP TO FIT WINDOW, I DON'T THINK ITS WORKING.
         this.physics.world.setBounds(0, 24, this.map.widthInPixels-10, this.map.heightInPixels-34);
@@ -58,13 +58,10 @@ export default class Level1 extends Phaser.Scene {
 
         //COLLISIONS
         this.blocked.setCollisionBetween(0, 800);
-        this.physics.add.collider(this.player, this.blocked);
-        this.physics.add.overlap(this.player, this.coins, this.collectCoins, null, this);
-        this.physics.add.collider(this.player, this.sign, this.hitSign, null, this);
-        this.physics.add.collider(this.player, this.gate, this.hitGate, null, this);
-
-        //GETTING KEYBOARD ENTRIES
-        this.cursors = this.input.keyboard.createCursorKeys();
+        this.physics.add.collider(this.sprite, this.blocked);
+        this.physics.add.overlap(this.sprite, this.coins, this.collectCoins, null, this);
+        this.physics.add.collider(this.sprite, this.sign, this.hitSign, null, this);
+        this.physics.add.collider(this.sprite, this.gate, this.hitGate, null, this);
 
         //LISTENERS
         this.events.once('signMessage', this.signMessage, this);
@@ -76,56 +73,48 @@ export default class Level1 extends Phaser.Scene {
         //this.player.body.drawDebug(graphicsMap);
 
         this.scene.launch('dialog', {content: getConversation('act1scene1'), scene:this});
-        //ithis.scene.pause(this);
 
        }
 
     update(){
 
-        this.player.move();
+        this.sprite.move();
     }
 
     collectCoins(player, coin){
         coin.destroy();
-        this.playerData.addGold(1);
+        this.player.addGold(1);
 
-        if(this.playerData.getGold() === 1){
-            //this.playerData.addToInventory('short_sword');
+        if(this.player.getGold() === 1){
             this.cameras.main.shake(250);
-            let goons = ['goblin'];
-            let rewards = [];
-            this.time.delayedCall(250, this.startBattle, [goons, rewards], this);
+            this.time.delayedCall(250, this.startBattle, [['goblin'],[]], this);
         }
 
-        if(this.playerData.getGold() === 3){
-            //this.playerData.addToInventory('short_sword');
+        if(this.player.getGold() === 3){
             this.cameras.main.shake(250);
             this.time.delayedCall(250, this.startBattle, [['goblin'], ['short_sword']], this);
         }
 
-        if(this.playerData.getGold() === 5){
-            this.playerData.addToInventory('leather_armor');
-            this.playerData.addToInventory('common_shoes');
-            this.playerData.addToInventory('leather_bracers');
-            this.playerData.addToInventory('leather_shoulders');
-            this.scene.launch('message', {player:this.player, text: 'You\'ve Earned Leather Armor. Press \'I\' to equip'});
-            /*let message = new MessagePopUp(this, this.player.x, this.player.y, 'messageGUI');
-            this.add.existing(message);
-            message.createText('You\'ve Earned Leather Armor. Press \'I\' to equip');*/
+        if(this.player.getGold() === 5){
+            this.player.addToInventory('leather_armor');
+            this.player.addToInventory('common_shoes');
+            this.player.addToInventory('leather_bracers');
+            this.player.addToInventory('leather_shoulders');
+            this.scene.launch('message', {text: 'You\'ve Earned Leather Armor. Press \'I\' to equip'});
         }
 
-        if(this.playerData.getGold() === 6){
+        if(this.player.getGold() === 6){
             this.cameras.main.shake(250);
             this.time.delayedCall(250, this.startBattle, [['goblin', 'goblin', 'goblin'], []], this);
         }
 
-        if(this.playerData.getGold() === 8){
+        if(this.player.getGold() === 8){
             this.cameras.main.shake(250);
             this.time.delayedCall(250, this.startBattle, [['goblin', 'goblin', 'goblin','goblin', 'goblin'], []], this);
         }
     }
     startBattle(goons, reward){
-        this.scene.launch('battle', {player: this.playerData, goons: goons, scene: this, reward: reward});
+        this.scene.launch('battle', {player: this.player, goons: goons, scene: this, reward: reward});
         this.scene.pause(this);
     }
     hitSign() {
@@ -133,18 +122,18 @@ export default class Level1 extends Phaser.Scene {
     }
 
     hitGate(player, gate){
-        if(this.playerData.getGold() >= 8){
+        if(this.player.getGold() >= 8){
             gate.destroy();
-            this.scene.start('gameOver', {player: this.playerData});
+            this.scene.start('gameOver');
         }else{
             this.events.emit('gateMessage');
         }
     }
     signMessage(){
         let text = ['Collect Gold pieces.', '', 'Hit \'I\' for Inventory'];
-        this.scene.launch('message', {player:this.player, text: text});
+        this.scene.launch('message', {text: text});
     }
     gateMessage(){
-        this.scene.launch('message', {player:this.player, text: 'You need to find all 8 coins to pass.'});
+        this.scene.launch('message', {text: 'You need to find all 8 coins to pass.'});
     }
 }
