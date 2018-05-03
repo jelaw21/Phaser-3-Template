@@ -326,18 +326,11 @@ export default class Player {
     }
 
     levelUp() {
-
-        console.log(this.expToNextLevel(this.level));
-        console.log(this.exp);
-
         while(this.exp >= this.expToNextLevel(this.level)){
             this.increaseLevel();
             this.maxHealth += this.level  * (this.level -1)* 5;
             this.health = this.maxHealth;
         }
-
-
-
         this.allAvaiableAbilities.forEach(function (element) {
 
             let nextLevel = element.getLevel() + 1;
@@ -348,9 +341,6 @@ export default class Player {
             }
             element.resetCount();
         });
-
-
-
         if(this.unarmedEXP >= this.expToNextLevel(this.unarmedLvl)){
             this.unarmedLvl += 1;
         }
@@ -358,7 +348,6 @@ export default class Player {
         if(this.swordEXP >= this.expToNextLevel(this.swordLvl)){
             this.swordLvl += 1;
         }
-
         this.generateAllAbilities();
     }
 }
