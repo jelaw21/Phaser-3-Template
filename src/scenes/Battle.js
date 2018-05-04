@@ -61,8 +61,8 @@ export default class Battle extends Phaser.Scene {
         this.desc = {
             fontSize: 18,
             fontFamily: 'Sanchez',
-            fill: '#ff7a00',
-            stroke: '#391c00',
+            fill: '#ffa60c',
+            stroke: '#221100',
             strokeThickness: 3,
             shadowOffsetX: 50,
             shadowOffsetY: 50,
@@ -150,12 +150,11 @@ export default class Battle extends Phaser.Scene {
         this.add.text(this.cWidth/2, 325, '\'A\' ONLY REGISTERS ONCE PER ATTACK. SO NO SPAMMING, WOODY WOODPECKER', this.desc).setOrigin(.5);
         this.attackCircle = this.add.image(100, 100,'attackCircle').setVisible(false);
         this.targetCircle = this.add.image(100, 100,'attackCircle').setScale(1).setVisible(false);
-        this.add.bitmapText(490, 370, 'livingstone2', "Health: ", 20);
-        this.add.image(490, 410, 'healthBar').setOrigin(0).setDisplaySize(209,28);
-        this.playerHealthBar = this.add.image(493, 410, 'maxHealth').setOrigin(0);
-        this.playerLeftSide = this.add.image(484, 410, 'highHealthLeft').setOrigin(0);
+        this.add.text(490, 370, "Health: ", this.desc);
+        this.add.image(493, 410, 'healthBar').setOrigin(0).setDisplaySize(209,28);
+        this.playerHealthBar = this.add.image(496, 410, 'maxHealth').setOrigin(0);
+        this.playerLeftSide = this.add.image(487, 410, 'highHealthLeft').setOrigin(0);
         Phaser.Display.Align.In.Center(this.attackCircle, this.currentEnemy);
-
         Phaser.Display.Align.In.Center(this.targetCircle, this.currentEnemy);
         Phaser.Display.Align.To.TopCenter(this.selector, this.currentEnemy);
         this.selector.setVisible(true);
