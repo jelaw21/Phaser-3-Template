@@ -179,7 +179,14 @@ export default class Battle extends Phaser.Scene {
         this.clearText();
         let validTarget = true;
         this.status = this.enemiesStatus[this.currentEnemy.getData('ID')];
-
+        this.fancyTween  = this.tweens.add({
+            targets: this.status,
+            y: this.status.y - 50,
+            scaleX: 2,
+            scaleY: 2,
+            duration: 300,
+            yoyo: true
+        });
 
         //BUTTONS AND ENEMIES ARE THE INTERACTIVE GAMEOBJECTS
         //IF PLAYER SELECTS AN ENEMY CHECK TO SEE IF ITS A VALID TARGET, IF SO, MOVE SELECTOR IF NOT SELECTOR STAYS ON VALID TARGET
@@ -372,9 +379,6 @@ export default class Battle extends Phaser.Scene {
             this.time.delayedCall(1000, this.startRound, [], this);
         }
     }
-
-
-
     adjustDamage(damage){
 
         let adjustedDamage = 0;
@@ -388,6 +392,7 @@ export default class Battle extends Phaser.Scene {
 
     bonusHit(){
         this.status.setText("BONUS HIT: " + this.playerDamage);
+        this.fancyTween.restart();
     }
 
     clearText(){
