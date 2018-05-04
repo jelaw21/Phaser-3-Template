@@ -46,7 +46,7 @@ export default class Battle extends Phaser.Scene {
         let positionX = [];
         let positionY = [];
 
-        this.desc = {
+        /*this.desc = {
             fontSize: 16,
             fontFamily: 'Sanchez',
             fill: 'white',
@@ -56,8 +56,25 @@ export default class Battle extends Phaser.Scene {
                 width: this.background.displayWidth-5,
                 useAdvancedWrap: true
             }
-        };
+        };*/
 
+        this.desc = {
+            fontSize: 18,
+            fontFamily: 'Sanchez',
+            fill: '#ff7a00',
+            stroke: '#391c00',
+            strokeThickness: 3,
+            shadowOffsetX: 50,
+            shadowOffsetY: 50,
+            shadowColor: '0xffffff',
+            shadowBlur: 50,
+            shadowStroke: false,
+            shadowFill: true,
+            wordWrap:{
+                width: this.background.displayWidth-5,
+                useAdvancedWrap: true
+            }
+        };
         //CREATE POSITIONS FOR ABILITY BUTTONS
         for(let i = 0; i < 4; i++){
             for(let j = 0; j<2 ;j++){
@@ -117,32 +134,29 @@ export default class Battle extends Phaser.Scene {
 
         //HEALTH ENEMIES TEXT
         for(let i = 0; i < this.enemies.length; i++){
-            //this.enemiesHealth.push(this.add.text(0 , 0, this.enemyGroup[i].health, this.desc));
-            let emptyBar = this.add.image(0,0,'healthBar').setOrigin(0).setDisplaySize(104,20);
-            this.healthBar.push(this.add.image(0,0,'maxHealth').setOrigin(0).setDisplaySize(100,20));
-            this.leftSide.push(this.add.image(0,0,'highHealthLeft').setOrigin(0).setDisplaySize(100,20));
+            let emptyBar = this.add.image(0,0,'healthBar').setOrigin(0).setDisplaySize(102,20);
+            this.healthBar.push(this.add.image(0,0,'maxHealth').setOrigin(0).setDisplaySize(102,20));
+            this.leftSide.push(this.add.image(0,0,'highHealthLeft').setOrigin(0).setDisplaySize(102,20));
             this.enemiesStatus.push(this.add.text(0, 0, 'STATUS', this.desc).setOrigin(.5));
-            //Phaser.Display.Align.To.BottomCenter(this.enemiesHealth[i], this.enemies[i]);
-            Phaser.Display.Align.To.BottomCenter(emptyBar, this.enemies[i], 46, 10);
-            Phaser.Display.Align.To.BottomCenter(this.healthBar[i], this.enemies[i], 50, 10);
-            Phaser.Display.Align.To.BottomCenter(this.leftSide[i], this.enemies[i],46,10);
+            Phaser.Display.Align.To.BottomCenter(emptyBar, this.enemies[i], 48, 10);
+            Phaser.Display.Align.To.BottomCenter(this.healthBar[i], this.enemies[i], 52, 10);
+            Phaser.Display.Align.To.BottomCenter(this.leftSide[i], this.enemies[i],48,10);
             Phaser.Display.Align.To.TopCenter(this.enemiesStatus[i], this.enemies[i]);
         }
-
-        //TODO ENEMY AND PLAYER'S HEALTH BARS
 
         this.currentEnemy = this.enemies[0];
         this.selector = this.add.image(100, 100, 'arrow').setAngle(-90).setVisible(false).setOrigin(0,0);
         this.add.text(this.cWidth/2 ,300, 'HIT \'A\' WHEN CIRCLES ARE ON EACH OTHER TO ATTACK', this.desc).setOrigin(.5);
         this.add.text(this.cWidth/2, 325, '\'A\' ONLY REGISTERS ONCE PER ATTACK. SO NO SPAMMING, WOODY WOODPECKER', this.desc).setOrigin(.5);
-        //this.status = this.add.text(0, 0, '');
         this.attackCircle = this.add.image(100, 100,'attackCircle').setVisible(false);
         this.targetCircle = this.add.image(100, 100,'attackCircle').setScale(1).setVisible(false);
         this.add.bitmapText(490, 370, 'livingstone2', "Health: ", 20);
-        this.playerHealth = this.add.text(490, 400, this.player.getHealth(), this.desc);
+        this.add.image(490, 410, 'healthBar').setOrigin(0).setDisplaySize(209,28);
+        this.playerHealthBar = this.add.image(493, 410, 'maxHealth').setOrigin(0);
+        this.playerLeftSide = this.add.image(484, 410, 'highHealthLeft').setOrigin(0);
         Phaser.Display.Align.In.Center(this.attackCircle, this.currentEnemy);
+
         Phaser.Display.Align.In.Center(this.targetCircle, this.currentEnemy);
-        //Phaser.Display.Align.To.TopCenter(this.status, this.currentEnemy);
         Phaser.Display.Align.To.TopCenter(this.selector, this.currentEnemy);
         this.selector.setVisible(true);
 
@@ -363,7 +377,8 @@ export default class Battle extends Phaser.Scene {
 
                 //RECONCILE PLAYER HEALTH
                 this.player.takeDamage(adjustedDamage);
-                this.playerHealth.setText(this.player.getHealth());
+                this.updatePlayerHealth();
+
                 if (this.player.health <= 0) {
                     this.scene.start('gameOver');
                     this.scene.stop('battle');
@@ -431,4 +446,26 @@ export default class Battle extends Phaser.Scene {
             //this.healthBar.setDisplaySize(100, 20);
         }
     }
+
+    updatePlayerHealth(){
+
+        if(this.player.getHealth()/this.player.getMaxHealth()*100 >= 95){
+        }else if(this.player.getHealth()/this.player.getMaxHealth()*100 >= 70){
+            this.playerHealthBar.setTexture('highHealth');
+            this.playerHealthBar.setDisplaySize(this.player.getHealth()/this.player.getMaxHealth()*206, 28);
+        }else if(this.player.getHealth()/this.player.getMaxHealth()*100  >= 35){
+            this.playerLeftSide.setTexture('medHealthLeft');
+            this.playerHealthBar.setTexture('mediumHealth');
+            this.playerHealthBar.setDisplaySize(this.player.getHealth()/this.player.getMaxHealth()*206, 28);
+        }else if(this.player.getHealth()/this.player.getMaxHealth()*100 > 0){
+            this.playerLeftSide.setTexture('lowHealthLeft');
+            this.playerHealthBar.setTexture('lowHealth');
+            this.playerHealthBar.setDisplaySize(this.player.getHealth()/this.player.getMaxHealth()*206, 28);
+        }else{
+            this.healthBar[index].destroy();
+            this.leftSide[index].destroy();
+            //this.healthBar.setDisplaySize(100, 20);
+        }
+    }
+
 }
