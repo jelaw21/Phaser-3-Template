@@ -117,7 +117,7 @@ export default class AbilitiesManager extends Phaser.Scene {
             this.setAbilityCheck();
         }else{
             this.scene.stop('abilityMan');
-            this.scene.resume(this.lastScene);
+            this.scene.resume(this.last);
         }
     }
 

@@ -1,3 +1,4 @@
+import Player from '../objects/player'
 export default class MainMenu extends Phaser.Scene {
 
     constructor(config){
@@ -6,7 +7,6 @@ export default class MainMenu extends Phaser.Scene {
     preload (){
 
     }
-
     create (){
 
         this.cWidth = this.sys.game.config.width;
@@ -46,6 +46,9 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     callLevel(){
-        this.scene.start('level1');
+        this.player = new Player();
+        this.player.addAbilities();
+        this.player.equipAbilities();
+        this.scene.start('battle', {player: this.player, scene: this, goons: ['goblin', 'goblin'], reward: []});
     }
 }

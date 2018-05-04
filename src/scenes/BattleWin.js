@@ -1,7 +1,3 @@
-import Enemy from '../objects/enemy'
-import getEnemy from '../objects/Enemies'
-import Player from '../objects/player'
-
 export default class BattleWin extends Phaser.Scene {
 
     constructor() {
