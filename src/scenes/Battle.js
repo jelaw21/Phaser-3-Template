@@ -23,6 +23,8 @@ export default class Battle extends Phaser.Scene {
         this.enemyGroup = [];
         this.enemies = [];
         this.enemiesHealth = [];
+        this.leftSide = [];
+        this.healthBar = [];
         this.enemiesStatus = [];
         this.enemyX = 0;
         this.enemyY = 0;
@@ -115,14 +117,17 @@ export default class Battle extends Phaser.Scene {
 
         //HEALTH ENEMIES TEXT
         for(let i = 0; i < this.enemies.length; i++){
-            //this.enemies[i].anims.play('goblinAttack', true);
-            this.enemiesHealth.push(this.add.text(0 , 0, this.enemyGroup[i].health, this.desc));
+            //this.enemiesHealth.push(this.add.text(0 , 0, this.enemyGroup[i].health, this.desc));
+            let emptyBar = this.add.image(0,0,'healthBar').setOrigin(0).setDisplaySize(104,20);
+            this.healthBar.push(this.add.image(0,0,'maxHealth').setOrigin(0).setDisplaySize(100,20));
+            this.leftSide.push(this.add.image(0,0,'highHealthLeft').setOrigin(0).setDisplaySize(100,20));
             this.enemiesStatus.push(this.add.text(0, 0, 'STATUS', this.desc).setOrigin(.5));
-            Phaser.Display.Align.To.BottomCenter(this.enemiesHealth[i], this.enemies[i]);
+            //Phaser.Display.Align.To.BottomCenter(this.enemiesHealth[i], this.enemies[i]);
+            Phaser.Display.Align.To.BottomCenter(emptyBar, this.enemies[i], 46, 10);
+            Phaser.Display.Align.To.BottomCenter(this.healthBar[i], this.enemies[i], 50, 10);
+            Phaser.Display.Align.To.BottomCenter(this.leftSide[i], this.enemies[i],46,10);
             Phaser.Display.Align.To.TopCenter(this.enemiesStatus[i], this.enemies[i]);
         }
-
-        //
 
         //TODO ENEMY AND PLAYER'S HEALTH BARS
 
@@ -298,7 +303,8 @@ export default class Battle extends Phaser.Scene {
 
             enemy.setHealth(enemy.getHealth() - scene.playerDamage);
             //TODO REPLACE WITH HEALTH BAR
-            scene.enemiesHealth[scene.currentEnemy.getData('ID')].setText(enemy.health);
+            //scene.enemiesHealth[scene.currentEnemy.getData('ID')].setText(enemy.health);
+            scene.updateHealthBar(scene.currentEnemy.getData('ID'));
 
             //IF THE ENEMY JUST DIED, ITS HEALTH IS AT OR BELOW 0 BUT ITS DATA IS STILL SET TO ALIVE
             if(enemy.health <= 0 && scene.currentEnemy.getData('alive')) {
@@ -404,5 +410,26 @@ export default class Battle extends Phaser.Scene {
     endBattle(){
         this.scene.stop('battle');
         this.scene.launch('battleWin', {scene: this.last, goons: this.enemyGroup, player: this.player, reward: this.reward, sprite: this.last.sprite});
+    }
+
+    updateHealthBar(index){
+        let entity = this.enemyGroup[index];
+        if(entity.getHealth()/entity.getMaxHealth()*100 >= 95){
+        }else if(entity.getHealth()/entity.getMaxHealth()*100 >= 70){
+            this.healthBar[index].setTexture('highHealth');
+            this.healthBar[index].setDisplaySize(entity.getHealth()/entity.getMaxHealth()*100, 20);
+        }else if(entity.getHealth()/entity.getMaxHealth()*100 >= 35){
+            this.leftSide[index].setTexture('medHealthLeft');
+            this.healthBar[index].setTexture('mediumHealth');
+            this.healthBar[index].setDisplaySize(entity.getHealth()/entity.getMaxHealth()*100, 20);
+        }else if(entity.getHealth()/entity.getMaxHealth()*100 > 0){
+            this.leftSide[index].setTexture('lowHealthLeft');
+            this.healthBar[index].setTexture('lowHealth');
+            this.healthBar[index].setDisplaySize(entity.getHealth()/entity.getMaxHealth()*100, 20);
+        }else{
+            this.healthBar[index].destroy();
+            this.leftSide[index].destroy();
+            //this.healthBar.setDisplaySize(100, 20);
+        }
     }
 }

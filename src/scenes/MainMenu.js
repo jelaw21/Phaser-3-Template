@@ -46,9 +46,10 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     callLevel(){
-        this.player = new Player();
+        /*this.player = new Player();
         this.player.addAbilities();
         this.player.equipAbilities();
-        this.scene.start('battle', {player: this.player, scene: this, goons: ['goblin', 'goblin'], reward: []});
+        this.scene.start('battle', {player: this.player, scene: this, goons: ['goblin', 'goblin'], reward: []});*/
+        this.scene.start('level1');
     }
 }

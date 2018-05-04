@@ -60,19 +60,13 @@ export default class Preload extends Phaser.Scene{
         this.load.image('lukas', 'assets/images/maleCharacter.png');
         this.load.image('attackCircle','assets/images/attackCircle.png');
         this.load.image('arrow','assets/images/arrowSilver.png');
-        //this.load.image('itemBox','assets/images/itemBox.png' );
         this.load.image('uncheckBox','assets/images/uncheckBox.png' );
         this.load.image('checkBox','assets/images/checkBox.png' );
         this.load.image('punch','assets/images/punch.png' );
         this.load.image('kick','assets/images/kick.png' );
         this.load.image('buttonDown','assets/images/buttonDown.png' );
         this.load.image('buttonUp','assets/images/buttonUp.png' );
-        //this.load.image('abilitiesGUI','assets/images/abilitiesGUI.png' );
-        //this.load.image('inventoryGUI','assets/images/inventoryGUI.png' );
         this.load.image('messageGUI','assets/images/messageGUI.png' );
-        this.load.bitmapFont('livingstone', 'assets/fonts/livingstone.png', 'assets/fonts/livingstone.fnt');
-        this.load.bitmapFont('livingstone2', 'assets/fonts/livingstone2.png', 'assets/fonts/livingstone2.fnt');
-        this.load.bitmapFont('gothic', 'assets/fonts/gothic2.png', 'assets/fonts/gothic2.fnt');
         this.load.image('battleGUI','assets/images/battleGUI.png' );
         this.load.image('battleButDown','assets/images/battleButDown.png' );
         this.load.image('battleButUp','assets/images/battleButUp.png' );
@@ -83,8 +77,19 @@ export default class Preload extends Phaser.Scene{
         this.load.image('short_sword','assets/images/swordIcon.png');
         this.load.image('slash','assets/images/slashIcon.png');
         this.load.image('stab','assets/images/stabIcon.png');
-        //bump
-
+        this.load.bitmapFont('livingstone', 'assets/fonts/livingstone.png', 'assets/fonts/livingstone.fnt');
+        this.load.bitmapFont('livingstone2', 'assets/fonts/livingstone2.png', 'assets/fonts/livingstone2.fnt');
+        this.load.bitmapFont('gothic', 'assets/fonts/gothic2.png', 'assets/fonts/gothic2.fnt');
+        this.load.bitmapFont('battleFont', 'assets/fonts/battleFont.png', 'assets/fonts/battleFont.fnt');
+        this.load.bitmapFont('gothic2', 'assets/fonts/gothic.png', 'assets/fonts/gothic.fnt');
+        this.load.image('maxHealth','assets/images/maxHealth.png');
+        this.load.image('highHealth','assets/images/highHealth.png');
+        this.load.image('mediumHealth','assets/images/mediumHealth.png');
+        this.load.image('lowHealth','assets/images/lowHealth.png');
+        this.load.image('healthBar','assets/images/healthBar.png');
+        this.load.image('medHealthLeft','assets/images/medHealthLeft.png');
+        this.load.image('highHealthLeft','assets/images/highHealthLeft.png');
+        this.load.image('lowHealthLeft','assets/images/lowHealthLeft.png');
     }
 
     create(){

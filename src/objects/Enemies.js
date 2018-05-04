@@ -11,6 +11,7 @@ let enemies = {
         'name': 'GOBLIN',
         'image': 'goblin',
         'health': 20,
+        'maxHealth': 20,
         'abilities': [getAbility('punch'), getAbility('kick')],
         'exp': 500,
         'chance': 50,

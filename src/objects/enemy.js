@@ -4,6 +4,7 @@ export default class Enemy {
         this.name = config.name;
         this.image = config.image;
         this.health = config.health;
+        this.maxHealth = config.maxHealth;
         this.abilities = config.abilities;
         this.expAward = config.exp;
         this.chance = config.chance;
@@ -34,6 +35,10 @@ export default class Enemy {
 
     setHealth(value) {
         this.health = value;
+    }
+
+    getMaxHealth(){
+        return this.maxHealth;
     }
 
     getAbilities() {
