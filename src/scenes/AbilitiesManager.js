@@ -124,7 +124,7 @@ export default class AbilitiesManager extends Phaser.Scene {
     displayName(pointer, gameObject){
         let index = gameObject[0].getData('ID');
         if(index !== 'CLOSE'){
-            let radius = (this.abilities[index].getLevel() * .20 / 2.5)*100;
+            let radius = Math.round((this.abilities[index].getLevel() * .20 / 2.5)*100);
 
             this.abilityNameText.setText(this.abilities[index].name).setVisible(true);
             this.abilityLevelText.setText("Level:   " + this.abilities[index].getLevel() + '/10').setVisible(true);

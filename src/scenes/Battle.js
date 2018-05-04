@@ -302,7 +302,7 @@ export default class Battle extends Phaser.Scene {
             let enemy = scene.enemyGroup[scene.currentEnemy.getData('ID')];
 
             enemy.setHealth(enemy.getHealth() - scene.playerDamage);
-            //TODO REPLACE WITH HEALTH BAR
+
             //scene.enemiesHealth[scene.currentEnemy.getData('ID')].setText(enemy.health);
             scene.updateHealthBar(scene.currentEnemy.getData('ID'));
 
@@ -312,7 +312,6 @@ export default class Battle extends Phaser.Scene {
                 scene.currentEnemy.setData('alive', false);
                 scene.targetCircle.setVisible(false);
                 scene.attackCircle.setVisible(false);
-                scene.enemiesHealth[scene.currentEnemy.getData('ID')].setVisible(false);
                 scene.deathCount++;
             }
 
@@ -380,7 +379,7 @@ export default class Battle extends Phaser.Scene {
         }
 
         if(this.enemyCount < this.enemyGroup.length){
-            this.time.delayedCall(1000, this.enemiesTurn, [], this);
+            this.time.delayedCall(500, this.enemiesTurn, [], this);
         }else{
             this.time.delayedCall(1000, this.startRound, [], this);
         }
