@@ -10,30 +10,34 @@ export default class Player {
         this.name = 'Erick';
         this.maxHealth = 200;
         this.health = this.maxHealth;
-        this.allAvaiableAbilities = [new Ability(getAbility('punch'))];
+        this.allAvaiableAbilities = [];
         this.currentAvailableAbilities = [];
         this.activeAbilities = [];
         this.exp = 0;
         this.level = 1;
-        this.unarmedEXP = 0;
-        this.unarmedLvl = 1;
-        this.swordEXP = 0;
-        this.swordLvl = 1;
-        this.spearEXP = 0;
-        this.spearLvl = 1;
-        this.maceEXP = 0;
-        this.maceLvl = 1;
-        this.axeEXP = 0;
-        this.axeLvl = 1;
-        this.bowEXP = 0;
-        this.bowLvl = 1;
+        this.combatGroup = ['UNARMED', 'SWORD', 'SPEAR', 'MACE', 'AXE', 'BOW'];
+        this.combatExp = [0,0,0,0,0,0];
+        this.combatLevel = [1, 1, 1, 1, 1, 1];
         this.inventory = [new Item(getItem('gold'))];
         this.equipment = [];
         this.armor = 0;
         this.maxArmor = 0;
         this.emitter = new Phaser.EventEmitter();
+
+        this.generateAllAbilities();
     }
 
+    getCombatLevels(){
+        return this.combatLevel;
+    }
+
+    getCombatGroups(){
+        return this.combatGroup;
+    }
+
+    getCombatExp(){
+        return this.combatExp;
+    }
 
     expToNextLevel(level){
         return (level+1) * (level) * 200;
@@ -77,77 +81,6 @@ export default class Player {
 
     increaseLevel(){
         this.level += 1;
-    }
-
-    addUnarmedExp(amount){
-        this.unarmedEXP += amount;
-    }
-    getUnarmedExp(){
-        return this.unarmedEXP;
-    }
-
-    getUnarmedLevel(){
-        return this.unarmedLvl;
-    }
-
-    getSwordLevel(){
-        return this.swordLvl;
-    }
-
-    addSwordExp(amount){
-        this.swordEXP += amount;
-    }
-
-    getSwordExp(){
-        return this.swordEXP;
-    }
-
-    getSpearLevel(){
-        return this.spearLvl;
-    }
-
-    addSpearExp(amount){
-        this.spearEXP += amount;
-    }
-
-    getSpearExp(){
-        return this.spearEXP;
-    }
-
-    getMaceLevel(){
-        return this.maceLvl;
-    }
-
-    addMaceExp(amount){
-        this.maceEXP += amount;
-    }
-
-    getMaceExp(){
-        return this.maceEXP;
-    }
-
-    getAxeLevel(){
-        return this.axeLvl;
-    }
-
-    addAxeExp(amount){
-        this.axeEXP += amount;
-    }
-
-    getAxeExp(){
-        return this.axeEXP;
-    }
-
-    getBowLevel(){
-        return this.bowLvl;
-    }
-
-    addBowExp(amount){
-        this.bowEXP += amount;
-    }
-
-    getBowExp(){
-        return this.bowEXP;
     }
 
     getArmor(){
@@ -195,7 +128,6 @@ export default class Player {
         let abilities = getAbilityList();
         for(let i = 0; i < abilities.length; i++){
             let foundIt = false;
-            let index = 0;
                 for(let j = 0; j < this.allAvaiableAbilities.length; j++){
                     if(getAbility(abilities[i]).name === this.getAbility(j).getName()){
                         foundIt = true;
@@ -209,23 +141,19 @@ export default class Player {
     }
 
     addAbilities(){
-        //look through unarmed
         this.currentAvailableAbilities = [];
 
-        //ALL AVAILABLE UNARMED ARE ADDED
-        for(let i = 0; i <  this.allAvaiableAbilities.length; i++){
-            if(this.allAvaiableAbilities[i].getType() === 'UNARMED' && this.unarmedLvl >= this.allAvaiableAbilities[i].getUnlockLevel()){
+        //go through all available abilities, and add them to current abilities IF
+        //level is high enough AND the weapon is equipped ...
+
+        for(let i = 0; i < this.allAvaiableAbilities.length; i ++){
+            if(this.allAvaiableAbilities[i].getType() === this.combatGroup[0] && this.combatLevel[0] >= this.allAvaiableAbilities[i].getUnlockLevel()){
                 this.currentAvailableAbilities.push(this.allAvaiableAbilities[i]);
-            }
-        }
-        //look through weapons
-        for(let i = 0; i < this.equipment.length; i++){
-            if(this.equipment[i].getType() === 'WEAPON'){
-                for(let j = 0; j < this.equipment[i].abilities.length; j++){
-                    for(let k = 0; k < this.allAvaiableAbilities.length; k++){
-                        let ability = getAbility(this.equipment[i].abilities[j]);
-                        if(ability.name === this.allAvaiableAbilities[k].getName() && ability.type === 'SWORD' && this.swordLvl >= ability.unlockLvl){
-                            this.currentAvailableAbilities.push(this.allAvaiableAbilities[k]);
+            }else{
+                for(let j = 1; j < this.combatGroup.length; j++){
+                    for(let k = 0; k < this.equipment.length; k++){
+                        if(this.equipment[k].getType() === this.combatGroup[j] && this.combatLevel[j] >= this.allAvaiableAbilities[i].getUnlockLevel()){
+                            this.currentAvailableAbilities.push(this.allAvaiableAbilities[i]);
                         }
                     }
                 }
@@ -282,7 +210,6 @@ export default class Player {
         }
     }
     equipItem(itemToEquip){
-
         for(let i = 0; i < this.inventory.length; i++){
 
             if(this.inventory[i].getSlot() === itemToEquip.getSlot()){
@@ -293,7 +220,7 @@ export default class Player {
             }
         }
 
-        this.generateAllAbilities();
+        this.addAbilities();
         this.buildEquipment();
     }
 
@@ -305,12 +232,13 @@ export default class Player {
                 if (this.inventory[i].getType() === 'ARMOR') {
                     this.equipment.push(this.inventory[i]);
                 }
-                if (this.inventory[i].getType() === 'WEAPON'){
-                    this.equipment.push(this.inventory[i]);
+                for(let j = 0; j < this.combatGroup.length; j++){
+                    if (this.inventory[i].getType() === this.combatGroup[j]){
+                        this.equipment.push(this.inventory[i]);
+                    }
                 }
             }
         }
-
         this.calculateArmor();
     }
     calculateArmor(){
@@ -341,13 +269,13 @@ export default class Player {
             }
             element.resetCount();
         });
-        if(this.unarmedEXP >= this.expToNextLevel(this.unarmedLvl)){
-            this.unarmedLvl += 1;
+
+        for(let i = 0; i < this.combatGroup.length; i++){
+            if(this.combatExp[i] >= this.expToNextLevel(this.combatLevel[i])){
+                this.combatLevel[i] += 1;
+            }
         }
 
-        if(this.swordEXP >= this.expToNextLevel(this.swordLvl)){
-            this.swordLvl += 1;
-        }
-        this.generateAllAbilities();
+        this.addAbilities();
     }
 }

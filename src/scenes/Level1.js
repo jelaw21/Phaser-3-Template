@@ -1,4 +1,3 @@
-import MessagePopUp from './MessagePopUp'
 import PlayerSprite from '../objects/playerSprite'
 import Player from '../objects/player'
 import getConversation from '../objects/Conversations.js'
@@ -87,12 +86,12 @@ export default class Level1 extends Phaser.Scene {
 
         if(this.player.getGold() === 1){
             this.cameras.main.shake(250);
-            this.time.delayedCall(250, this.startBattle, [['goblin'],[]], this);
+            this.time.delayedCall(250, this.startBattle, [['goblin'],['short_sword']], this);
         }
 
         if(this.player.getGold() === 3){
             this.cameras.main.shake(250);
-            this.time.delayedCall(250, this.startBattle, [['goblin'], ['short_sword']], this);
+            this.time.delayedCall(250, this.startBattle, [['goblin'], []], this);
         }
 
         if(this.player.getGold() === 5){

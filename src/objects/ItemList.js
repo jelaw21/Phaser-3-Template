@@ -98,8 +98,7 @@ let items = {
         'desc': 'Protects the shoulders from harm and adds that \'beefy\' look.'
     },
     'short_sword':{
-        'type': 'WEAPON',
-        'group': 'SWORD',
+        'type': 'SWORD',
         'name': 'SHORT SWORD',
         'slot': 'WEAPON',
         'image': ['ShortSword'],

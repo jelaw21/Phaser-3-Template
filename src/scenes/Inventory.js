@@ -165,14 +165,18 @@ export default class Inventory extends Phaser.Scene {
                     this.sprite.buildEquipped(this.sprite, this.last.blockedObjects);
                     this.invSprite.buildEquipped(this.invSprite, this.last.blockedObjects);
                     this.player.inventory[i].setEquipped(true);
-                    if(this.player.inventory[i].getType() === 'WEAPON'){
-                        let text = ['New Abilities Available'];
-                        this.scene.launch('message', {player:this.player, text: text});
+                    for(let j = 0; j < this.player.getCombatGroups().length; j++){
+                        if(this.player.inventory[i].getType() === this.player.getCombatGroups()[j]){
+                            if(this.scene.isActive('message') === false){
+                                let text = ['New Abilities Available'];
+                                this.scene.launch('message', {player:this.player, text: text});
+                            }
+                        }
                     }
-                }
                 }
             }
         }
+    }
 
     showDescr(pointer, invItem){
         if(invItem.name === 'LEVEL' || invItem.name === 'ARMOR' || invItem.name === 'MAXARMOR' ){
@@ -186,7 +190,6 @@ export default class Inventory extends Phaser.Scene {
                 this.itemNameText.setText('MAX ARMOR').setVisible(true);
                 this.itemDescText.setText('The maximum protection the armor provides. If armor protect percentage is above this, this is the protection amount.').setVisible(true);
             }
-
         }else{
             for(let i = 0; i < this.player.inventory.length; i++){
                 let item = this.player.inventory[i];
@@ -196,17 +199,21 @@ export default class Inventory extends Phaser.Scene {
                     if(item.getType() === 'ARMOR'){
                         this.itemInfo1.setText("ARMOR PROTECTION %: " + item.getEffect()).setVisible(true);
                         this.itemInfo2.setText("MAX PROTECTION PTS: " + item.getMaxEffect()).setVisible(true);
-                    }
-                    if(item.getType() === 'WEAPON'){
-                        let abilitiesList = '';
-                        for(let i = 0; i< item.getAbilities().length; i++){
-                            if(i === item.getAbilities().length -1 ){
-                                abilitiesList += item.getAbility(i).toUpperCase();
-                            }else
-                                abilitiesList += item.getAbility(i).toUpperCase() + ', ';
+                    }else {
+                        for(let j = 0; j < this.player.getCombatGroups().length; j++){
+                            if(item.getType() === this.player.getCombatGroups()[j]){
+                                let abilitiesList = '';
+                                for(let k = 0; k< item.getAbilities().length; k++){
+                                    if(k === item.getAbilities().length -1 ){
+                                        abilitiesList += item.getAbility(k).toUpperCase();
+                                    }else
+                                        abilitiesList += item.getAbility(k).toUpperCase() + ', ';
+
+                                }
+                                this.itemInfo1.setText("AVAILABLE ABILITIES: " + abilitiesList).setVisible(true);
+                            }
 
                         }
-                        this.itemInfo1.setText("AVAILABLE ABILITIES: " + abilitiesList).setVisible(true);
                     }
 
                 }

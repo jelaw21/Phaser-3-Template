@@ -167,7 +167,7 @@ export default class Battle extends Phaser.Scene {
             yoyo: true
         });
         this.atkKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-
+        this.updatePlayerHealth();
         this.startRound();
     }
 
@@ -216,8 +216,6 @@ export default class Battle extends Phaser.Scene {
                 validTarget = true;
             }else
                 validTarget = false;
-
-            console.log(validTarget);
         }
         if(gameObject.name !== 'ENEMY' && validTarget === true){
             //DISABLE BUTTONS, GET TEXT TO SHOW UP
@@ -282,7 +280,6 @@ export default class Battle extends Phaser.Scene {
 
     update(){
         if(Phaser.Input.Keyboard.JustDown(this.atkKey) && this.beginAtk === true){
-            console.log('HIT ATTEMPTED');
             if(Math.abs(this.attackCircle.scaleX - 1)< (this.currentAtk.getLevel() * .20)) {
                 this.playerDamage = this.playerDamage + this.currentAtk.damage[this.hitCount];
                 this.status.setText(this.playerDamage);
@@ -322,6 +319,7 @@ export default class Battle extends Phaser.Scene {
                 scene.currentEnemy.setData('alive', false);
                 scene.targetCircle.setVisible(false);
                 scene.attackCircle.setVisible(false);
+                scene.enemiesStatus[scene.currentEnemy.getData('ID')].setText(' ');
                 scene.deathCount++;
             }
 

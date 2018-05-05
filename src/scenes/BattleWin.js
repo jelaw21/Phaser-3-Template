@@ -20,6 +20,8 @@ export default class BattleWin extends Phaser.Scene {
         let cHeight = this.sys.game.config.height;
         let winToast = false;
         let text = [];
+        let group = [];
+        this.combatButton = [];
 
         this.style = {
             fontSize: 16,
@@ -51,10 +53,12 @@ export default class BattleWin extends Phaser.Scene {
         let gold = 0;
         let exp = 0;
         let totalCount = 0;
-        let oldUnarmLevel = this.player.getUnarmedLevel();
-        let oldSwordLevel = this.player.getSwordLevel();
-        //[UNARMED,SWORD, ... ]
-        let expTypeCount = [0, 0];
+        let oldCombatLevels = [];
+        this.player.getCombatLevels().forEach(function(element){
+            oldCombatLevels.push(element);
+        });
+
+        let expTypeCount = [0, 0, 0, 0, 0, 0];
         let abilities = this.player.getCurrentAvailableAbilities();
         let numAbilities = abilities.length;
 
@@ -66,20 +70,27 @@ export default class BattleWin extends Phaser.Scene {
             exp = exp + element.getExp();
         });
 
-        for(let i = 0; i < numAbilities; i++){
+        for(let i = 0; i < numAbilities; i++) {
             totalCount += this.player.getAbility(i).getCount();
-            if(abilities[i].getType() === "UNARMED"){
-                expTypeCount[0] = expTypeCount[0] + this.player.getAbility(i).getCount();
-            }else if(abilities[i].getType() === "SWORD"){
-                expTypeCount[1] = expTypeCount[1] + this.player.getAbility(i).getCount();
+            group = this.player.getCombatGroups();
+            for (let j = 0; j < group.length; j++) {
+                if (abilities[i].getType() === group[j]) {
+                    expTypeCount[j] = expTypeCount[j] + this.player.getAbility(i).getCount();
+                }
             }
         }
 
-        let unarmedEarned = Math.round((expTypeCount[0]/totalCount)*exp);
+        for(let i = 0; i < this.player.getCombatGroups().length; i++){
+            let combatExp = this.player.getCombatExp();
+            combatExp[i] += (expTypeCount[i]/totalCount)*exp;
+        }
+
+
+        /*let unarmedEarned = Math.round((expTypeCount[0]/totalCount)*exp);
         let swordEarned = Math.round((expTypeCount[1]/totalCount)*exp);
 
         this.player.addUnarmedExp(unarmedEarned);
-        this.player.addSwordExp(swordEarned);
+        this.player.addSwordExp(swordEarned);*/
 
 
         for(let i = 0; i < numAbilities; i++){
@@ -91,9 +102,7 @@ export default class BattleWin extends Phaser.Scene {
         this.player.addGold(gold);
         this.player.levelUp();
 
-        let newUnarmedLevel = this.player.getUnarmedLevel();
-        let newSwordLevel = this.player.getSwordLevel();
-
+        let newCombatLevels = this.player.getCombatLevels();
 
         let newAbilities = this.player.getCurrentAvailableAbilities().length;
 
@@ -106,22 +115,31 @@ export default class BattleWin extends Phaser.Scene {
         this.add.text(cWidth/2 - 90, cHeight*(1/5)+55, "EXP: EARNED: ", this.style);
         this.add.text(cWidth/2 + 87, cHeight*(1/5)+55, exp, this.style2);
 
-        this.add.text(cWidth/2 - 90, cHeight*(1/5)+115, "UNARMED EXP: ", this.style);
-        this.add.text(cWidth/2 + 87, cHeight*(1/5)+115, unarmedEarned, this.style2);
+        for(let i = 0; i < newCombatLevels.length; i++){
+            let group = this.player.getCombatGroups();
+            if(expTypeCount[i] > 0){
+                this.add.text(cWidth/2 - 90, cHeight*(1/5)+115+(i*60), group[i] + " LVL: ", this.style);
+                this.add.text(cWidth/2 + 87, cHeight*(1/5)+115+(i*60), this.player.getCombatLevels()[i], this.style2);
+            }
+            if(newCombatLevels[i] > oldCombatLevels[i]){
+                this.combatButton.push(this.add.image(cWidth/2, cHeight*(1/5)+150+(i*60), 'battleButDown').setDisplaySize(128, 32).setVisible(false));
+                this.combatText = this.add.bitmapText(cWidth/2, 800, 'livingstone',"LEVEL UP", 24).setOrigin(.5).setScale(7);
+                this.tweens.add({
+                    targets: this.combatText,
+                    y: cHeight*(1/5)+150+(i*60),
+                    scaleX: 1,
+                    scaleY: 1,
+                    duration: 750,
+                    onComplete: this.showCombatButton,
+                    onCompleteParams: [this]
+                });
 
-        //TODO REDO THIS SECTION
-        if(newUnarmedLevel > oldUnarmLevel){
-            this.unarmedButton = this.add.image(cWidth/2, cHeight*(1/5)+150, 'battleButDown').setDisplaySize(128, 32).setVisible(false);
-            this.unarmedText = this.add.bitmapText(cWidth/2, 800, 'livingstone',"LEVEL UP", 24).setOrigin(.5).setScale(7);
-            this.tweens.add({
-                targets: this.unarmedText,
-                y: cHeight*(1/5)+150,
-                scaleX: 1,
-                scaleY: 1,
-                duration: 750,
-                onComplete: this.showUnarmedButton,
-                onCompleteParams: [this]
-            });
+            }
+        }
+
+
+        /*if(newUnarmedLevel > oldUnarmLevel){
+
         }
 
         this.add.text(cWidth/2 - 90, cHeight*(1/5)+175, "SWORD EXP: ", this.style);
@@ -143,7 +161,7 @@ export default class BattleWin extends Phaser.Scene {
             });
         }
 
-        /*this.add.text(cWidth/2 - 90, cHeight*(1/5)+235, "SWORD EXP: ");
+        this.add.text(cWidth/2 - 90, cHeight*(1/5)+235, "SWORD EXP: ");
         this.add.text(cWidth/2 + 87, cHeight*(1/5)+235, this.player.getSwordExp(), {rtl: true});
         this.add.text(cWidth/2 - 90, cHeight*(1/5)+265, "EXP: EARNED: ");
         this.add.text(cWidth/2 + 87, cHeight*(1/5)+265, exp, {rtl: true});*/
@@ -174,8 +192,6 @@ export default class BattleWin extends Phaser.Scene {
         if(winToast){
             this.scene.launch('message', {player:this.player, text: text});
         }
-
-
         this.input.on('pointerdown', this.resumeScene, this);
         this.abilKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
     }
@@ -187,12 +203,10 @@ export default class BattleWin extends Phaser.Scene {
         }
     }
 
-    showSwordButton(tween, target, scene){
-        scene.swordButton.setVisible(true);
-    }
-
-    showUnarmedButton(tween, target, scene){
-        scene.unarmedButton.setVisible(true);
+    showCombatButton(tween, target, scene){
+        scene.combatButton.forEach(function(element){
+            element.setVisible(true);
+        })
     }
 
 

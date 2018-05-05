@@ -47,18 +47,29 @@ export default class AbilitiesManager extends Phaser.Scene {
 
         this.title = this.add.bitmapText(this.cWidth/2-4, 62, 'livingstone',"ABILITIES", 30).setOrigin(.5);
 
-        this.add.text(164, 85, "UNARMED COMBAT: ", this.itemNameStyle);
-        this.add.text(354, 85, this.player.getUnarmedLevel() + "/10", this.itemNameStyle);
-        this.add.text(164, 110, "SWORD COMBAT: ", this.itemNameStyle);
+        let count = 0;
+        for(let i = 0; i< 2; i++){
+            for(let j = 0; j< 3; j++){
+                this.add.text(164+(i*268), 85+(j*25), this.player.getCombatGroups()[count] + 'COMBAT: ', this.itemNameStyle);
+                this.add.text(354+(i*251), 85+(j*25), this.player.getCombatLevels()[count] + "/10", this.itemNameStyle);
+                count++;
+            }
+        }
+
+
+        /*this.add.text(164, 110, "SWORD COMBAT: ", this.itemNameStyle);
         this.add.text(354, 110, this.player.getSwordLevel() + "/10", this.itemNameStyle);
         this.add.text(164, 135, "SPEAR COMBAT: ", this.itemNameStyle);
         this.add.text(354, 135, this.player.getSpearLevel() + "/10", this.itemNameStyle);
+
         this.add.text(432, 85 , "AXE COMBAT: ", this.itemNameStyle);
         this.add.text(605, 85 , this.player.getAxeLevel() + "/10", this.itemNameStyle);
         this.add.text(432, 110, "MACE COMBAT: ", this.itemNameStyle);
         this.add.text(605, 110, this.player.getMaceLevel() + "/10", this.itemNameStyle);
         this.add.text(432, 135, "BOW COMBAT: ", this.itemNameStyle);
-        this.add.text(605, 135, this.player.getBowLevel() + "/10", this.itemNameStyle);
+        this.add.text(605, 135, this.player.getBowLevel() + "/10", this.itemNameStyle);*/
+
+
         for(let i = 0; i < this.abilities.length; i++) {
                 //this.add.text(150, (i * 30) + 180, this.abilities[i].name, this.style).setData('ID', i).setInteractive();
                 let ability = this.add.image(170, (i*50)+ 190, 'itemBox').setData('ID', i).setInteractive().setOrigin(0).setDisplaySize(48,48);
@@ -66,6 +77,7 @@ export default class AbilitiesManager extends Phaser.Scene {
                 this.checkboxGroup.push(this.add.image(205, (i*50)+ 225, ' ').setOrigin(.5).setSize(32, 32));
                 Phaser.Display.Align.In.BottomRight(abilityIcon, ability);
         }
+
         this.abilityNameText = this.add.text(164, 480, 'ABILITY NAME', this.itemNameStyle).setVisible(false);
         this.abilityLevelText = this.add.text(364, 480, 'LEVEL: ', this.itemNameStyle).setVisible(false);
         this.abilityRadiusText = this.add.text(500, 480, 'Hit Radius %: ', this.itemNameStyle).setVisible(false);
