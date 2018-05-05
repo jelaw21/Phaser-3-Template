@@ -127,7 +127,7 @@ export default class Battle extends Phaser.Scene {
                 this.enemyY = 0;
             }
 
-            let enemy = this.add.sprite( (this.enemyX)+400, (this.enemyY)+150, this.enemyGroup[i].image).setDataEnabled().setData("ID", i).setData('alive', true).setInteractive().setScale(1.5).setName('ENEMY');
+            let enemy = this.add.sprite( (this.enemyX)+400, (this.enemyY)+150, this.enemyGroup[i].image).setData("ID", i).setData('alive', true).setInteractive().setScale(1.5).setName('ENEMY');
 
 
             this.enemies.push(enemy);
