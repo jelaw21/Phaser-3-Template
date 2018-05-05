@@ -10,9 +10,6 @@ export default class BattleWin extends Phaser.Scene {
         this.player = data.player;
         this.reward = data.reward;
         this.sprite = data.sprite;
-
-        //this.player = new Player();
-        //this.enemies = [new Enemy(getEnemy('goblin'))];
     }
 
     create(){
@@ -21,6 +18,7 @@ export default class BattleWin extends Phaser.Scene {
         let winToast = false;
         let text = [];
         let group = [];
+        let oldLevel = this.player.getLevel();
         this.combatButton = [];
 
         this.style = {
@@ -54,6 +52,7 @@ export default class BattleWin extends Phaser.Scene {
         let exp = 0;
         let totalCount = 0;
         let oldCombatLevels = [];
+
         this.player.getCombatLevels().forEach(function(element){
             oldCombatLevels.push(element);
         });
@@ -71,11 +70,11 @@ export default class BattleWin extends Phaser.Scene {
         });
 
         for(let i = 0; i < numAbilities; i++) {
-            totalCount += this.player.getAbility(i).getCount();
+            totalCount += abilities[i].getCount();
             group = this.player.getCombatGroups();
             for (let j = 0; j < group.length; j++) {
                 if (abilities[i].getType() === group[j]) {
-                    expTypeCount[j] = expTypeCount[j] + this.player.getAbility(i).getCount();
+                    expTypeCount[j] = expTypeCount[j] + abilities[i].getCount();
                 }
             }
         }
@@ -85,14 +84,6 @@ export default class BattleWin extends Phaser.Scene {
             combatExp[i] += (expTypeCount[i]/totalCount)*exp;
         }
 
-
-        /*let unarmedEarned = Math.round((expTypeCount[0]/totalCount)*exp);
-        let swordEarned = Math.round((expTypeCount[1]/totalCount)*exp);
-
-        this.player.addUnarmedExp(unarmedEarned);
-        this.player.addSwordExp(swordEarned);*/
-
-
         for(let i = 0; i < numAbilities; i++){
             let expShare = Math.round((this.player.getAbility(i).getCount()/totalCount)*exp);
             this.player.getAbility(i).setExp(expShare);
@@ -101,6 +92,8 @@ export default class BattleWin extends Phaser.Scene {
         this.player.addExp(exp);
         this.player.addGold(gold);
         this.player.levelUp();
+
+        let newLevel = this.player.getLevel();
 
         let newCombatLevels = this.player.getCombatLevels();
 
@@ -115,18 +108,34 @@ export default class BattleWin extends Phaser.Scene {
         this.add.text(cWidth/2 - 90, cHeight*(1/5)+55, "EXP: EARNED: ", this.style);
         this.add.text(cWidth/2 + 87, cHeight*(1/5)+55, exp, this.style2);
 
+        this.add.text(cWidth/2 - 90, cHeight*(1/5)+115, "LEVEL: ", this.style);
+        this.add.text(cWidth/2 + 87, cHeight*(1/5)+115, this.player.getLevel(), this.style2);
+        if(newLevel > oldLevel){
+            this.combatButton.push(this.add.image(cWidth/2, cHeight*(1/5)+150, 'battleButDown').setDisplaySize(128, 32).setVisible(false));
+            this.combatText = this.add.bitmapText(cWidth/2, 800, 'livingstone',"LEVEL UP", 24).setOrigin(.5).setScale(7);
+            this.tweens.add({
+                targets: this.combatText,
+                y: cHeight*(1/5)+150,
+                scaleX: 1,
+                scaleY: 1,
+                duration: 750,
+                onComplete: this.showCombatButton,
+                onCompleteParams: [this]
+            });
+        }
+
         for(let i = 0; i < newCombatLevels.length; i++){
             let group = this.player.getCombatGroups();
             if(expTypeCount[i] > 0){
-                this.add.text(cWidth/2 - 90, cHeight*(1/5)+115+(i*60), group[i] + " LVL: ", this.style);
-                this.add.text(cWidth/2 + 87, cHeight*(1/5)+115+(i*60), this.player.getCombatLevels()[i], this.style2);
+                this.add.text(cWidth/2 - 90, cHeight*(1/5)+115+((i+1)*60), group[i] + " LVL: ", this.style);
+                this.add.text(cWidth/2 + 87, cHeight*(1/5)+115+((i+1)*60), this.player.getCombatLevels()[i], this.style2);
             }
             if(newCombatLevels[i] > oldCombatLevels[i]){
-                this.combatButton.push(this.add.image(cWidth/2, cHeight*(1/5)+150+(i*60), 'battleButDown').setDisplaySize(128, 32).setVisible(false));
+                this.combatButton.push(this.add.image(cWidth/2, cHeight*(1/5)+150+((i+1)*60), 'battleButDown').setDisplaySize(128, 32).setVisible(false));
                 this.combatText = this.add.bitmapText(cWidth/2, 800, 'livingstone',"LEVEL UP", 24).setOrigin(.5).setScale(7);
                 this.tweens.add({
                     targets: this.combatText,
-                    y: cHeight*(1/5)+150+(i*60),
+                    y: cHeight*(1/5)+150+((i+1)*60),
                     scaleX: 1,
                     scaleY: 1,
                     duration: 750,
@@ -138,38 +147,10 @@ export default class BattleWin extends Phaser.Scene {
         }
 
 
-        /*if(newUnarmedLevel > oldUnarmLevel){
-
-        }
-
-        this.add.text(cWidth/2 - 90, cHeight*(1/5)+175, "SWORD EXP: ", this.style);
-        this.add.text(cWidth/2 + 87, cHeight*(1/5)+175, swordEarned, this.style2);
-
-        if(newSwordLevel > oldSwordLevel){
-            this.swordButton = this.add.image(cWidth/2, cHeight*(1/5)+210, 'battleButDown').setDisplaySize(128, 32).setVisible(false);
-            this.swordText = this.add.bitmapText(cWidth/2, 800, 'livingstone',"LEVEL UP", 24).setOrigin(.5).setScale(7);
-
-
-            this.tweens.add({
-                targets: this.swordText,
-                y: cHeight*(1/5)+210,
-                scaleX: 1,
-                scaleY: 1,
-                duration: 750,
-                onComplete: this.showSwordButton,
-                onCompleteParams: [this]
-            });
-        }
-
-        this.add.text(cWidth/2 - 90, cHeight*(1/5)+235, "SWORD EXP: ");
-        this.add.text(cWidth/2 + 87, cHeight*(1/5)+235, this.player.getSwordExp(), {rtl: true});
-        this.add.text(cWidth/2 - 90, cHeight*(1/5)+265, "EXP: EARNED: ");
-        this.add.text(cWidth/2 + 87, cHeight*(1/5)+265, exp, {rtl: true});*/
-
         if(newAbilities > numAbilities){
             let learnedAbilities = newAbilities - numAbilities;
-            this.add.text(cWidth/2 - 90, cHeight*(1/5)+310, "ABILITIES EARNED: ", this.style);
-            let learntText = this.add.text(cWidth/2 - 90, cHeight*(1/5)+345, ' ', this.style);
+            this.add.text(cWidth/2 - 90, cHeight*(1/5)+310, "NEW ABILITIES EARNED: ", this.style);
+            /*let learntText = this.add.text(cWidth/2 - 90, cHeight*(1/5)+345, ' ', this.style);
             let learnt = '';
             for(let i = 0; i < learnedAbilities; i++){
                 learnt += this.player.currentAvailableAbilities[newAbilities - (i+1)].name;
@@ -178,9 +159,9 @@ export default class BattleWin extends Phaser.Scene {
                 }
             }
 
-            learntText.setText(learnt);
+            learntText.setText(learnt);*/
 
-            this.add.text(cWidth/2 - 90, cHeight*(1/5)+380, "PRESS \'P\' TO EQUIP", this.style);
+            this.add.text(cWidth/2 - 90, cHeight*(1/5)+350, "PRESS \'P\' TO EQUIP", this.style);
         }
         this.add.text(cWidth/2 - 90, cHeight*(1/5)+420, "click to continue...", this.style3);
         for(let i = 0; i < this.reward.length; i++){

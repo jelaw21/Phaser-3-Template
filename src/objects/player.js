@@ -256,7 +256,7 @@ export default class Player {
     levelUp() {
         while(this.exp >= this.expToNextLevel(this.level)){
             this.increaseLevel();
-            this.maxHealth += this.level  * (this.level -1)* 5;
+            this.maxHealth += this.level * 3;
             this.health = this.maxHealth;
         }
         this.allAvaiableAbilities.forEach(function (element) {

@@ -319,7 +319,6 @@ export default class Battle extends Phaser.Scene {
                 scene.currentEnemy.setData('alive', false);
                 scene.targetCircle.setVisible(false);
                 scene.attackCircle.setVisible(false);
-                scene.enemiesStatus[scene.currentEnemy.getData('ID')].setText(' ');
                 scene.deathCount++;
             }
 
@@ -348,7 +347,6 @@ export default class Battle extends Phaser.Scene {
 
         let curEnemy = this.enemyGroup[this.enemyCount];
         this.status = this.enemiesStatus[this.enemyCount];
-        this.status.setVisible(true);
 
         if(curEnemy.health > 0) {
             let ability = curEnemy.abilities[Phaser.Math.Between(0, curEnemy.getAbilities().length - 1)];
@@ -364,7 +362,7 @@ export default class Battle extends Phaser.Scene {
             if (damage > 0) {
                 let adjustedDamage = (this.adjustDamage(damage));
                 let text = [ability.name, adjustedDamage + " damage."];
-                this.status.setText(text);
+                this.status.setText(text).setVisible(true);
 
                 //RECONCILE PLAYER HEALTH
                 this.player.takeDamage(adjustedDamage);
@@ -377,7 +375,7 @@ export default class Battle extends Phaser.Scene {
                 }
             } else {
                 let text = [ability.name, 'MISSED'];
-                this.status.setText(text);
+                this.status.setText(text).setVisible(true);
             }
             this.enemyCount++;
         }else {

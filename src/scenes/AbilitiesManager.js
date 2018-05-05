@@ -50,7 +50,7 @@ export default class AbilitiesManager extends Phaser.Scene {
         let count = 0;
         for(let i = 0; i< 2; i++){
             for(let j = 0; j< 3; j++){
-                this.add.text(164+(i*268), 85+(j*25), this.player.getCombatGroups()[count] + 'COMBAT: ', this.itemNameStyle);
+                this.add.text(164+(i*268), 85+(j*25), this.player.getCombatGroups()[count] + ' COMBAT: ', this.itemNameStyle);
                 this.add.text(354+(i*251), 85+(j*25), this.player.getCombatLevels()[count] + "/10", this.itemNameStyle);
                 count++;
             }
