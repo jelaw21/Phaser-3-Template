@@ -12,7 +12,7 @@ export default class MainMenu extends Phaser.Scene {
         this.cWidth = this.sys.game.config.width;
         this.cHeight = this.sys.game.config.height;
         this.button = this.add.image(this.cWidth/2, this.cHeight/2+50, 'buttonUp').setInteractive().setVisible(false);
-        this.startText = this.add.bitmapText(this.cWidth/2, this.cHeight/2,'livingstone2', 'START', 20).setVisible(false);
+        this.startText = this.add.bitmapText(this.cWidth/2, this.cHeight/2,'gothic', 'START', 20).setVisible(false);
         this.title = this.add.bitmapText(this.cWidth/2, this.cHeight/2-50,'gothic', 'Tymeria: Plaguelands', 72).setOrigin(.5).setScale(10);
 
         Phaser.Display.Align.In.Center(this.startText, this.button);

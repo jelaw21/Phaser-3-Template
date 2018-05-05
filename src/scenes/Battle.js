@@ -9,7 +9,6 @@ export default class Battle extends Phaser.Scene {
     //INITIALIZE BATTLE
 
     init(data){
-
         this.player = data.player;
         this.goons = data.goons;
         this.last = data.scene;
@@ -22,7 +21,6 @@ export default class Battle extends Phaser.Scene {
         this.textGroup = [];
         this.enemyGroup = [];
         this.enemies = [];
-        this.enemiesHealth = [];
         this.leftSide = [];
         this.healthBar = [];
         this.enemiesStatus = [];
@@ -46,30 +44,33 @@ export default class Battle extends Phaser.Scene {
         let positionX = [];
         let positionY = [];
 
-        /*this.desc = {
-            fontSize: 16,
+        this.statusText = {
+            fontSize: 24,
+            fontFamily: 'Yatra One',
+            fill: '#d0a31f',
+            wordWrap:{
+                width: this.background.displayWidth-5,
+                useAdvancedWrap: true
+            }
+        };
+
+        this.desc = {
+            fontSize: 24,
             fontFamily: 'Sanchez',
-            fill: 'white',
-            stroke: '#222',
+            fill: '#ffeff2',
+            stroke: '#000000',
             strokeThickness: 2,
             wordWrap:{
                 width: this.background.displayWidth-5,
                 useAdvancedWrap: true
             }
-        };*/
-
-        this.desc = {
-            fontSize: 18,
+        };
+        this.desc2 = {
+            fontSize: 16,
             fontFamily: 'Sanchez',
-            fill: '#ffa60c',
-            stroke: '#221100',
-            strokeThickness: 3,
-            shadowOffsetX: 50,
-            shadowOffsetY: 50,
-            shadowColor: '0xffffff',
-            shadowBlur: 50,
-            shadowStroke: false,
-            shadowFill: true,
+            fill: '#ffeff2',
+            stroke: '#000000',
+            strokeThickness: 2,
             wordWrap:{
                 width: this.background.displayWidth-5,
                 useAdvancedWrap: true
@@ -90,7 +91,7 @@ export default class Battle extends Phaser.Scene {
         for(let i = 0; i< this.abilities.length; i++){
             let button = this.add.image(positionX[i], positionY[i], 'battleButUp').setInteractive().setOrigin(0).setName(this.abilities[i].name).setDisplaySize(190,49);
             this.buttonGroup.push(button);
-            let text = this.add.text(0 , 0, this.abilities[i].name, {fontSize: 20});
+            let text = this.add.text(0 , 0, this.abilities[i].name, this.desc).setStroke('#000000', 2).setShadow(3, 3, '#000000', 5, false, true);
             //let text = this.add.bitmapText(0, 0,'livingstone', 'SWEEPING CRANE'/*this.abilities[i].name*/, 24);
             this.textGroup.push(text);
             Phaser.Display.Align.In.Center(this.textGroup[i], this.buttonGroup[i], -22, -5);
@@ -126,7 +127,7 @@ export default class Battle extends Phaser.Scene {
                 this.enemyY = 0;
             }
 
-            let enemy = this.add.sprite( (this.enemyX)+400, (this.enemyY)+150, this.enemyGroup[i].image).setInteractive().setScale(1.5).setName('ENEMY').setData("ID", i).setData('alive', true);
+            let enemy = this.add.sprite( (this.enemyX)+400, (this.enemyY)+150, this.enemyGroup[i].image).setDataEnabled().setData("ID", i).setData('alive', true).setInteractive().setScale(1.5).setName('ENEMY');
 
 
             this.enemies.push(enemy);
@@ -137,7 +138,7 @@ export default class Battle extends Phaser.Scene {
             let emptyBar = this.add.image(0,0,'healthBar').setOrigin(0).setDisplaySize(102,20);
             this.healthBar.push(this.add.image(0,0,'maxHealth').setOrigin(0).setDisplaySize(102,20));
             this.leftSide.push(this.add.image(0,0,'highHealthLeft').setOrigin(0).setDisplaySize(102,20));
-            this.enemiesStatus.push(this.add.text(0, 0, 'STATUS', this.desc).setOrigin(.5));
+            this.enemiesStatus.push(this.add.text(0, 0, 'STATUS', this.statusText).setOrigin(.5).setStroke('#000000', 2).setShadow(3, 3, '#000000', 5, false, true));
             Phaser.Display.Align.To.BottomCenter(emptyBar, this.enemies[i], 48, 10);
             Phaser.Display.Align.To.BottomCenter(this.healthBar[i], this.enemies[i], 52, 10);
             Phaser.Display.Align.To.BottomCenter(this.leftSide[i], this.enemies[i],48,10);
@@ -146,11 +147,10 @@ export default class Battle extends Phaser.Scene {
 
         this.currentEnemy = this.enemies[0];
         this.selector = this.add.image(100, 100, 'arrow').setAngle(-90).setVisible(false).setOrigin(0,0);
-        this.add.text(this.cWidth/2 ,300, 'HIT \'A\' WHEN CIRCLES ARE ON EACH OTHER TO ATTACK', this.desc).setOrigin(.5);
-        this.add.text(this.cWidth/2, 325, '\'A\' ONLY REGISTERS ONCE PER ATTACK. SO NO SPAMMING, WOODY WOODPECKER', this.desc).setOrigin(.5);
+        this.add.text(this.cWidth/2 ,325, 'HIT \'A\' WHEN CIRCLES ARE ON EACH OTHER TO ATTACK', this.desc2).setOrigin(.5).setStroke('#000000', 2).setShadow(3, 3, '#000000', 5, false, true);
         this.attackCircle = this.add.image(100, 100,'attackCircle').setVisible(false);
         this.targetCircle = this.add.image(100, 100,'attackCircle').setScale(1).setVisible(false);
-        this.add.text(490, 370, "Health: ", this.desc);
+        this.add.text(490, 370, "Health: ", this.desc).setStroke('#000000', 2).setShadow(3, 3, '#000000', 5, false, true);
         this.add.image(493, 410, 'healthBar').setOrigin(0).setDisplaySize(209,28);
         this.playerHealthBar = this.add.image(496, 410, 'maxHealth').setOrigin(0);
         this.playerLeftSide = this.add.image(487, 410, 'highHealthLeft').setOrigin(0);
@@ -269,7 +269,6 @@ export default class Battle extends Phaser.Scene {
 
     playAttack1(){
         this.beginAtk = true;
-        //this.clearText();
         this.attackCircle.setScale(6);
         this.attackGroup[0].restart();
     }
@@ -315,8 +314,6 @@ export default class Battle extends Phaser.Scene {
             let enemy = scene.enemyGroup[scene.currentEnemy.getData('ID')];
 
             enemy.setHealth(enemy.getHealth() - scene.playerDamage);
-
-            //scene.enemiesHealth[scene.currentEnemy.getData('ID')].setText(enemy.health);
             scene.updateHealthBar(scene.currentEnemy.getData('ID'));
 
             //IF THE ENEMY JUST DIED, ITS HEALTH IS AT OR BELOW 0 BUT ITS DATA IS STILL SET TO ALIVE
@@ -345,10 +342,7 @@ export default class Battle extends Phaser.Scene {
         }else{
             scene.time.delayedCall(1000, scene.enemiesTurn, [], scene)
         }
-
-        //scene.clearText();
     }
-    //scene.status = scene.enemiesStatus[scene.currentEnemy.getData('ID')];
     enemiesTurn() {
         this.enemiesStatus.forEach(function(element){
             element.setVisible(false);
@@ -442,7 +436,6 @@ export default class Battle extends Phaser.Scene {
         }else{
             this.healthBar[index].destroy();
             this.leftSide[index].destroy();
-            //this.healthBar.setDisplaySize(100, 20);
         }
     }
 
@@ -463,7 +456,6 @@ export default class Battle extends Phaser.Scene {
         }else{
             this.healthBar[index].destroy();
             this.leftSide[index].destroy();
-            //this.healthBar.setDisplaySize(100, 20);
         }
     }
 
