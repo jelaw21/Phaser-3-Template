@@ -56,20 +56,6 @@ export default class AbilitiesManager extends Phaser.Scene {
             }
         }
 
-
-        /*this.add.text(164, 110, "SWORD COMBAT: ", this.itemNameStyle);
-        this.add.text(354, 110, this.player.getSwordLevel() + "/10", this.itemNameStyle);
-        this.add.text(164, 135, "SPEAR COMBAT: ", this.itemNameStyle);
-        this.add.text(354, 135, this.player.getSpearLevel() + "/10", this.itemNameStyle);
-
-        this.add.text(432, 85 , "AXE COMBAT: ", this.itemNameStyle);
-        this.add.text(605, 85 , this.player.getAxeLevel() + "/10", this.itemNameStyle);
-        this.add.text(432, 110, "MACE COMBAT: ", this.itemNameStyle);
-        this.add.text(605, 110, this.player.getMaceLevel() + "/10", this.itemNameStyle);
-        this.add.text(432, 135, "BOW COMBAT: ", this.itemNameStyle);
-        this.add.text(605, 135, this.player.getBowLevel() + "/10", this.itemNameStyle);*/
-
-
         for(let i = 0; i < this.abilities.length; i++) {
                 //this.add.text(150, (i * 30) + 180, this.abilities[i].name, this.style).setData('ID', i).setInteractive();
                 let ability = this.add.image(170, (i*50)+ 190, 'itemBox').setData('ID', i).setInteractive().setOrigin(0).setDisplaySize(48,48);

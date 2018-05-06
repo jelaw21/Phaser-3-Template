@@ -152,7 +152,7 @@ export default class Player {
             }else{
                 for(let j = 1; j < this.combatGroup.length; j++){
                     for(let k = 0; k < this.equipment.length; k++){
-                        if(this.equipment[k].getType() === this.combatGroup[j] && this.combatLevel[j] >= this.allAvaiableAbilities[i].getUnlockLevel()){
+                        if(this.equipment[k].equipped === true && this.equipment[k].getType() === this.combatGroup[j] && this.allAvaiableAbilities[i].getType() === this.combatGroup[j] && this.combatLevel[j] >= this.allAvaiableAbilities[i].getUnlockLevel()){
                             this.currentAvailableAbilities.push(this.allAvaiableAbilities[i]);
                         }
                     }
@@ -222,6 +222,7 @@ export default class Player {
 
         this.addAbilities();
         this.buildEquipment();
+        this.equipAbilities();
     }
 
     buildEquipment(){

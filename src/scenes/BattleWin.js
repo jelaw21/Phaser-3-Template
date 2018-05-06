@@ -123,29 +123,44 @@ export default class BattleWin extends Phaser.Scene {
                 onCompleteParams: [this]
             });
         }
+        if(expTypeCount[0] > 0){
+            this.add.text(cWidth/2 - 90, cHeight*(1/5)+175, group[0] + " LVL: ", this.style);
+            this.add.text(cWidth/2 + 87, cHeight*(1/5)+175, this.player.getCombatLevels()[0], this.style2);
+        }
+        if(newCombatLevels[0] > oldCombatLevels[0]){
+            this.combatButton.push(this.add.image(cWidth/2, cHeight*(1/5)+210, 'battleButDown').setDisplaySize(128, 32).setVisible(false));
+            this.combatText = this.add.bitmapText(cWidth/2, 800, 'livingstone',"LEVEL UP", 24).setOrigin(.5).setScale(7);
+            this.tweens.add({
+                targets: this.combatText,
+                y: cHeight*(1/5)+210,
+                scaleX: 1,
+                scaleY: 1,
+                duration: 750,
+                onComplete: this.showCombatButton,
+                onCompleteParams: [this]
+            });
+        }
 
-        for(let i = 0; i < newCombatLevels.length; i++){
+        for(let i = 1; i < newCombatLevels.length; i++){
             let group = this.player.getCombatGroups();
             if(expTypeCount[i] > 0){
-                this.add.text(cWidth/2 - 90, cHeight*(1/5)+115+((i+1)*60), group[i] + " LVL: ", this.style);
-                this.add.text(cWidth/2 + 87, cHeight*(1/5)+115+((i+1)*60), this.player.getCombatLevels()[i], this.style2);
+                this.add.text(cWidth/2 - 90, cHeight*(1/5)+235, group[i] + " LVL: ", this.style);
+                this.add.text(cWidth/2 + 87, cHeight*(1/5)+235, this.player.getCombatLevels()[i], this.style2);
             }
             if(newCombatLevels[i] > oldCombatLevels[i]){
-                this.combatButton.push(this.add.image(cWidth/2, cHeight*(1/5)+150+((i+1)*60), 'battleButDown').setDisplaySize(128, 32).setVisible(false));
+                this.combatButton.push(this.add.image(cWidth/2, cHeight*(1/5)+270, 'battleButDown').setDisplaySize(128, 32).setVisible(false));
                 this.combatText = this.add.bitmapText(cWidth/2, 800, 'livingstone',"LEVEL UP", 24).setOrigin(.5).setScale(7);
                 this.tweens.add({
                     targets: this.combatText,
-                    y: cHeight*(1/5)+150+((i+1)*60),
+                    y: cHeight*(1/5)+270,
                     scaleX: 1,
                     scaleY: 1,
                     duration: 750,
                     onComplete: this.showCombatButton,
                     onCompleteParams: [this]
                 });
-
             }
         }
-
 
         if(newAbilities > numAbilities){
             let learnedAbilities = newAbilities - numAbilities;

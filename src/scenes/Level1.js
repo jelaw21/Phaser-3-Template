@@ -91,7 +91,7 @@ export default class Level1 extends Phaser.Scene {
 
         if(this.player.getGold() === 3){
             this.cameras.main.shake(250);
-            this.time.delayedCall(250, this.startBattle, [['goblin'], []], this);
+            this.time.delayedCall(250, this.startBattle, [['goblin'], ['common_spear']], this);
         }
 
         if(this.player.getGold() === 5){
@@ -104,12 +104,12 @@ export default class Level1 extends Phaser.Scene {
 
         if(this.player.getGold() === 6){
             this.cameras.main.shake(250);
-            this.time.delayedCall(250, this.startBattle, [['goblin', 'goblin', 'goblin'], []], this);
+            this.time.delayedCall(250, this.startBattle, [['spear_goblin', 'goblin', 'goblin'], []], this);
         }
 
         if(this.player.getGold() === 8){
             this.cameras.main.shake(250);
-            this.time.delayedCall(250, this.startBattle, [['goblin', 'goblin', 'goblin','goblin', 'goblin'], []], this);
+            this.time.delayedCall(250, this.startBattle, [['goblin', 'spear_goblin', 'goblin','spear_goblin', 'goblin'], []], this);
         }
     }
     startBattle(goons, reward){
@@ -121,7 +121,7 @@ export default class Level1 extends Phaser.Scene {
     }
 
     hitGate(player, gate){
-        if(this.player.getGold() >= 8){
+        if(this.player.getGold() >= 1){
             gate.destroy();
             this.scene.start('gameOver');
         }else{

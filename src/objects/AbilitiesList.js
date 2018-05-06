@@ -9,7 +9,7 @@
     }
 
     //SLOTS: TORSO, LEGS, HEAD
-    let abilityList = ['punch', 'kick', 'slash', 'stab'];
+    let abilityList = ['punch','kick','stab','slash','thrust','spin_jab'];
 
 let abilities = {
     'punch':{
@@ -49,7 +49,7 @@ let abilities = {
         'durations': [1000, 1000],
         'damage': [4, 6, 5],
         'maxDam': 15,
-        'unlockLvl': 1,
+        'unlockLvl': 2,
         'experience': 0,
         'level': 1,
         'active': false,
@@ -64,13 +64,44 @@ let abilities = {
         'durations': [750],
         'damage': [5, 5],
         'maxDam': 10,
-        'unlockLvl': 2,
+        'unlockLvl': 0,
         'experience': 0,
         'level': 1,
         'active': false,
         'icon': 'stab',
         'desc': 'Stick em with the pointy end.',
         'count': 0
+    },
+    'thrust':{
+        'type':"SPEAR",
+        'name': "THRUST",
+        'numAtk': 3,
+        'durations': [750, 750, 950],
+        'damage': [4, 4, 4, 8],
+        'maxDam': 20,
+        'unlockLvl': 1,
+        'experience': 0,
+        'level': 1,
+        'active': false,
+        'icon': 'thrust',
+        'desc': 'Keep poking til it stops moving',
+        'count': 0
+    },
+    'spin_jab':{
+        'type':"SPEAR",
+        'name': "SPINNING JAB",
+        'numAtk': 4,
+        'durations': [1200, 950, 650, 400],
+        'damage': [5, 4, 3, 2, 10],
+        'maxDam': 24,
+        'unlockLvl': 2,
+        'experience': 0,
+        'level': 1,
+        'active': false,
+        'icon': 'spinJab',
+        'desc': 'The ceiling fan of spear moves.',
+        'count': 0
     }
+
 };
 

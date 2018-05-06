@@ -107,6 +107,17 @@ let items = {
         'icon': 'short_sword',
         'equipped': false,
         'desc': 'A fabulously common looking dull sword.'
+    },
+    'common_spear':{
+        'type': 'SPEAR',
+        'name': 'COMMON SPEAR',
+        'slot': 'WEAPON',
+        'image': ['CommonSpear'],
+        'quantity': 1,
+        'abilities': ['thrust', 'spin_jab'],
+        'icon': 'spearIcon',
+        'equipped': false,
+        'desc': 'A big stick with a sharp rock at the end.'
     }
 };
 

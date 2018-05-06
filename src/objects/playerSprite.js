@@ -35,8 +35,6 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
         this.player.addToInventory('common_legs');
         this.player.equipItem(this.player.fromInventory('common_chest'));
         this.player.equipItem(this.player.fromInventory('common_legs'));
-        this.player.addToInventory('short_sword');
-        this.player.equipItem(this.player.fromInventory('short_sword'));
         this.buildEquipped(this, this.level.blockedObjects);
         this.player.emitter.on('inventoryChanged', this.buildEquipped, this);
     }

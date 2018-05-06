@@ -28,6 +28,7 @@ export default class Preload extends Phaser.Scene{
         this.load.spritesheet('playerN', 'assets/images/BODY_NORTH.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('playerS', 'assets/images/BODY_SOUTH.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('deadMale', 'assets/images/BODY_male.png', {frameWidth: 64, frameHeight:64});
+        this.load.spritesheet('spearGoblin', 'assets/images/spear_goblin.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('goblin', 'assets/images/goblin.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('ShortSword', 'assets/images/short_sword.png', {frameWidth: 64, frameHeight:64});
         this.load.spritesheet('LeatherB', 'assets/images/TORSO_leather_armor_torso.png', {frameWidth: 64, frameHeight: 64});
@@ -37,6 +38,7 @@ export default class Preload extends Phaser.Scene{
         this.load.spritesheet('CommonA', 'assets/images/FEET_shoes_brown.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('CommonB', 'assets/images/HEAD_hair_blonde.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('CommonC', 'assets/images/LEGS_pants_greenish.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('CommonSpear', 'assets/images/CommonSpear.png', {frameWidth: 64, frameHeight: 64});
         this.load.image('itemTiles', 'assets/images/ProjectUtumno_full.png');
         this.load.image('townTiles1', 'assets/images/town.png');
         this.load.image('backgroundTiles2', 'assets/images/trees_plants.png');
@@ -90,6 +92,9 @@ export default class Preload extends Phaser.Scene{
         this.load.image('medHealthLeft','assets/images/medHealthLeft.png');
         this.load.image('highHealthLeft','assets/images/highHealthLeft.png');
         this.load.image('lowHealthLeft','assets/images/lowHealthLeft.png');
+        this.load.image('spearIcon','assets/images/spearIcon.png');
+        this.load.image('spinJab','assets/images/spinJab.png');
+        this.load.image('thrust','assets/images/thrust.png');
     }
 
     create(){
@@ -395,6 +400,38 @@ export default class Preload extends Phaser.Scene{
         this.anims.create({
             key:'stopShortSword',
             frames: [{key: 'ShortSword', frame: 18}],
+            frameRate: 10
+        });
+        this.anims.create({
+            key:'rightCommonSpear',
+            frames: this.anims.generateFrameNumbers('CommonSpear', {start: 27, end: 35}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'leftCommonSpear',
+            frames: this.anims.generateFrameNumbers('CommonSpear', {start: 9, end: 17}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'upCommonSpear',
+            frames: this.anims.generateFrameNumbers('CommonSpear', {start: 0, end: 8}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key:'downCommonSpear',
+            frames: this.anims.generateFrameNumbers('CommonSpear', {start: 18, end: 26}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key:'stopCommonSpear',
+            frames: [{key: 'CommonSpear', frame: 18}],
             frameRate: 10
         });
         this.time.delayedCall(1000, this.callMenu, [], this);
