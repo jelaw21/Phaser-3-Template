@@ -437,7 +437,7 @@ export default class Battle extends Phaser.Scene {
 
     updatePlayerHealth(){
 
-        if(this.player.getHealth()/this.player.getMaxHealth()*100 >= 95){
+        if(this.player.getHealth()/this.player.getMaxHealth()*100 >= 98){
         }else if(this.player.getHealth()/this.player.getMaxHealth()*100 >= 70){
             this.playerHealthBar.setTexture('highHealth');
             this.playerHealthBar.setDisplaySize(this.player.getHealth()/this.player.getMaxHealth()*206, 28);

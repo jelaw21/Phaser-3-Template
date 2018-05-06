@@ -73,13 +73,16 @@ export default class Level1 extends Phaser.Scene {
 
         this.scene.launch('dialog', {content: getConversation('act1scene1'), scene:this});
 
-       }
+        this.cameras.main.once('camerafadeoutcomplete', function (camera) {
 
+            this.scene.scene.start('gameOver');
+
+        });
+    }
     update(){
 
         this.sprite.move();
     }
-
     collectCoins(player, coin){
         coin.destroy();
         this.player.addGold(1);
@@ -121,9 +124,9 @@ export default class Level1 extends Phaser.Scene {
     }
 
     hitGate(player, gate){
-        if(this.player.getGold() >= 1){
+        if(this.player.getGold() >= 8){
             gate.destroy();
-            this.scene.start('gameOver');
+            this.cameras.main.fadeOut(1000);
         }else{
             this.events.emit('gateMessage');
         }

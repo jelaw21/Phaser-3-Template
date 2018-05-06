@@ -90,8 +90,12 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
             this.playStopAnims();
             this.anims.play('stopped', true);
         }
-        this.body.setVelocity(velX, velY);
-        this.equipUpdate(velX, velY);
+        if(this.level.scene.isActive(this.level)){
+            this.body.setVelocity(velX, velY);
+            this.equipUpdate(velX, velY);
+        }
+
+
 
         this.checkMenus();
 
