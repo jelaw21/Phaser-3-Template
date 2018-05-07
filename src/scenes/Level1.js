@@ -43,6 +43,7 @@ export default class Level1 extends Phaser.Scene {
         this.sprite.init(this.player);
         this.sprite.initialEquipment(this.blockedObjects);
 
+
         //PART OF MAP PLAYER WALKS BEHIND
         var layer = this.map.createDynamicLayer('foregroundLayer', this.tiles, 0, 0);
         layer.setDepth(1);
@@ -94,7 +95,7 @@ export default class Level1 extends Phaser.Scene {
 
         if(this.player.getGold() === 3){
             this.cameras.main.shake(250);
-            this.time.delayedCall(250, this.startBattle, [['goblin'], ['common_spear']], this);
+            this.time.delayedCall(250, this.startBattle, [['goblin'], ['common_spear', 'health_10', 'health_10']], this);
         }
 
         if(this.player.getGold() === 5){
@@ -112,10 +113,12 @@ export default class Level1 extends Phaser.Scene {
 
         if(this.player.getGold() === 8){
             this.cameras.main.shake(250);
+
             this.time.delayedCall(250, this.startBattle, [['goblin', 'spear_goblin', 'goblin','spear_goblin', 'goblin'], []], this);
         }
     }
     startBattle(goons, reward){
+        this.sprite.stop();
         this.scene.launch('battle', {player: this.player, goons: goons, scene: this, reward: reward});
         this.scene.pause(this);
     }

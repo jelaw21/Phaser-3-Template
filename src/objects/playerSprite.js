@@ -25,8 +25,6 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
         this.keyD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.keyS = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.abilKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-
-
     }
 
     //TODO
@@ -94,21 +92,23 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
             this.body.setVelocity(velX, velY);
             this.equipUpdate(velX, velY);
         }
-
-
-
         this.checkMenus();
+    }
 
-
+    stop(){
+        this.body.setVelocity(0);
+        this.equipUpdate(0, 0);
     }
 
     checkMenus() {
 
         if(Phaser.Input.Keyboard.JustDown(this.invKey)) {
+            this.body.setVelocity(0);
             this.scene.scene.pause(this.level);
             this.scene.scene.launch('inventory', {player: this.player, scene: this.level, sprite: this});
         }
         if(Phaser.Input.Keyboard.JustDown(this.abilKey)) {
+            this.body.setVelocity(0);
             this.scene.scene.launch('abilityMan', {player: this.player, scene: this.level, sprite: this});
             this.scene.scene.pause(this.level);
         }
@@ -145,7 +145,7 @@ export default class PlayerSprite extends Phaser.GameObjects.Sprite {
             }
         }
         for(let i = 0; i < this.player.equipment.length; i++){
-            if(this.player.equipment[i].type !== 'ARMOR' && this.player.equipment[i].type !== 'ITEM') {
+            if(this.player.equipment[i].type !== 'ARMOR' && this.player.equipment[i].type !== 'POTION') {
                 for (let j = 0; j < this.player.equipment[i].image.length; j++) {
                     this.equipment.push(player.scene.physics.add.sprite(player.x, player.y, this.player.equipment[i].image[j], 18));
                 }

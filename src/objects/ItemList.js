@@ -118,6 +118,17 @@ let items = {
         'icon': 'spearIcon',
         'equipped': false,
         'desc': 'A big stick with a sharp rock at the end.'
+    },
+    'health_10':{
+        'type': 'POTION',
+        'name': 'LESSER HEALTH',
+        'slot': 'HEALTH',
+        'image': [ ],
+        'quantity': 1,
+        'icon': 'LessHealth',
+        'effect': 10,
+        'equipped': false,
+        'desc': 'A thick red liquid that burns as it goes down.'
     }
 };
 

@@ -16,7 +16,7 @@ export default class BattleWin extends Phaser.Scene {
         let cWidth = this.sys.game.config.width;
         let cHeight = this.sys.game.config.height;
         let winToast = false;
-        let text = [];
+        let text = ['ITEM(S) ACQUIRED'];
         let group = [];
         let oldLevel = this.player.getLevel();
         this.combatButton = [];
@@ -182,7 +182,6 @@ export default class BattleWin extends Phaser.Scene {
         for(let i = 0; i < this.reward.length; i++){
             this.player.addToInventory(this.reward[i]);
             winToast = true;
-            text = ['ITEM ACQUIRED: ', this.player.fromInventory(this.reward[i]).getName()];
         }
 
         if(winToast){
@@ -190,11 +189,16 @@ export default class BattleWin extends Phaser.Scene {
         }
         this.input.on('pointerdown', this.resumeScene, this);
         this.abilKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        this.invKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
     }
 
     update(){
         if(Phaser.Input.Keyboard.JustDown(this.abilKey)) {
-            this.scene.launch('abilityMan', {player: this.player, scene: this.last, sprite:this.last.sprite});
+            this.scene.launch('abilityMan', {player: this.player, scene: this.last, sprite: this.last.sprite});
+            this.scene.stop('battleWin');
+        }
+        if(Phaser.Input.Keyboard.JustDown(this.invKey)) {
+            this.scene.launch('inventory', {player: this.player, scene: this.last, sprite: this.last.sprite});
             this.scene.stop('battleWin');
         }
     }

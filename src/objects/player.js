@@ -9,7 +9,7 @@ export default class Player {
     constructor() {
         this.name = 'Erick';
         this.maxHealth = 200;
-        this.health = this.maxHealth;
+        this.health = 150; //this.maxHealth;
         this.allAvaiableAbilities = [];
         this.currentAvailableAbilities = [];
         this.activeAbilities = [];
@@ -188,13 +188,22 @@ export default class Player {
         }else
             this.inventory.push(item);
     }
-    removeFromInventory(itemToRemove){
-        let item = this.fromInventory(itemToRemove);
+    //boolean is if the itemToRemove is an item object or the string reference. TRUE for item object, false for item reference.
+    removeFromInventory(itemToRemove, boolean){
+
+        let item;
+
+        if(boolean){
+            item = itemToRemove;
+        }else
+            item = this.fromInventory(itemToRemove);
+
         item.decreaseQuantity(1);
 
-        for(let i = 0; i < this.inventory.length; i++){
+        for(let i = 1; i < this.inventory.length; i++){
             if(this.inventory[i].getQuantity() <= 0){
                 this.inventory.splice(i, 1);
+                this.emitter.emit('removeItem');
             }
         }
 

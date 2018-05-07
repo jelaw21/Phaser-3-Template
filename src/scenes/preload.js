@@ -92,6 +92,7 @@ export default class Preload extends Phaser.Scene{
         this.load.image('spearIcon','assets/images/spearIcon.png');
         this.load.image('spinJab','assets/images/spinJab.png');
         this.load.image('thrust','assets/images/thrust.png');
+        this.load.image('LessHealth','assets/images/LessHealth.png');
     }
 
     create(){

@@ -22,6 +22,8 @@ export default class Inventory extends Phaser.Scene {
 
         let count = 0;
         this.itemBox = [];
+        this.invItem = [];
+
         this.playerInfoText = {
             fontSize: 20,
             fontFamily: 'Marmelad',
@@ -85,7 +87,7 @@ export default class Inventory extends Phaser.Scene {
 
         this.title = this.add.bitmapText(this.cWidth/2-4, 62, 'livingstone',"INVENTORY", 30).setOrigin(.5);
         this.invSprite = new PlayerSprite(this, this.cWidth/2, 132, 'playerS', 0);
-        this.add.text(this.cWidth/2, 200, 'HEALTH: ' + this.player.getHealth() + '/' + this.player.getMaxHealth(), this.playerInfoText).setOrigin(.5);
+        this.playerHealth = this.add.text(this.cWidth/2, 200, 'HEALTH: ' + this.player.getHealth() + '/' + this.player.getMaxHealth(), this.playerInfoText).setOrigin(.5);
 
         this.add.existing(this.invSprite);
         this.invSprite.init(this.player);
@@ -112,17 +114,20 @@ export default class Inventory extends Phaser.Scene {
                 count++;
             }
         }
+
         for (let i = 1; i < this.player.inventory.length; i++) {
             if (this.player.inventory[i].getName() === 'HAIR') {
 
             } else {
-                let invItem = this.add.sprite(0, 0, this.player.inventory[i].getIcon()).setInteractive().setOrigin(0.5).setSize(24,24).setName(this.player.inventory[i].getName());
+                this.invItem.push(this.add.sprite(0, 0, this.player.inventory[i].getIcon()).setInteractive().setOrigin(0.5).setSize(24,24).setName(this.player.inventory[i].getName()));
                 for(let j = 0; j < this.itemBox.length; j++){
                     if(this.itemBox[j].getData('ID')=== (i-1))
-                        Phaser.Display.Align.In.Center(invItem, this.itemBox[j]);
+                        Phaser.Display.Align.In.Center(this.invItem[j], this.itemBox[j]);
                 }
             }
         }
+
+
         this.closeButton.on('pointerdown', this.closeInventory, this);
 
         this.input.on('gameobjectdown', function (pointer, gameObject){
@@ -134,6 +139,7 @@ export default class Inventory extends Phaser.Scene {
 
         this.invKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
         this.abilKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        this.player.emitter.once('removeItem', this.updateInventory, this);
 
     }
 
@@ -150,16 +156,56 @@ export default class Inventory extends Phaser.Scene {
 
         this.armorText.setText('ARMOR: ' + this.player.getArmor());
         this.maxArmorText.setText('MAX ARMOR: ' + this.player.getMaxArmor());
+        this.playerHealth.setText('HEALTH: ' + this.player.getHealth() + '/' + this.player.getMaxHealth());
+    }
+
+    updateInventory(){
+        for(let i = 0; i < this.invItem.length; i++){
+            this.invItem[i].destroy();
+        }
+        this.invItem = [];
+
+        for (let i = 1; i < this.player.inventory.length; i++) {
+            if (this.player.inventory[i].getName() === 'HAIR') {
+
+            } else {
+                this.invItem.push(this.add.sprite(0, 0, this.player.inventory[i].getIcon()).setInteractive().setOrigin(0.5).setSize(24,24).setName(this.player.inventory[i].getName()));
+                for(let j = 0; j < this.itemBox.length; j++){
+                    if(this.itemBox[j].getData('ID')=== (i-1))
+                        Phaser.Display.Align.In.Center(this.invItem[j], this.itemBox[j]);
+                }
+            }
+        }
     }
 
 
     equipItem(pointer, invItem){
+        //EXCLUDE ITEMS
         for(let i = 0; i < this.player.inventory.length; i++){
-            if(this.player.inventory[i].getName() === invItem.name){
-                if(this.player.inventory[i].getEquipped() === true){
+            if(this.player.inventory[i].getName() === invItem.name) {
+                if (this.player.inventory[i].getEquipped() === true) {
                     this.player.inventory[i].setEquipped(false);
                     this.sprite.buildEquipped(this.sprite, this.last.blockedObjects);
                     this.invSprite.buildEquipped(this.invSprite, this.last.blockedObjects);
+
+                } else if (this.player.inventory[i].getType() === 'POTION') {
+                    if (this.player.getHealth() < this.player.getMaxHealth()) {
+                        if (this.scene.isActive('message') === false) {
+                            let text = ['ADDED ' + this.player.inventory[i].getEffect() + " HEALTH."];
+                            this.scene.launch('message', {player: this.player, text: text});
+                        }
+                        this.player.addHealth(this.player.inventory[i].getEffect());
+                        if(this.player.getHealth() > this.player.getMaxHealth()){
+                            this.player.health = this.player.getMaxHealth();
+                        }
+
+                        this.player.removeFromInventory(this.player.inventory[i], true);
+                    } else {
+                        if (this.scene.isActive('message') === false) {
+                            let text = ['FULL HEALTH, CANNNOT USE'];
+                            this.scene.launch('message', {player: this.player, text: text});
+                        }
+                    }
                 }else{
                     this.player.equipItem(this.player.inventory[i]);
                     this.sprite.buildEquipped(this.sprite, this.last.blockedObjects);
@@ -177,6 +223,7 @@ export default class Inventory extends Phaser.Scene {
             }
         }
     }
+
 
     showDescr(pointer, invItem){
         if(invItem.name === 'LEVEL' || invItem.name === 'ARMOR' || invItem.name === 'MAXARMOR' ){
@@ -199,7 +246,11 @@ export default class Inventory extends Phaser.Scene {
                     if(item.getType() === 'ARMOR'){
                         this.itemInfo1.setText("ARMOR PROTECTION %: " + item.getEffect()).setVisible(true);
                         this.itemInfo2.setText("MAX PROTECTION PTS: " + item.getMaxEffect()).setVisible(true);
-                    }else {
+                    }else if(item.getType() === 'POTION'){
+                        if(item.getSlot() === 'HEALTH'){
+                            this.itemInfo1.setText("RESTORES " + item.getEffect() + ' HEALTH').setVisible(true);
+                        }
+                    }else{
                         for(let j = 0; j < this.player.getCombatGroups().length; j++){
                             if(item.getType() === this.player.getCombatGroups()[j]){
                                 let abilitiesList = '';
