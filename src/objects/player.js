@@ -9,7 +9,7 @@ export default class Player {
     constructor() {
         this.name = 'Erick';
         this.maxHealth = 200;
-        this.health = 150; //this.maxHealth;
+        this.health = this.maxHealth;
         this.allAvaiableAbilities = [];
         this.currentAvailableAbilities = [];
         this.activeAbilities = [];
