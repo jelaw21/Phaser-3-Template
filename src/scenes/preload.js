@@ -43,12 +43,9 @@ export default class Preload extends Phaser.Scene{
         this.load.image('townTiles1', 'assets/images/town.png');
         this.load.image('backgroundTiles2', 'assets/images/trees_plants.png');
         this.load.image('backgroundTiles1', 'assets/images/trees_plants_rocks.png');
-        this.load.image('title', 'assets/images/title.png');
         this.load.tilemapTiledJSON('forest', 'assets/tilemaps/forest.json');
         this.load.tilemapTiledJSON('town', 'assets/tilemaps/town.json');
-        this.load.image('button', 'assets/images/buttonLong_blue.png');
         this.load.image('exitButton', 'assets/images/closeButton.png');
-        this.load.image('buttonPressed', 'assets/images/buttonLong_blue_pressed.png');
         this.load.image('coin', 'assets/images/coin.png');
         this.load.image('sign', 'assets/images/sign.png');
         this.load.image('gate', 'assets/images/gate.png');
