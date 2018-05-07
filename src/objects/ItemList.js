@@ -129,6 +129,17 @@ let items = {
         'effect': 10,
         'equipped': false,
         'desc': 'A thick red liquid that burns as it goes down.'
+    },
+    'health_25':{
+        'type': 'POTION',
+        'name': 'NORMAL HEALTH',
+        'slot': 'HEALTH',
+        'image': [ ],
+        'quantity': 1,
+        'icon': 'RegHealth',
+        'effect': 25,
+        'equipped': false,
+        'desc': 'A thicker red liquid that burns more as it goes down.'
     }
 };
 
