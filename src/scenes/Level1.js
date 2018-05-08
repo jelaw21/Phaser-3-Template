@@ -4,7 +4,7 @@ import getConversation from '../objects/Conversations.js'
 
 export default class Level1 extends Phaser.Scene {
 
-    constructor(config) {
+    constructor() {
         super({key: 'level1'});
 
     }
@@ -34,10 +34,8 @@ export default class Level1 extends Phaser.Scene {
         var cam = this.cameras.main;
         cam.zoom = 1.5;
         cam.setBounds(0, 0, this.map.widthInPixels-155, this.map.heightInPixels);
-        //cam.scrollX = 2;
 
         //HAD TO CREATE THE PLAYER TO PUT FOREGROUND ON TOP
-        //this.player = this.physics.add.sprite(450, 600, 'playerE');
         this.sprite = new PlayerSprite(this, 450, 600, 'playerE', 0);
         this.add.existing(this.sprite);
         this.sprite.init(this.player);
@@ -66,11 +64,6 @@ export default class Level1 extends Phaser.Scene {
         //LISTENERS
         this.events.once('signMessage', this.signMessage, this);
         this.events.once('gateMessage', this.gateMessage, this);
-
-        //var graphicsMap = this.add.graphics();
-        //this.map.renderDebug(graphicsMap);
-        //this.coins.drawDebug(graphicsMap);
-        //this.player.body.drawDebug(graphicsMap);
 
         this.scene.launch('dialog', {content: getConversation('act1scene1'), scene:this});
 

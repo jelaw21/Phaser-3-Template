@@ -1,3 +1,5 @@
+import getConversation from '../objects/Conversations'
+
 export default class Preload extends Phaser.Scene{
 
     constructor(config){
@@ -437,9 +439,8 @@ export default class Preload extends Phaser.Scene{
     }
 
     callMenu(){
-        //this.scene.start('dialog', {content: getConversation('prologue'), scene: this});
-        this.scene.start('MainMenu');
-        //bump
+        this.scene.start('dialog', {content: getConversation('prologue'), scene: this});
+        //this.scene.start('MainMenu');
     };
 }
 

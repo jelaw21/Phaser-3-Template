@@ -84,9 +84,9 @@ export default class BattleWin extends Phaser.Scene {
             combatExp[i] += (expTypeCount[i]/totalCount)*exp;
         }
 
-        for(let i = 0; i < numAbilities; i++){
-            let expShare = Math.round((this.player.getAbility(i).getCount()/totalCount)*exp);
-            this.player.getAbility(i).setExp(expShare);
+        for(let i = 0; i < abilities.length; i++){
+            let expShare = Math.round((abilities[i].getCount()/totalCount)*exp);
+            this.player.currentAvailableAbilities[i].setExp(expShare);
         }
 
         this.player.addExp(exp);

@@ -1,6 +1,7 @@
+
 export default class Dialog extends Phaser.Scene {
 
-    constructor(config) {
+    constructor() {
         super({key: 'dialog'});
         this.line = '';
         this.index = 0;
@@ -24,8 +25,6 @@ export default class Dialog extends Phaser.Scene {
             }
         };
 
-        //this.add.image(550, -10, 'lukas').setOrigin(0).setSize(300,300);
-        //0x114499
         graphics.fillStyle(0x000000, .7);
         graphics.fillRect(this.sys.game.config.width*(1/5), this.sys.game.config.height*(2/5)+40, this.sys.game.config.width*(3/5), this.sys.game.config.height*(2/5));
 
@@ -40,7 +39,6 @@ export default class Dialog extends Phaser.Scene {
             this.scene.updateConversation();
         })
 
-        //this.nextLine();
     }
     update(){
 
