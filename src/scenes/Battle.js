@@ -97,6 +97,8 @@ export default class Battle extends Phaser.Scene {
             Phaser.Display.Align.In.Center(this.textGroup[i], this.buttonGroup[i], -22, -5);
         }
 
+
+
         //CREATE THE ENEMY SPRITES
         for(let i = 0; i < this.enemyGroup.length; i++){
             if(i === 0 && this.enemyGroup.length === 2){
@@ -157,6 +159,9 @@ export default class Battle extends Phaser.Scene {
         Phaser.Display.Align.In.Center(this.attackCircle, this.currentEnemy);
         Phaser.Display.Align.In.Center(this.targetCircle, this.currentEnemy);
         Phaser.Display.Align.To.TopCenter(this.selector, this.currentEnemy);
+
+        //CREATE ITEM BUTTON
+
         this.selector.setVisible(true);
 
         this.tweens.add({
@@ -217,6 +222,7 @@ export default class Battle extends Phaser.Scene {
             }else
                 validTarget = false;
         }
+
         if(gameObject.name !== 'ENEMY' && validTarget === true){
             //DISABLE BUTTONS, GET TEXT TO SHOW UP
             gameObject.setTexture('battleButDown');
@@ -226,7 +232,6 @@ export default class Battle extends Phaser.Scene {
             Phaser.Display.Align.In.Center(this.targetCircle, this.currentEnemy);
             this.attackCircle.setVisible(true);
             this.status.setVisible(true);
-
 
             //GET CURRENT ATTACK INFORMATION
             for(let i = 0; i < this.abilities.length; i++){
@@ -297,6 +302,7 @@ export default class Battle extends Phaser.Scene {
             }
             this.beginAtk = false;
         }
+
     }
 
     //ENEMIES ATTACK

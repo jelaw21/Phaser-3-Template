@@ -10,6 +10,7 @@ import gameOver from './scenes/GameOver'
 import battleWin from './scenes/BattleWin'
 import abilityMan from './scenes/AbilitiesManager'
 import message from './scenes/MessagePopUp'
+import battleItem from './scenes/BattleItem'
 
 const config = {
     width: 800,
@@ -22,7 +23,7 @@ const config = {
         }
     },
     scene: [
-        Preload, level1, MainMenu, townMap, inventory, dialog, battle, gameOver, battleWin, abilityMan, message
+        Preload, level1, MainMenu, townMap, inventory, dialog, battle, gameOver, battleWin, abilityMan, message, battleItem
     ]
 };
 
